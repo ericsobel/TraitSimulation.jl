@@ -10,7 +10,7 @@ else
     using BaseTestNext
 end
 
-info("Test GWASSimulation implementation")
+info("Test GWASSimulation implementation - single quantitative trait")
 
 # load genotype data in PLINK format
 genotypes = SnpData("./chr1")
