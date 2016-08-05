@@ -1,16 +1,13 @@
 module GWASSimulation
 
-export Simulation, simulate
+export simulate
 
 using SnpArrays
 using Distributions
 
 """
-"""
-type Simulation
-end
-
-"""
+Simulate a quantitative / case-control trait, or a pair of quantitative
+and (or) case-control traits.
 """
 function simulate(
     genotypes::SnpData,
@@ -22,36 +19,69 @@ function simulate(
     missing_rate::Union{Float64, NTuple{2, Float64}} = 0.0,
     prevalence::Union{Float64, NTuple{2, Float64}} = 0.0,
     trait_cor::Float64 = 0.0,
-    ncc::Union{NTuple{2, Int64}, NTuple{4, Int64}} = (0,0)
+    ncc::Union{NTuple{2, Int64}, NTuple{2, NTuple{2, Int64}}} = (0,0)
   )
 
-  # simulate a single quantitative trait
-  if (typeof(trait_type) == Symbol && trait_type == :q)
-    return simulate_liability(genotypes, causal_snps, hsq, rep,
-      missing_rate)
+  # simulate a single trait
+  if (typeof(trait_type) == Symbol)
+
+    # a single quantitative trait
+    if (trait_type == :q)
+      return simulate_liability(genotypes, causal_snps, hsq, rep,
+        missing_rate)
+    end
+
+    # a single binary trait
+    if (trait_type == :b)
+      Y_liab = simulate_liability(genotypes, causal_snps, hsq, rep, 0.0)
+      return dichotomize(Y_liab, prevalence, ncc)
+    end
+
   end
 
-  # simulate a single binary (case-control) trait
-  if (typeof(trait_type) == Symbol && trait_type == :b)
-    return simulate_case_control(genotypes, causal_snps, hsq, rep,
-      prevalence, ncc)
+  # simulate a pair of traits
+  if (typeof(trait_type) == NTuple{2, Symbol})
+
+    # two quantitative traits
+    if (trait_type == (:q, :q))
+      return simulate_liability(genotypes, causal_snps, hsq, trait_cor,
+        rep, missing_rate)
+    end
+
+    # a quantitative trait and a case-control trait
+    if (trait_type == (:q, :b))
+      (Y_liab1, Y_liab2) = simulate_liability(genotypes, causal_snps,
+        hsq, trait_cor, rep, (missing_rate, 0.0))
+      return (Y_liab1, dichotomize(Y_liab2, prevalence, ncc))
+    end
+
+    # a case-control trait and a quantitative trait
+    if (trait_type == (:b, :q))
+      (Y_liab1, Y_liab2) = simulate_liability(genotypes, causal_snps,
+        hsq, trait_cor, rep, (0.0, missing_rate))
+      return (dichotomize(Y_liab1, prevalence, ncc), Y_liab2)
+    end
+
+    # two binary traits
+    if (trait_type == (:b, :b))
+      (Y_liab1, Y_liab2) = simulate_liability(genotypes, causal_snps,
+        hsq, trait_cor, rep, (0.0, 0.0))
+      return (dichotomize(Y_liab1, prevalence[1], ncc[1]),
+              dichotomize(Y_liab2, prevalence[2], ncc[2]))
+    end
+
   end
-
-  # simulate a pair of correlated quantitative traits
-  if (typeof(trait_type) == NTuple{2, Symbol} && trait_type == (:q, :q))
-    return simulate_liability(genotypes, causal_snps, hsq, trait_cor,
-      rep, missing_rate)
-  end
-
-  # simulate a quantitative trait and a binary (case-control) trait
-
-  # simulate a pair of binary (case-control) traits
 
 end # end function simulate
 
 """
+Given a vector of SNP IDs, and a dictionary of SNP ID ==> effect size,
+consruct a effect size vector.
 """
-function get_effect_size_vector(snpid, causal_snps)
+function get_effect_size_vector(
+    snpid::Array{AbstractString,1},
+    causal_snps::Dict{AbstractString, Float64}
+  )
 
   # get dimension
   num_snps = size(snpid, 1)
@@ -66,9 +96,11 @@ function get_effect_size_vector(snpid, causal_snps)
 
   return β
 
-end
+end # end function get_effect_size_vector
 
 """
+Simulate liability of a single trait for a specified number of
+replicates based on the specified heritability.
 """
 function simulate_liability(
     genotypes::SnpData,
@@ -115,9 +147,12 @@ function simulate_liability(
 
   return Y
 
-end # end function sim_liability
+end # end function simulate_liability
 
 """
+Simulate liability of two correlated traits for a specified number of
+replicates based on the specified heritability and phenotypic
+correlation.
 """
 function simulate_liability(
     genotypes::SnpData,
@@ -188,22 +223,21 @@ function simulate_liability(
 end # end function sim_liability
 
 """
+Dichotomize liability into binary case-control status based on
+prevalence of the case. Simulate ascertainment bias based on the
+specified number of cases and controls.
 """
-function simulate_case_control(
-    genotypes::SnpData,
-    causal_snps::Dict{AbstractString, Float64},
-    hsq::Union{Float64, NTuple{2, Float64}},
-    rep::Int64,
+function dichotomize(
+    Y_liab::Array{Float64, 2},
     prevalence::Float64,
     ncc::NTuple{2, Int64}
   )
 
   # get dimensions
-  num_people = genotypes.people
-  (num_cases, num_ctrls) = (ncc[1], ncc[2])
+  num_people = size(Y_liab, 1)
+  rep = size(Y_liab, 2)
 
-  # simulate the liability scores
-  Y_liab = simulate_liability(genotypes, causal_snps, hsq, rep, 0.0)
+  (num_cases, num_ctrls) = (ncc[1], ncc[2])
 
   # simulate case control status
   Y::Array{Float64, 2} = fill(NaN, (num_people, rep))
@@ -226,6 +260,6 @@ function simulate_case_control(
 
   return Y
 
-end
+end # end function dichotomize
 
 end # end module
