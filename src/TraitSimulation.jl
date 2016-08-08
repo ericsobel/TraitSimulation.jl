@@ -1,9 +1,19 @@
-module GWASSimulation
+module TraitSimulation
 
 export simulate
 
 using SnpArrays
 using Distributions
+
+"""
+Type for handling exceptions
+"""
+type TraitSimulationException <: Exception
+  reason::AbstractString
+end
+Base.showerror(io::IO, e::TraitSimulationException) =
+  print(io, e.reason);
+
 
 """
 Simulate a quantitative / case-control trait, or a pair of quantitative
@@ -37,10 +47,8 @@ function simulate(
       return dichotomize(Y_liab, prevalence, ncc)
     end
 
-  end
-
   # simulate a pair of traits
-  if (typeof(trait_type) == NTuple{2, Symbol})
+  elseif (typeof(trait_type) == NTuple{2, Symbol})
 
     # two quantitative traits
     if (trait_type == (:q, :q))
@@ -192,7 +200,11 @@ function simulate_liability(
   ρe = ρt - ρg
 
   # modeling environmental component and missing rate
-  norm_dist = MvNormal([0.0; 0.0], [σ2e1 ρe; ρe σ2e2])
+  Σ = [σ2e1 ρe; ρe σ2e2]
+  if (!isposdef(Σ))
+    throw(TraitSimulationException("Σ is not positive definite"))
+  end
+  norm_dist = MvNormal([0.0; 0.0], Σ)
   bern_dist1 = Bernoulli(missing_rate1)
   bern_dist2 = Bernoulli(missing_rate2)
 
@@ -236,8 +248,7 @@ function dichotomize(
   # get dimensions
   num_people = size(Y_liab, 1)
   rep = size(Y_liab, 2)
-
-  (num_cases, num_ctrls) = (ncc[1], ncc[2])
+  (num_cases, num_ctrls) = ncc
 
   # simulate case control status
   Y::Array{Float64, 2} = fill(NaN, (num_people, rep))
@@ -249,8 +260,19 @@ function dichotomize(
     threshold = sorted[k]
 
     # get case control indices
-    case_indices = shuffle(find(Y_liab[:,i] .> threshold))[1:num_cases]
-    ctrl_indices = shuffle(find(Y_liab[:,i] .<= threshold))[1:num_ctrls]
+    case_indices = Y_liab[:,i] .> threshold
+    ctrl_indices = Y_liab[:,i] .<= threshold
+    if (num_cases > sum(case_indices))
+      throw(GWASSimulationException("Specified number of cases is greater
+        than the total number of cases."))
+    elseif (num_ctrls > sum(ctrl_indices))
+      throw(GWASSimulationException("Specified number of controls is greater
+        than the total number of controls."))
+    end
+
+    # randomly select a subset of cases and controls
+    case_indices = shuffle(find(case_indices))[1:num_cases]
+    ctrl_indices = shuffle(find(ctrl_indices))[1:num_ctrls]
 
     # mark case contrl status
     Y[case_indices, i] = 1.0

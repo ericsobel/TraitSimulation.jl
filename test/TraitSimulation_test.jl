@@ -1,6 +1,6 @@
-module GWASSimulationTest
+module TraitSimulationTest
 
-using GWASSimulation
+using TraitSimulation
 using SnpArrays
 using Distributions
 
@@ -10,7 +10,7 @@ else
     using BaseTestNext
 end
 
-info("Test GWASSimulation implementation")
+info("Test TraitSimulation implementation")
 
 # load genotype data in PLINK format
 genotypes = SnpData("./chr1")
@@ -50,7 +50,7 @@ simulate(genotypes, :b, causal_betas, hsq1, rep=5, prevalence=0.25,
 
 # simulate two quantitative traits
 simulate(genotypes, (:q,:q), (causal_betas, causal_gammas),
-  (hsq1,hsq2), trait_cor=0.2, rep=5, missing_rate=(0.01,0.02))
+  (hsq1,hsq2), trait_cor=0.8, rep=5, missing_rate=(0.01,0.02))
 
 # simulate a quantitative trait and a binary trait
 simulate(genotypes, (:q,:b), (causal_betas, causal_gammas),
