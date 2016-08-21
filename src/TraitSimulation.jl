@@ -77,7 +77,7 @@ type Model
     1) Binomial 2) Gamma 3) Normal 4) Poisson 5) Exponential
     6) Inverse Gaussian 7) Bernoulli etc.
   """
-  distribution::ResponseDistribution
+  resp_dist::ResponseDistribution
 
 end
 
@@ -98,22 +98,10 @@ function expand_rhs!(rhs::Expr, df::Symbol, df_nameset::Set{Symbol})
 end
 
 """
-Compute the mean of the GLM or GLMM, returns a copy rather than a reference
-"""
-
-function calc_mean(η::Vector{Float64}, link::LinkInvFunction)
-  return map(link.link_inv, η)
-end
-
-"""
 Simulate trait by sampling from the specified distribution
 """
-const supported_distributions = Set([:Normal, :Gamma, :Binomial, :Poisson,
-  :Exponential, :InverseGaussian, :Bernoulli])
 function calc_trait(μ::Float64, distribution::Dict)
-
   # check if the distribution dictionary has a name field
-
 end
 
 
@@ -137,10 +125,9 @@ function simulate(model::Model, data_frame::DataFrame)
   num_indvs = size(fixed_eff, 1)
   rand_eff = zeros(Float64, num_indvs)
 
-  # calculate the mean param of the distribution, i.e. calculate
-  # link^-1(fixed_eff + rand_eff)
+  # calculate the mean param: link^-1(fixed_eff + rand_eff)
   η = fixed_eff+rand_eff
-  μ = calc_mean(η, model.link)
+  μ = map(model.link.link_inv, η)
  
 
 end
