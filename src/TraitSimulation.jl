@@ -4,15 +4,41 @@ generalized linear mixed model (GLMM).
 """
 module TraitSimulation
 
-export Model, simulate, NormalResponse
+export Model, simulate, NormalResponse, IdentityLinkInv
 
 using DataFrames, Distributions
 
 """
 A list of types to store inverse link functions
 """
-type 
+type CauchitLinkInv link_inv::Function end
+CauchitLinkInv() = CauchitLinkInv(x::Float64 -> tan(pi*(x-0.5)))
 
+type CloglogLinkInv link_inv::Function end
+CloglogLinkInv() = CloglogLinkInv(x::Float64 -> 1.0-exp(-exp(x)))
+
+type IdentityLinkInv link_inv::Function end
+IdentityLinkInv() = IdentityLinkInv(x::Float64 -> x)
+
+type InverseLinkInv link_inv::Function end
+InverseLinkInv() = InverseLinkInv(x::Float64 -> 1.0/x)
+
+type LogitLinkInv link_inv::Function end
+LogitLinkInv() = LogitLinkInv(x::Float64 -> 1.0/(1.0+exp(-x)))
+
+const normal_dist = Normal(0.0, 1.0)
+type ProbitLinkInv link_inv::Function end
+ProbitLinkInv() = ProbitLinkInv(x::Float64 -> pdf(normal_dist, x))
+
+type SqrtLinkInv link_inv::Function end
+SqrtLinkInv() = SqrtLinkInv(x::Float64 -> x*x)
+
+type LogLinkInv link_inv::Function end
+LogLinkInv() = LogLinkInv(x::Float64 -> exp(x))
+
+const LinkInvFunction = Union{CauchitLinkInv, CloglogLinkInv,
+  IdentityLinkInv, InverseLinkInv, LogitLinkInv, ProbitLinkInv,
+  SqrtLinkInv, LogLinkInv}
 
 """
 A list of types to store distribution parameters in simulations
@@ -44,7 +70,7 @@ type Model
   1) CauchitLink 2) CloglogLink 3) IdentityLink 4) InverseLink
   5) LogitLink 6) LogLink 7) ProbitLink 8) SqrtLink
   """
-  link::Symbol
+  link::LinkInvFunction
 
   """
   Specify the distribution of the response:
@@ -74,47 +100,9 @@ end
 """
 Compute the mean of the GLM or GLMM, returns a copy rather than a reference
 """
-const normal_dist = Normal(0.0, 1.0)
-function calc_mean(η::Vector{Float64}, link::Symbol)
 
-  # TODO: possibly change if statement to switch / match statement
-  # identity link
-  if link == :IdentityLink
-    @eval identity_inv(x::Float64)=x
-    return η
-  # logit link
-  elseif link == :LogitLink
-    @eval logit_inv(x::Float64)=1.0/(1.0+exp(-x))
-    return map(logit_inv::Float64, η)
-  # log link
-  elseif link == :LogLink
-    return map(exp, η)
-  # inverse link
-  elseif link == :InverseLink
-    @eval inverse_inv(x::Float64)=1.0/x
-    return map(inverse_inv, η)
-  # square root link
-  elseif link == :SqrtLink
-    @eval sqrt_inv(x::Float64)=x*x
-    return map(sqrt_inv, η)
-  # probit link
-  elseif link == :ProbitLink
-    @eval probit_inv(x::Float64)=pdf(normal_dist, x)
-    return map(probit_inv, η)
-  # cauchit link
-  elseif link == :CauchitLink
-    @eval cauchit_inv(x::Float64)=tan(pi*(x-0.5))
-    return map(cauchit_inv, η)
-  # complementary log log link
-  elseif link == :CloglogLink
-    @eval cloglog_inv(x::Float64)=1.0-exp(-exp(x))
-    return map(cloglog_inv, η)
-  # not supported
-  else
-    # TODO: throw an exception here
-    return nothing
-  end
-
+function calc_mean(η::Vector{Float64}, link::LinkInvFunction)
+  return map(link.link_inv, η)
 end
 
 """
@@ -125,7 +113,6 @@ const supported_distributions = Set([:Normal, :Gamma, :Binomial, :Poisson,
 function calc_trait(μ::Float64, distribution::Dict)
 
   # check if the distribution dictionary has a name field
-  
 
 end
 
