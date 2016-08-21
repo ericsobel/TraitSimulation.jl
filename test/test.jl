@@ -1,23 +1,10 @@
-import JuliaParser.Parser
+workspace()
 
-"""
-Stores model of a formula
-"""
-type ModelFormula
-  lhs::Symbol
-  rhs::Expr
-end
+include("../src/TraitSimulation.jl")
+using DataFrames, TraitSimulation
 
-"""
-Construct a model formula following DataFrames convention, except that
-coefficients are allowed in front of every term.
-"""
-macro ~(lhs, rhs)
-  ex = Expr(:call, :ModelFormula, Base.Meta.quot(lhs), Base.Meta.quot(rhs))
-  return ex
-end
+df = convert(DataFrame, rand(10,3))
+names!(df, [:U, :V, :W])
+sim_model = Model(T ~ U+2.0log(3V+4W)+5.0, "IdentityLink", "Normal", [1.0])
 
-exp = y ~ x+1.5log(y+z)
-ast = Parser.parse(exp.rhs)
-
-println("hell world.")
+simulate(sim_model, df)

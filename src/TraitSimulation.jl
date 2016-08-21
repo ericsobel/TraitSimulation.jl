@@ -6,29 +6,18 @@ module TraitSimulation
 
 export Model, simulate
 
-using DataFrame, Distributions
-
-"""
-Stores the formula of a model
-"""
-type ModelFormula
-  lhs::Symbol
-  rhs::Expr
-end
-
-"""
-Construct a model formula following DataFrames convention, except that
-coefficients are allowed in front of every term.
-"""
-macro ~(lhs, rhs)
-  ex = Expr(:call, :ModelFormula, Base.Meta.quot(lhs), Base.Meta.quot(rhs))
-  return ex
-end
+using DataFrames, Distributions
 
 """
 A type to store simulation parameters.
 """
 type Model
+
+  """
+  Specify the formula of the simulation, e.g. TC ~ AGE + SNP1*SNP2 + HDL
+  Using Formula of DataFrame.jl?
+  """
+  formula::Formula
 
   """
   Specify the link function, GLM.jl currently supports:
@@ -48,14 +37,21 @@ type Model
   Additional parameters for the distribution, e.g. variance for normal,
   N for binomial, etc.
   """
-  parameters::Vector{Float64}
+  dist_parameters::Vector{Float64}
 
-  """
-  Specify the formula of the simulation, e.g. TC ~ AGE + SNP1*SNP2 + HDL
-  Using Formula of DataFrame.jl?
-  """
-  formula::ModelFormula
+end
 
+"""
+Expand the right hand side of the formula
+"""
+function expand_rhs!(rhs::Expr, df::Symbol, df_nameset::Set{Symbol})
+  for i=1:size(rhs.args,1)
+    if typeof(rhs.args[i]) == Expr
+      expand_rhs!(rhs.args[i], df, df_nameset)
+    elseif typeof(rhs.args[i]) == Symbol && in(rhs.args[i], df_nameset)
+      rhs.args[i] = parse(string(df, "[", ":", rhs.args[i], "]"))
+    end
+  end
 end
 
 """
@@ -63,11 +59,16 @@ Simulate traits based on model specified in "model" using data
 stored in "data_frame".
 """
 function simulate(model::Model, data_frame::DataFrame)
-  # TODO: implement this function
-end
 
-"""
-An example usage of the simulate function
-"""
+  # parse the left and right hand side of the simulation formula
+  lhs = model.formula.lhs
+  rhs = model.formula.rhs
+
+  # calculate the fixed effect component
+  expand_rhs!(rhs, :data_frame, Set(names(data_frame)))
+  @eval calc_rhs(data_frame)=$rhs
+  fixed_eff = calc_rhs(data_frame)
+
+end
 
 end # end module
