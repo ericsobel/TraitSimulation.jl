@@ -31,13 +31,7 @@ type Model
     1) Binomial 2) Gamma 3) Normal 4) Poisson 5) Exponential
     6) Inverse Gaussian 7) Bernoulli etc.
   """
-  distribution::AbstractString
-
-  """
-  Additional parameters for the distribution, e.g. variance for normal,
-  N for binomial, etc.
-  """
-  dist_params::Vector{Float64}
+  distribution::Dict
 
 end
 
@@ -87,6 +81,12 @@ function calc_mean(η::Vector{Float64}, link::Symbol)
   else
     return nothing
   end
+end
+
+"""
+Simulate trait by sampling from the specified distribution
+"""
+function calc_trait(μ::Float64, distribution::Dict)
 end
 
 
