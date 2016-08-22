@@ -9,5 +9,5 @@ df = convert(DataFrame, rand(10,3))
 names!(df, [:U, :V, :W])
 
 # simulate from the model
-sim_model = Model(T ~ U*2V+2log(W), IdentityLinkInv(), NormalResponse(1.0))
+sim_model = Model(T ~ U*2V+2log(W), IdentityLink(), NormalResponse(1.0))
 simulate(sim_model, df)

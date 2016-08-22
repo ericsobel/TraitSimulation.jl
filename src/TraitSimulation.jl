@@ -4,41 +4,58 @@ generalized linear mixed model (GLMM).
 """
 module TraitSimulation
 
-export Model, simulate, NormalResponse, IdentityLinkInv
+export Model,
+       simulate,
+       NormalResponse,
+       PoissonResponse,
+       ExponentialResponse,
+       BernoulliResponse,
+       BinomialResponse,
+       GammaResponse,
+       InverseGaussianResponse,
+       CauchitLink,
+       CloglogLink,
+       IdentityLink,
+       InverseLink,
+       LogitLink,
+       ProbitLink,
+       SqrtLink,
+       LogLink
 
-using DataFrames, Distributions
+using DataFrames,
+      Distributions
 
 """
 A list of types to store inverse link functions
 """
-type CauchitLinkInv link_inv::Function end
-CauchitLinkInv() = CauchitLinkInv(x::Float64 -> tan(pi*(x-0.5)))
+type CauchitLink link_inv::Function end
+CauchitLink() = CauchitLink(x::Float64 -> tan(pi*(x-0.5)))
 
-type CloglogLinkInv link_inv::Function end
-CloglogLinkInv() = CloglogLinkInv(x::Float64 -> 1.0-exp(-exp(x)))
+type CloglogLink link_inv::Function end
+CloglogLink() = CloglogLink(x::Float64 -> 1.0-exp(-exp(x)))
 
-type IdentityLinkInv link_inv::Function end
-IdentityLinkInv() = IdentityLinkInv(x::Float64 -> x)
+type IdentityLink link_inv::Function end
+IdentityLink() = IdentityLink(x::Float64 -> x)
 
-type InverseLinkInv link_inv::Function end
-InverseLinkInv() = InverseLinkInv(x::Float64 -> 1.0/x)
+type InverseLink link_inv::Function end
+InverseLink() = InverseLink(x::Float64 -> 1.0/x)
 
-type LogitLinkInv link_inv::Function end
-LogitLinkInv() = LogitLinkInv(x::Float64 -> 1.0/(1.0+exp(-x)))
+type LogitLink link_inv::Function end
+LogitLink() = LogitLink(x::Float64 -> 1.0/(1.0+exp(-x)))
 
 const normal_dist = Normal(0.0, 1.0)
-type ProbitLinkInv link_inv::Function end
-ProbitLinkInv() = ProbitLinkInv(x::Float64 -> pdf(normal_dist, x))
+type ProbitLink link_inv::Function end
+ProbitLink() = ProbitLink(x::Float64 -> pdf(normal_dist, x))
 
-type SqrtLinkInv link_inv::Function end
-SqrtLinkInv() = SqrtLinkInv(x::Float64 -> x*x)
+type SqrtLink link_inv::Function end
+SqrtLink() = SqrtLink(x::Float64 -> x*x)
 
-type LogLinkInv link_inv::Function end
-LogLinkInv() = LogLinkInv(x::Float64 -> exp(x))
+type LogLink link_inv::Function end
+LogLink() = LogLink(x::Float64 -> exp(x))
 
-const LinkInvFunction = Union{CauchitLinkInv, CloglogLinkInv,
-  IdentityLinkInv, InverseLinkInv, LogitLinkInv, ProbitLinkInv,
-  SqrtLinkInv, LogLinkInv}
+const LinkFunction = Union{CauchitLink, CloglogLink,
+  IdentityLink, InverseLink, LogitLink, ProbitLink,
+  SqrtLink, LogLink}
 
 """
 A list of types to store distribution parameters in simulations
@@ -70,7 +87,7 @@ type Model
   1) CauchitLink 2) CloglogLink 3) IdentityLink 4) InverseLink
   5) LogitLink 6) LogLink 7) ProbitLink 8) SqrtLink
   """
-  link::LinkInvFunction
+  link::LinkFunction
 
   """
   Specify the distribution of the response:
@@ -100,10 +117,35 @@ end
 """
 Simulate trait by sampling from the specified distribution
 """
-function calc_trait(μ::Float64, distribution::Dict)
-  # check if the distribution dictionary has a name field
-end
+function calc_trait(μ::Vector{Float64}, resp_dist::ResponseDistribution)
 
+  if typeof(resp_dist) == NormalResponse
+    return rand(Normal(0, resp_dist.σ), size(μ, 1)) + μ
+
+  elseif typeof(resp_dist) == PoissonResponse
+    return map(x -> rand(Poisson(x)), μ)
+
+  elseif typeof(resp_dist) == ExponentialResponse
+    return map(x -> rand(Exponential(x)), μ)
+
+  elseif typeof(resp_dist) == BernoulliResponse
+    return map(x -> rand(Bernoulli(x)), μ)
+
+  elseif typeof(resp_dist) == BinomialResponse
+    return map(x -> rand(Binomial(resp_dist.n, x)), μ)
+
+  elseif typeof(resp_dist) == GammaResponse
+    return map(x -> rand(Gamma(resp_dist.shape, x)), μ)
+
+  elseif typeof(resp_dist) == InverseGaussianResponse
+    return map(x -> rand(InverseGaussian(x, resp_dist.λ)), μ)
+
+  else
+    # TODO: throw an exception here
+    return nothing
+  end
+
+end
 
 """
 Simulate traits based on model specified in "model" using data
@@ -129,6 +171,14 @@ function simulate(model::Model, data_frame::DataFrame)
   η = fixed_eff+rand_eff
   μ = map(model.link.link_inv, η)
  
+  # simulate the trait
+  y = calc_trait(μ, model.resp_dist)
+  y = reshape(y, size(y,1), 1)
+
+  # return a data frame
+  y = convert(DataFrame, y)
+  names!(y, [lhs])
+  return y
 
 end
 
