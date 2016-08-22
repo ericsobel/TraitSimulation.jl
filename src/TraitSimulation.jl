@@ -103,14 +103,14 @@ type Model
   1) CauchitLink 2) CloglogLink 3) IdentityLink 4) InverseLink
   5) LogitLink 6) LogLink 7) ProbitLink 8) SqrtLink
   """
-  link::LinkFunction
+  link::Union{LinkFunction, Vector{LinkFunction}}
 
   """
   Specify the distribution of the response:
     1) Binomial 2) Gamma 3) Normal 4) Poisson 5) Exponential
     6) Inverse Gaussian 7) Bernoulli etc.
   """
-  resp_dist::ResponseDistribution
+  resp_dist::Union{ResponseDistribution, Vector{ResponseDistribution}}
 
   """
   Specify the variance components for GLMM
@@ -191,15 +191,21 @@ function calc_trait(μ::Vector{Float64}, resp_dist::ResponseDistribution)
 end
 
 """
+Simulate random effect
+"""
+function calc_randeff()
+end
+
+"""
 Simulate traits based on model specified in "model" using data
 stored in "data_frame".
 """
 function simulate(model::Model, data_frame::DataFrame)
 
   # get dimensions
+  npeople = size(data_frame, 1)
   nformulae = typeof(model.formula)==Formula ? 1 : size(model.formula,1)
   formulae = typeof(model.formula)==Formula ? [model.formula] : model.formula
-  npeople = size(data_frame, 1)
 
   # initialize traits
   y = zeros(Float64, npeople, nformulae)
@@ -224,7 +230,12 @@ function simulate(model::Model, data_frame::DataFrame)
 
   # sample from the response distribution
   for i=1:nformulae
-    y[:,i] = calc_trait(y[:,i], model.resp_dist)
+    y[:,i] = typeof(model.link)==Vector{Any} ?
+             map(model.link[i].link_inv, y[:,i]) :
+             map(model.link.link_inv, y[:,i])
+    y[:,i] = typeof(model.resp_dist)==Vector{Any} ?
+             calc_trait(y[:,i], model.resp_dist[i]) :
+             calc_trait(y[:,i], model.resp_dist)
   end
 
   # convert to data frame
