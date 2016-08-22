@@ -30,50 +30,46 @@ using DataFrames,
 A list of types to store inverse link functions
 """
 # TODO: Implement a "toString" function for print
-type CauchitLink link_inv::Function end
+abstract LinkFunction
+
+type CauchitLink <: LinkFunction link_inv::Function end
 CauchitLink() = CauchitLink(x::Float64 -> tan(pi*(x-0.5)))
 
-type CloglogLink link_inv::Function end
+type CloglogLink <: LinkFunction link_inv::Function end
 CloglogLink() = CloglogLink(x::Float64 -> 1.0-exp(-exp(x)))
 
-type IdentityLink link_inv::Function end
+type IdentityLink <: LinkFunction link_inv::Function end
 IdentityLink() = IdentityLink(x::Float64 -> x)
 
-type InverseLink link_inv::Function end
+type InverseLink <: LinkFunction link_inv::Function end
 InverseLink() = InverseLink(x::Float64 -> 1.0/x)
 
-type LogitLink link_inv::Function end
+type LogitLink <: LinkFunction link_inv::Function end
 LogitLink() = LogitLink(x::Float64 -> 1.0/(1.0+exp(-x)))
 
 const normal_dist = Normal(0.0, 1.0)
-type ProbitLink link_inv::Function end
+type ProbitLink <: LinkFunction link_inv::Function end
 ProbitLink() = ProbitLink(x::Float64 -> pdf(normal_dist, x))
 
-type SqrtLink link_inv::Function end
+type SqrtLink <: LinkFunction link_inv::Function end
 SqrtLink() = SqrtLink(x::Float64 -> x*x)
 
-type LogLink link_inv::Function end
+type LogLink <: LinkFunction link_inv::Function end
 LogLink() = LogLink(x::Float64 -> exp(x))
-
-const LinkFunction = Union{CauchitLink, CloglogLink,
-  IdentityLink, InverseLink, LogitLink, ProbitLink,
-  SqrtLink, LogLink}
 
 """
 A list of types to store distribution parameters in simulations
 """
 # TODO: Implement a "toString" function for print
-type NormalResponse σ::Float64 end
-type PoissonResponse end
-type ExponentialResponse end
-type BernoulliResponse end
-type BinomialResponse n::Float64 end
-type GammaResponse shape::Float64 end
-type InverseGaussianResponse λ::Float64 end
-type TResponse ν::Float64 end
-const ResponseDistribution = Union{NormalResponse, PoissonResponse,
-  ExponentialResponse, BernoulliResponse, BinomialResponse,
-  GammaResponse, InverseGaussianResponse, TResponse}
+abstract ResponseDistribution
+type NormalResponse <: ResponseDistribution σ::Float64 end
+type PoissonResponse <: ResponseDistribution end
+type ExponentialResponse <: ResponseDistribution end
+type BernoulliResponse <: ResponseDistribution end
+type BinomialResponse <: ResponseDistribution n::Float64 end
+type GammaResponse <: ResponseDistribution shape::Float64 end
+type InverseGaussianResponse <: ResponseDistribution λ::Float64 end
+type TResponse <: ResponseDistribution ν::Float64 end
 
 """
 A type to store variance component and its covariance matrix
@@ -88,8 +84,6 @@ end
 A type to store simulation parameters.
 """
 # TODO: Implement a "toString" function for print
-# TODO: Implement sampling from multivariate t and other elliptical
-# distributions
 type Model
 
   """
@@ -122,12 +116,9 @@ end
 """
 Construct a Model object without random effect component
 """
-function Model(formula::Union{Formula, Vector{Formula}}, link::LinkFunction,
-  resp_dist::ResponseDistribution)
-
-  return Model(formula, link, resp_dist, Vector{VarianceComponent}())
-
-end
+Model(formula::Union{Formula, Vector{Formula}}, link::LinkFunction,
+resp_dist::ResponseDistribution) =
+Model(formula, link, resp_dist, Vector{VarianceComponent}())
 
 """
 Expand the right hand side of the formula
