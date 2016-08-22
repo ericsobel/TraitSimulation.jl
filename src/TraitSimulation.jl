@@ -28,8 +28,8 @@ using DataFrames,
 
 """
 A list of types to store inverse link functions
-TODO: Implement a "toString" function for print
 """
+# TODO: Implement a "toString" function for print
 type CauchitLink link_inv::Function end
 CauchitLink() = CauchitLink(x::Float64 -> tan(pi*(x-0.5)))
 
@@ -61,8 +61,8 @@ const LinkFunction = Union{CauchitLink, CloglogLink,
 
 """
 A list of types to store distribution parameters in simulations
-TODO: Implement a "toString" function for print
 """
+# TODO: Implement a "toString" function for print
 type NormalResponse σ::Float64 end
 type PoissonResponse end
 type ExponentialResponse end
@@ -77,8 +77,8 @@ const ResponseDistribution = Union{NormalResponse, PoissonResponse,
 
 """
 A type to store variance component and its covariance matrix
-TODO: Implement a "toString" function for print
 """
+# TODO: Implement a "toString" function for print
 type VarianceComponent
   var_comp::Float64
   cov_mat::Matrix{Float64}
@@ -87,6 +87,9 @@ end
 """
 A type to store simulation parameters.
 """
+# TODO: Implement a "toString" function for print
+# TODO: Implement sampling from multivariate t and other elliptical
+# distributions
 type Model
 
   """
@@ -122,6 +125,8 @@ type Model
   """
   Specify type of distribution for variance component
   """
+  # TODO: extra parameters needed for multivariate t distribution and
+  # other elliptical distributions
 
 end
 
@@ -191,31 +196,41 @@ stored in "data_frame".
 """
 function simulate(model::Model, data_frame::DataFrame)
 
-  # parse the left and right hand side of the simulation formula
-  lhs = model.formula.lhs
-  rhs = model.formula.rhs
+  # get dimensions
+  nformulae = typeof(model.formula)==Formula ? 1 : size(model.formula,1)
+  formulae = typeof(model.formula)==Formula ? [model.formula] : model.formula
+  npeople = size(data_frame, 1)
 
-  # calculate the fixed effect component
-  # TODO: throw an exception when formula cannot be evaluated
-  expand_rhs!(rhs, :data_frame, Set(names(data_frame)))
-  @eval calc_rhs(data_frame)=$rhs
-  fixed_eff = calc_rhs(data_frame)
+  # initialize traits
+  y = zeros(Float64, npeople, nformulae)
+  col_names = Array(Symbol, nformulae)
 
-  # TODO: add random effect here
-  num_indvs = size(fixed_eff, 1)
-  rand_eff = zeros(Float64, num_indvs)
+  # iterate through formulae
+  for i=1:nformulae
 
-  # calculate the mean param: link^-1(fixed_eff + rand_eff)
-  η = fixed_eff+rand_eff
-  μ = map(model.link.link_inv, η)
+    # get the lhs and rhs
+    lhs = formulae[i].lhs
+    rhs = formulae[i].rhs
+    col_names[i] = lhs
 
-  # simulate the trait
-  y = calc_trait(μ, model.resp_dist)
-  y = reshape(y, size(y,1), 1)
+    # calculate the fixed effect component
+    # TODO: throw an exception when formula cannot be evaluated
+    expand_rhs!(rhs, :data_frame, Set(names(data_frame)))
+    y[:,i] = (@eval data_frame -> $rhs)(data_frame)
 
-  # return a data frame
+  end
+
+  # TODO: Add random effect to y
+
+  # sample from the response distribution
+  for i=1:nformulae
+    y[:,i] = calc_trait(y[:,i], model.resp_dist)
+  end
+
+  # convert to data frame
   y = convert(DataFrame, y)
-  names!(y, [lhs])
+  names!(y, col_names)
+
   return y
 
 end
