@@ -13,6 +13,7 @@ export Model,
        BinomialResponse,
        GammaResponse,
        InverseGaussianResponse,
+       TResponse,
        CauchitLink,
        CloglogLink,
        IdentityLink,
@@ -27,6 +28,7 @@ using DataFrames,
 
 """
 A list of types to store inverse link functions
+TODO: Implement a "toString" function for print
 """
 type CauchitLink link_inv::Function end
 CauchitLink() = CauchitLink(x::Float64 -> tan(pi*(x-0.5)))
@@ -59,6 +61,7 @@ const LinkFunction = Union{CauchitLink, CloglogLink,
 
 """
 A list of types to store distribution parameters in simulations
+TODO: Implement a "toString" function for print
 """
 type NormalResponse σ::Float64 end
 type PoissonResponse end
@@ -67,9 +70,19 @@ type BernoulliResponse end
 type BinomialResponse n::Float64 end
 type GammaResponse shape::Float64 end
 type InverseGaussianResponse λ::Float64 end
+type TResponse ν::Float64 end
 const ResponseDistribution = Union{NormalResponse, PoissonResponse,
   ExponentialResponse, BernoulliResponse, BinomialResponse,
-  GammaResponse, InverseGaussianResponse}
+  GammaResponse, InverseGaussianResponse, TResponse}
+
+"""
+A type to store variance component and its covariance matrix
+TODO: Implement a "toString" function for print
+"""
+type VarianceComponent
+  var_comp::Float64
+  cov_mat::Matrix{Float64}
+end
 
 """
 A type to store simulation parameters.
@@ -80,7 +93,7 @@ type Model
   Specify the formula of the simulation, e.g. TC ~ AGE + SNP1*SNP2 + HDL
   Using Formula of DataFrame.jl?
   """
-  formula::Formula
+  formula::Union{Formula, Vector{Formula}}
 
   """
   Specify the link function, GLM.jl currently supports:
@@ -96,6 +109,28 @@ type Model
   """
   resp_dist::ResponseDistribution
 
+  """
+  Specify the variance components for GLMM
+  """
+  vc::Vector{VarianceComponent}
+
+  """
+  Specify the cross covariance for the covariances
+  """
+  cross_cov::Matrix{Float64}
+
+  """
+  Specify type of distribution for variance component
+  """
+
+end
+
+"""
+Construct a Model object without random effect component
+"""
+function Model(formula::Union{Formula, Vector{Formula}}, link::LinkFunction,
+  resp_dist::ResponseDistribution)
+  return Model(formula, link, resp_dist, Vector{Float64}(), Matrix{Float64}())
 end
 
 """
@@ -121,6 +156,9 @@ function calc_trait(μ::Vector{Float64}, resp_dist::ResponseDistribution)
 
   if typeof(resp_dist) == NormalResponse
     return rand(Normal(0, resp_dist.σ), size(μ, 1)) + μ
+
+  elseif typeof(resp_dist) == TResponse
+    return rand(TDist(resp_dist.ν), size(μ, 1)) + μ
 
   elseif typeof(resp_dist) == PoissonResponse
     return map(x -> rand(Poisson(x)), μ)
@@ -170,7 +208,7 @@ function simulate(model::Model, data_frame::DataFrame)
   # calculate the mean param: link^-1(fixed_eff + rand_eff)
   η = fixed_eff+rand_eff
   μ = map(model.link.link_inv, η)
- 
+
   # simulate the trait
   y = calc_trait(μ, model.resp_dist)
   y = reshape(y, size(y,1), 1)

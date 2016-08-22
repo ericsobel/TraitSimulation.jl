@@ -10,5 +10,5 @@ names!(df, [:A, :B, :C, :D, :E, :F])
 
 # simulate from the model
 formula = T ~ A+2B*C+3log(D*(E+F))
-sim_model = Model(formula, IdentityLink(), NormalResponse(1.0))
+sim_model = Model(formula, IdentityLink(), TResponse(1))
 simulate(sim_model, df)
