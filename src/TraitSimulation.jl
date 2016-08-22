@@ -80,7 +80,7 @@ A type to store variance component and its covariance matrix
 """
 # TODO: Implement a "toString" function for print
 type VarianceComponent
-  var_comp::Float64
+  var_comp::Union{Float64, Vector{Float64}, Matrix{Float64}}
   cov_mat::Matrix{Float64}
 end
 
@@ -117,17 +117,6 @@ type Model
   """
   vc::Vector{VarianceComponent}
 
-  """
-  Specify the cross covariance for the covariances
-  """
-  cross_cov::Matrix{Float64}
-
-  """
-  Specify type of distribution for variance component
-  """
-  # TODO: extra parameters needed for multivariate t distribution and
-  # other elliptical distributions
-
 end
 
 """
@@ -135,19 +124,23 @@ Construct a Model object without random effect component
 """
 function Model(formula::Union{Formula, Vector{Formula}}, link::LinkFunction,
   resp_dist::ResponseDistribution)
-  return Model(formula, link, resp_dist, Vector{Float64}(), Matrix{Float64}())
+
+  return Model(formula, link, resp_dist, Vector{VarianceComponent}())
+
 end
 
 """
 Expand the right hand side of the formula
 """
 const operands = Set([:*, :/, :^])
-function expand_rhs!(rhs::Expr, df::Symbol, df_nameset::Set{Symbol})
+function expand_rhs!(rhs::Expr, df_nameset::Set{Symbol})
   for i=1:size(rhs.args,1)
     if typeof(rhs.args[i]) == Expr
-      expand_rhs!(rhs.args[i], df, df_nameset)
+      expand_rhs!(rhs.args[i], df_nameset)
+
     elseif typeof(rhs.args[i]) == Symbol && in(rhs.args[i], df_nameset)
-      rhs.args[i] = parse(string(df, "[", ":", rhs.args[i], "]"))
+      rhs.args[i] = parse(string(:x, "[", ":", rhs.args[i], "]"))
+
     elseif typeof(rhs.args[i]) == Symbol && in(rhs.args[i], operands)
       rhs.args[i] = parse(string(".", rhs.args[i]))
     end
@@ -193,7 +186,35 @@ end
 """
 Simulate random effect
 """
-function calc_randeff()
+function calc_randeff(vc::Vector{VarianceComponent},
+  npeople::Int64, ntraits::Int64)
+
+  # create the covariance matrix
+  ncomponents = length(vc)
+  cov_mat = zeros(Float64, ntraits*npeople, ntraits*npeople)
+  for i=1:ncomponents
+    if typeof(vc[i].var_comp) == Float64 ||
+       typeof(vc[i].var_comp) == Vector{Float64}
+      cov_mat += kron(diag(vc[i].var_comp), vc[i].cov_mat)
+
+    elseif typeof(vc[i].var_comp) == Vector{Float64}
+      cov_mat += kron(vc[i].var_comp, vc[i].cov_mat)
+
+    else
+      #TODO: throw an exception here
+      return nothing
+    end
+  end
+
+  # sample the random effect
+  randeff = zeros(Float64, ntraits*npeople)
+  if ncomponents > 0
+    dist = MvNormal(zeros(Float64, ntraits*npeople), cov_mat)
+    randeff = rand(dist)
+  end
+
+  return randeff
+
 end
 
 """
@@ -204,35 +225,38 @@ function simulate(model::Model, data_frame::DataFrame)
 
   # get dimensions
   npeople = size(data_frame, 1)
-  nformulae = typeof(model.formula)==Formula ? 1 : size(model.formula,1)
+  ntraits = typeof(model.formula)==Formula ? 1 : size(model.formula,1)
   formulae = typeof(model.formula)==Formula ? [model.formula] : model.formula
 
   # initialize traits
-  y = zeros(Float64, npeople, nformulae)
-  col_names = Array(Symbol, nformulae)
+  y = zeros(Float64, npeople, ntraits)
+  col_names = [formulae[i].lhs for i=1:ntraits]
 
-  # iterate through formulae
-  for i=1:nformulae
-
-    # get the lhs and rhs
+  # evalute the formulae
+  for i=1:ntraits
     lhs = formulae[i].lhs
     rhs = formulae[i].rhs
-    col_names[i] = lhs
 
-    # calculate the fixed effect component
     # TODO: throw an exception when formula cannot be evaluated
-    expand_rhs!(rhs, :data_frame, Set(names(data_frame)))
-    y[:,i] = (@eval data_frame -> $rhs)(data_frame)
-
+    expand_rhs!(rhs, Set(names(data_frame)))
+    y[:,i] = (@eval x -> $rhs)(data_frame)
   end
 
-  # TODO: Add random effect to y
+  # add random effect
+  if length(model.vc) > 0
+    randeff = calc_randeff(model.vc, npeople, ntraits)
+    y += reshape(randeff, npeople, ntraits)
+  end
 
-  # sample from the response distribution
-  for i=1:nformulae
+  # apply inverse of link
+  for i=1:ntraits
     y[:,i] = typeof(model.link)==Vector{Any} ?
              map(model.link[i].link_inv, y[:,i]) :
              map(model.link.link_inv, y[:,i])
+  end
+
+  # sample from the response distribution
+  for i=1:ntraits
     y[:,i] = typeof(model.resp_dist)==Vector{Any} ?
              calc_trait(y[:,i], model.resp_dist[i]) :
              calc_trait(y[:,i], model.resp_dist)
