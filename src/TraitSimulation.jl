@@ -22,7 +22,8 @@ export Model,
        LogitLink,
        ProbitLink,
        SqrtLink,
-       LogLink
+       LogLink,
+       VarianceComponent
 
 using DataFrames,
       Distributions
@@ -214,9 +215,9 @@ function calc_randeff(vc::Vector{VarianceComponent},
   for i=1:ncomponents
     if typeof(vc[i].var_comp) == Float64 ||
        typeof(vc[i].var_comp) == Vector{Float64}
-      cov_mat += kron(diag(vc[i].var_comp), vc[i].cov_mat)
+      cov_mat += kron(diagm(vc[i].var_comp), vc[i].cov_mat)
 
-    elseif typeof(vc[i].var_comp) == Vector{Float64}
+    elseif typeof(vc[i].var_comp) == Matrix{Float64}
       cov_mat += kron(vc[i].var_comp, vc[i].cov_mat)
 
     else
