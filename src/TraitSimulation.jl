@@ -111,8 +111,8 @@ A type to store simulation parameters.
 type Model
 
   """
-  Specify the formula of the simulation, e.g. TC ~ AGE + SNP1*SNP2 + HDL
-  Using Formula of DataFrame.jl?
+  Specify the formula of the simulation, using DataFrames' Formula
+  e.g. TC ~ AGE + 1.5SNP1*SNP2 + 2.0HDL
   """
   formula::Union{Formula, Vector{Formula}}
 
@@ -140,8 +140,9 @@ end
 """
 Construct a Model object without random effect component
 """
-Model(formula::Union{Formula, Vector{Formula}}, link::LinkFunction,
-resp_dist::ResponseDistribution) =
+Model(formula::Union{Formula, Vector{Formula}},
+  link::Union{LinkFunction, Vector{LinkFunction}},
+  resp_dist::Union{ResponseDistribution, Vector{ResponseDistribution}}) =
 Model(formula, link, resp_dist, Vector{VarianceComponent}())
 
 """
@@ -247,7 +248,7 @@ function simulate(model::Model, data_frame::DataFrame)
   formulae = typeof(model.formula)==Formula ? [model.formula] : model.formula
 
   # initialize traits
-  y = zeros(Float64, npeople, ntraits)
+  μ = zeros(Float64, npeople, ntraits)
   col_names = [formulae[i].lhs for i=1:ntraits]
 
   # evalute the formulae
@@ -257,27 +258,28 @@ function simulate(model::Model, data_frame::DataFrame)
 
     # TODO: throw an exception when formula cannot be evaluated
     expand_rhs!(rhs, Set(names(data_frame)))
-    y[:,i] = (@eval x -> $rhs)(data_frame)
+    μ[:,i] = (@eval x -> $rhs)(data_frame)
   end
 
   # add random effect
   if length(model.vc) > 0
     randeff = calc_randeff(model.vc, npeople, ntraits)
-    y += reshape(randeff, npeople, ntraits)
+    μ += reshape(randeff, npeople, ntraits)
   end
 
   # apply inverse of link
   for i=1:ntraits
-    y[:,i] = typeof(model.link)==Vector{Any} ?
-             map(model.link[i].link_inv, y[:,i]) :
-             map(model.link.link_inv, y[:,i])
+    μ[:,i] = typeof(model.link)==Vector{LinkFunction} ?
+             map(model.link[i].link_inv, μ[:,i]) :
+             map(model.link.link_inv, μ[:,i])
   end
 
   # sample from the response distribution
+  y = Array{Real,2}(npeople, ntraits)
   for i=1:ntraits
-    y[:,i] = typeof(model.resp_dist)==Vector{Any} ?
-             calc_trait(y[:,i], model.resp_dist[i]) :
-             calc_trait(y[:,i], model.resp_dist)
+    y[:,i] = typeof(model.resp_dist)==Vector{ResponseDistribution} ?
+             calc_trait(μ[:,i], model.resp_dist[i]) :
+             calc_trait(μ[:,i], model.resp_dist)
   end
 
   # convert to data frame
