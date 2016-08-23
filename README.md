@@ -1,10 +1,24 @@
+##TraitSimulation
 
+*TraitSimulation* is a julia package that provides utilities to simulate
+phenotypes under a generalized linear model or generalized linear mixed model.
+
+##Installation
+
+To install TraitSimulation, please type the following command in a julia
+interactive terminal
+```julia
+Pkg.clone("https://github.com/huwenboshi/TraitSimulation.jl.git")
+```
+
+##Examples
 
 ```julia
 include("../src/TraitSimulation.jl")
 using DataFrames, TraitSimulation
 ```
 
+####Create a random data set for testing
 
 ```julia
 # create a dataset for testing
@@ -22,7 +36,7 @@ names!(df, [:A, :B, :C, :D, :E, :F])
 
 
 
-
+####Simulate a single trait with identity link and normal response
 ```julia
 # simulate a single trait using GLM
 sim_model = Model(T ~ A + 2B*C, IdentityLink(), NormalResponse(1.0))
@@ -36,7 +50,7 @@ y = simulate(sim_model, df)
 
 
 
-
+####Simulate two traits with the same link and response distribution
 ```julia
 # simulate two traits with the same link and response using GLM
 formulae = [T1 ~ A+2B*C, T2 ~ A + 2log(B+C)+2.0]
@@ -51,7 +65,7 @@ y = simulate(sim_model, df)
 
 
 
-
+####Simulate three traits with different links and response distributions
 ```julia
 # simulate three traits with different link and response using GLM
 formulae = [T1 ~ A+2B*C, T2 ~ A+2log(B+C)+2.0, T3 ~ A+B+C+1.0]
@@ -68,7 +82,7 @@ y = simulate(sim_model, df)
 
 
 
-
+####Simulate a single trait under GLMM with two variance components
 ```julia
 # simulate a single trait with two variance components using GLMM
 vc = [VarianceComponent(0.2, cov_mat), VarianceComponent(0.8, eye(5))]
@@ -83,7 +97,7 @@ y = simulate(sim_model, df)
 
 
 
-
+####Simulate two traits each with two variance components
 ```julia
 # simulate two traits with two variance components using GLMM
 # the two traits can have different response distribution
@@ -103,7 +117,7 @@ y = simulate(sim_model, df)
 
 
 
-
+####Simulate two traits with cross covariances
 ```julia
 # simulate two traits with two variance components with cross covariances
 # using GLMM. the two traits have the same response distribution
@@ -118,10 +132,3 @@ y = simulate(sim_model, df)
 
 
 <table class="data-frame"><tr><th></th><th>T1</th><th>T2</th></tr><tr><th>1</th><td>1.2375761672364602</td><td>5.598899068351228</td></tr><tr><th>2</th><td>1.7749641269608285</td><td>0.4235391538698168</td></tr><tr><th>3</th><td>2.0820850495371017</td><td>0.20826081606112956</td></tr><tr><th>4</th><td>-0.41284142811269164</td><td>3.5844275050705</td></tr><tr><th>5</th><td>0.3612051541311363</td><td>0.5470808314522484</td></tr></table>
-
-
-
-
-```julia
-
-```
