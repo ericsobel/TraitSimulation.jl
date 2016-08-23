@@ -14,6 +14,7 @@ export Model,
        GammaResponse,
        InverseGaussianResponse,
        TResponse,
+       DiracResponse,
        CauchitLink,
        CloglogLink,
        IdentityLink,
@@ -62,22 +63,45 @@ A list of types to store distribution parameters in simulations
 """
 # TODO: Implement a "toString" function for print
 abstract ResponseDistribution
+
+# normal response with standard deviation σ
 type NormalResponse <: ResponseDistribution σ::Float64 end
+
+# binomial response with n trials
+type BinomialResponse <: ResponseDistribution n::Float64 end
+
+# t response with degrees of freedom ν
+type TResponse <: ResponseDistribution ν::Float64 end
+
+# gamma response with shape parameter α
+type GammaResponse <: ResponseDistribution α::Float64 end
+
+# inverse gaussian response with shape parameter λ
+type InverseGaussianResponse <: ResponseDistribution λ::Float64 end
+
+# other distributions that do not require additional parameter
 type PoissonResponse <: ResponseDistribution end
 type ExponentialResponse <: ResponseDistribution end
 type BernoulliResponse <: ResponseDistribution end
-type BinomialResponse <: ResponseDistribution n::Float64 end
-type GammaResponse <: ResponseDistribution shape::Float64 end
-type InverseGaussianResponse <: ResponseDistribution λ::Float64 end
-type TResponse <: ResponseDistribution ν::Float64 end
+type DiracResponse <: ResponseDistribution end # returns itself
 
 """
 A type to store variance component and its covariance matrix
 """
 # TODO: Implement a "toString" function for print
 type VarianceComponent
+
+  """
+  Stores a single variance component, a vector of variance component
+  for a number of traits, or a cross covariance matrix
+  """
   var_comp::Union{Float64, Vector{Float64}, Matrix{Float64}}
+
+  """
+  Stores the covariance matrix
+  """
   cov_mat::Matrix{Float64}
+
 end
 
 """
@@ -162,10 +186,13 @@ function calc_trait(μ::Vector{Float64}, resp_dist::ResponseDistribution)
     return map(x -> rand(Binomial(resp_dist.n, x)), μ)
 
   elseif typeof(resp_dist) == GammaResponse
-    return map(x -> rand(Gamma(resp_dist.shape, x)), μ)
+    return map(x -> rand(Gamma(resp_dist.α, x)), μ)
 
   elseif typeof(resp_dist) == InverseGaussianResponse
     return map(x -> rand(InverseGaussian(x, resp_dist.λ)), μ)
+
+  elseif typeof(resp_dist) == DiracResponse
+    return μ
 
   else
     # TODO: throw an exception here
