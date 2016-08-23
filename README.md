@@ -13,14 +13,11 @@ Pkg.clone("https://github.com/huwenboshi/TraitSimulation.jl.git")
 
 ##Examples
 
-```julia
-include("../src/TraitSimulation.jl")
-using DataFrames, TraitSimulation
-```
 
 ####Create a random data set for testing
 
 ```julia
+using DataFrames, TraitSimulation
 # create a dataset for testing
 srand(1)
 data = rand(5,6)
