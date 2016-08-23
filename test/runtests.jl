@@ -1,6 +1,4 @@
-module PkgTest
-
-include("../src/TraitSimulation.jl")
+module TraitSimulationTest
 
 using DataFrames, TraitSimulation
 
