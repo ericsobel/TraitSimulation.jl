@@ -2,6 +2,12 @@ module TraitSimulationTest
 
 using DataFrames, TraitSimulation
 
+if VERSION >= v"0.5.0-dev+7720"
+    using Base.Test
+else
+    using BaseTestNext
+end
+
 # create data frame for testing
 srand(1)
 data = rand(5,6)
