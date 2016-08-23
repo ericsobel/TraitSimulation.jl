@@ -61,6 +61,9 @@ interactive terminal</p>
 <div class="highlight highlight-source-julia"><pre><span class="pl-c1">include</span>(<span class="pl-s"><span class="pl-pds">"</span>../src/TraitSimulation.jl<span class="pl-pds">"</span></span>)
 <span class="pl-k">using</span> DataFrames, TraitSimulation</pre></div>
 
+<h4>
+<a id="user-content-create-a-random-data-set-for-testing" class="anchor" href="http://localhost:6419/#create-a-random-data-set-for-testing" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Create a random data set for testing</h4>
+
 <div class="highlight highlight-source-julia"><pre><span class="pl-c"># create a dataset for testing</span>
 <span class="pl-c1">srand</span>(<span class="pl-c1">1</span>)
 data <span class="pl-k">=</span> <span class="pl-c1">rand</span>(<span class="pl-c1">5</span>,<span class="pl-c1">6</span>)
@@ -125,6 +128,9 @@ cov_mat <span class="pl-k">=</span> <span class="pl-c1">cor</span>(data<span cla
 </tr>
 </tbody></table>
 
+<h4>
+<a id="user-content-simulate-a-single-trait-with-identity-link-and-normal-response" class="anchor" href="http://localhost:6419/#simulate-a-single-trait-with-identity-link-and-normal-response" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Simulate a single trait with identity link and normal response</h4>
+
 <div class="highlight highlight-source-julia"><pre><span class="pl-c"># simulate a single trait using GLM</span>
 sim_model <span class="pl-k">=</span> <span class="pl-c1">Model</span>(T <span class="pl-k">~</span> A <span class="pl-k">+</span> <span class="pl-c1">2</span>B<span class="pl-k">*</span>C, <span class="pl-c1">IdentityLink</span>(), <span class="pl-c1">NormalResponse</span>(<span class="pl-c1">1.0</span>))
 y <span class="pl-k">=</span> <span class="pl-c1">simulate</span>(sim_model, df)</pre></div>
@@ -155,6 +161,9 @@ y <span class="pl-k">=</span> <span class="pl-c1">simulate</span>(sim_model, df)
 <td>1.2534810799152252</td>
 </tr>
 </tbody></table>
+
+<h4>
+<a id="user-content-simulate-two-traits-with-the-same-link-and-response-distribution" class="anchor" href="http://localhost:6419/#simulate-two-traits-with-the-same-link-and-response-distribution" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Simulate two traits with the same link and response distribution</h4>
 
 <div class="highlight highlight-source-julia"><pre><span class="pl-c"># simulate two traits with the same link and response using GLM</span>
 formulae <span class="pl-k">=</span> [T1 <span class="pl-k">~</span> A<span class="pl-k">+</span><span class="pl-c1">2</span>B<span class="pl-k">*</span>C, T2 <span class="pl-k">~</span> A <span class="pl-k">+</span> <span class="pl-c1">2log</span>(B<span class="pl-k">+</span>C)<span class="pl-k">+</span><span class="pl-c1">2.0</span>]
@@ -193,6 +202,9 @@ y <span class="pl-k">=</span> <span class="pl-c1">simulate</span>(sim_model, df)
 <td>1.4165366031669122</td>
 </tr>
 </tbody></table>
+
+<h4>
+<a id="user-content-simulate-three-traits-with-different-links-and-response-distributions" class="anchor" href="http://localhost:6419/#simulate-three-traits-with-different-links-and-response-distributions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Simulate three traits with different links and response distributions</h4>
 
 <div class="highlight highlight-source-julia"><pre><span class="pl-c"># simulate three traits with different link and response using GLM</span>
 formulae <span class="pl-k">=</span> [T1 <span class="pl-k">~</span> A<span class="pl-k">+</span><span class="pl-c1">2</span>B<span class="pl-k">*</span>C, T2 <span class="pl-k">~</span> A<span class="pl-k">+</span><span class="pl-c1">2log</span>(B<span class="pl-k">+</span>C)<span class="pl-k">+</span><span class="pl-c1">2.0</span>, T3 <span class="pl-k">~</span> A<span class="pl-k">+</span>B<span class="pl-k">+</span>C<span class="pl-k">+</span><span class="pl-c1">1.0</span>]
@@ -240,6 +252,9 @@ y <span class="pl-k">=</span> <span class="pl-c1">simulate</span>(sim_model, df)
 </tr>
 </tbody></table>
 
+<h4>
+<a id="user-content-simulate-a-single-trait-under-glmm-with-two-variance-components" class="anchor" href="http://localhost:6419/#simulate-a-single-trait-under-glmm-with-two-variance-components" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Simulate a single trait under GLMM with two variance components</h4>
+
 <div class="highlight highlight-source-julia"><pre><span class="pl-c"># simulate a single trait with two variance components using GLMM</span>
 vc <span class="pl-k">=</span> [<span class="pl-c1">VarianceComponent</span>(<span class="pl-c1">0.2</span>, cov_mat), <span class="pl-c1">VarianceComponent</span>(<span class="pl-c1">0.8</span>, <span class="pl-c1">eye</span>(<span class="pl-c1">5</span>))]
 sim_model <span class="pl-k">=</span> <span class="pl-c1">Model</span>(T <span class="pl-k">~</span> A<span class="pl-k">+</span><span class="pl-c1">2</span>B<span class="pl-k">*</span>C, <span class="pl-c1">LogitLink</span>(), <span class="pl-c1">BinomialResponse</span>(<span class="pl-c1">100</span>), vc)
@@ -271,6 +286,9 @@ y <span class="pl-k">=</span> <span class="pl-c1">simulate</span>(sim_model, df)
 <td>72</td>
 </tr>
 </tbody></table>
+
+<h4>
+<a id="user-content-simulate-two-traits-each-with-two-variance-components" class="anchor" href="http://localhost:6419/#simulate-two-traits-each-with-two-variance-components" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Simulate two traits each with two variance components</h4>
 
 <div class="highlight highlight-source-julia"><pre><span class="pl-c"># simulate two traits with two variance components using GLMM</span>
 <span class="pl-c"># the two traits can have different response distribution</span>
@@ -315,6 +333,9 @@ y <span class="pl-k">=</span> <span class="pl-c1">simulate</span>(sim_model, df)
 </tr>
 </tbody></table>
 
+<h4>
+<a id="user-content-simulate-two-traits-with-cross-covariances" class="anchor" href="http://localhost:6419/#simulate-two-traits-with-cross-covariances" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Simulate two traits with cross covariances</h4>
+
 <div class="highlight highlight-source-julia"><pre><span class="pl-c"># simulate two traits with two variance components with cross covariances</span>
 <span class="pl-c"># using GLMM. the two traits have the same response distribution</span>
 formulae <span class="pl-k">=</span> [T1 <span class="pl-k">~</span> A<span class="pl-k">+</span><span class="pl-c1">2</span>B<span class="pl-k">*</span>C, T2 <span class="pl-k">~</span> C<span class="pl-k">+</span><span class="pl-c1">log</span>(C)<span class="pl-k">+</span><span class="pl-c1">3.0</span>]
@@ -355,8 +376,6 @@ y <span class="pl-k">=</span> <span class="pl-c1">simulate</span>(sim_model, df)
 <td>0.5470808314522484</td>
 </tr>
 </tbody></table>
-
-<div class="highlight highlight-source-julia"><pre></pre></div>
 
               </article>
             </div>

@@ -5,7 +5,7 @@ phenotypes under a generalized linear model or generalized linear mixed model.
 
 ##Installation
 
-To install TraitSimulation, please type the following command in a julia
+To install *TraitSimulation*, please type the following command in a julia
 interactive terminal
 ```julia
 Pkg.clone("https://github.com/huwenboshi/TraitSimulation.jl.git")
