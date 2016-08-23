@@ -3,6 +3,8 @@
 *TraitSimulation* is a julia package that provides utilities to simulate
 phenotypes under a generalized linear model or generalized linear mixed model.
 
+https://travis-ci.org/huwenboshi/TraitSimulation.jl.svg?branch=master
+
 ##Installation
 
 To install *TraitSimulation*, please type the following command in a julia
