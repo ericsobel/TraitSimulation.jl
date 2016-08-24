@@ -1,4 +1,6 @@
-module TraitSimulationTest
+#module TraitSimulationTest
+
+include("../src/TraitSimulation.jl")
 
 using DataFrames, TraitSimulation
 
@@ -53,5 +55,6 @@ vc = [VarianceComponent([0.2 -0.1; -0.1 0.3], cov_mat),
 formulae = [T1 ~ A+2B*C, T2 ~ C+log(C)+3.0]
 sim_model = Model(formulae, IdentityLink(), NormalResponse(1.0), vc)
 y = simulate(sim_model, df)
+println(y)
 
-end
+#end

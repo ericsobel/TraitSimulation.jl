@@ -285,6 +285,7 @@ function simulate(model::Model, data_frame::DataFrame)
 
   # convert to data frame
   y = convert(DataFrame, y)
+  println(typeof(y))
   names!(y, col_names)
 
   return y
