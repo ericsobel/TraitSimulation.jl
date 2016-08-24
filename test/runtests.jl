@@ -1,6 +1,4 @@
-#module TraitSimulationTest
-
-include("../src/TraitSimulation.jl")
+module TraitSimulationTest
 
 using DataFrames, TraitSimulation
 
@@ -57,4 +55,4 @@ sim_model = Model(formulae, IdentityLink(), NormalResponse(1.0), vc)
 y = simulate(sim_model, df)
 println(y)
 
-#end
+end
