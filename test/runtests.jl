@@ -1,4 +1,6 @@
-module TraitSimulationTest
+#module TraitSimulationTest
+
+include("../src/TraitSimulation.jl")
 
 using DataFrames, TraitSimulation
 
@@ -12,7 +14,7 @@ end
 srand(1)
 data = rand(5,6)
 df = convert(DataFrame, data)
-cov_mat = cor(data')
+GRM = cor(data')
 names!(df, [:A, :B, :C, :D, :E, :F])
 
 # simulate a single trait using GLM
@@ -20,7 +22,7 @@ sim_model = Model(T ~ A + 2B*C, IdentityLink(), NormalResponse(1.0))
 y = simulate(sim_model, df)
 
 # simulate two traits with the same link and response using GLM
-formulae = [T1 ~ A+2B*C, T2 ~ A + 2log(B+C)+2.0]
+formulae = [T1 ~ A+2B*C, T2 ~ A+2log(B+C)+2.0]
 sim_model = Model(formulae, IdentityLink(), NormalResponse(1.0))
 y = simulate(sim_model, df)
 
@@ -32,26 +34,31 @@ sim_model = Model(formulae, links, resp_dists)
 y = simulate(sim_model, df)
 
 # simulate a single trait with two variance components using GLMM
-vc = [VarianceComponent(0.2, cov_mat), VarianceComponent(0.8, eye(5))]
-sim_model = Model(T ~ A+2B*C, LogitLink(), BinomialResponse(100), vc)
+vc = [VarianceComponent(0.2, GRM), VarianceComponent(0.8, eye(5))]
+sim_model = Model(T ~ A+2B*C, vc, LogitLink(), BinomialResponse(100))
 y = simulate(sim_model, df)
 
 # simulate two traits with two variance components using GLMM
 # the two traits can have different response distribution
-vc = [VarianceComponent([0.2, 0.3], cov_mat),
+vc = [VarianceComponent([0.2, 0.3], GRM),
       VarianceComponent([0.8, 0.7], eye(5))]
 formulae = [T1 ~ A+2B*C, T2 ~ C+log(C)+3.0]
 links = [IdentityLink(), LogitLink()]
 resp_dists = [NormalResponse(1.0), PoissonResponse()]
-sim_model = Model(formulae, links, resp_dists, vc)
+sim_model = Model(formulae, vc, links, resp_dists, )
 y = simulate(sim_model, df)
 
 # simulate two traits with two variance components with cross covariances
 # using GLMM
-vc = [VarianceComponent([0.2 -0.1; -0.1 0.3], cov_mat),
-      VarianceComponent([0.8 -0.2; -0.2 0.7], eye(5))]
+A = [0.2 -0.1; -0.1 0.3]
+B = [0.8 -0.2; -0.2 0.7]
+I = eye(5)
+vc = @vc A ⊗ GRM + B ⊗ I
+println(vc)
+vc = [VarianceComponent(A, GRM),
+      VarianceComponent(B, eye(5))]
 formulae = [T1 ~ A+2B*C, T2 ~ C+log(C)+3.0]
-sim_model = Model(formulae, IdentityLink(), NormalResponse(1.0), vc)
+sim_model = Model(formulae, vc, IdentityLink(), NormalResponse(1.0))
 y = simulate(sim_model, df)
 
-end
+#end

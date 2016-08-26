@@ -6,6 +6,7 @@ module TraitSimulation
 
 export Model,
        simulate,
+       @vc,
        NormalResponse,
        PoissonResponse,
        ExponentialResponse,
@@ -118,6 +119,11 @@ type Model
   formula::Union{Formula, Vector{Formula}}
 
   """
+  Specify the variance components for GLMM
+  """
+  vc::Vector{VarianceComponent}
+  
+  """
   Specify the link function, GLM.jl currently supports:
   1) CauchitLink 2) CloglogLink 3) IdentityLink 4) InverseLink
   5) LogitLink 6) LogLink 7) ProbitLink 8) SqrtLink
@@ -131,11 +137,6 @@ type Model
   """
   resp_dist::Union{ResponseDistribution, Vector{ResponseDistribution}}
 
-  """
-  Specify the variance components for GLMM
-  """
-  vc::Vector{VarianceComponent}
-
 end
 
 """
@@ -144,7 +145,42 @@ Construct a Model object without random effect component
 Model(formula::Union{Formula, Vector{Formula}},
   link::Union{LinkFunction, Vector{LinkFunction}},
   resp_dist::Union{ResponseDistribution, Vector{ResponseDistribution}}) =
-Model(formula, link, resp_dist, Vector{VarianceComponent}())
+Model(formula, Vector{VarianceComponent}(), link, resp_dist)
+
+"""
+Parse a variance component
+"""
+macro vc(expr::Expr)
+  # check if components are additive
+  num_vc = size(expr.args,1)-1
+  if num_vc < 0
+    # throw an exception here
+    return nothing
+  end
+
+  # parse the variance components
+  code_str = "["
+  if expr.args[1] == :+
+
+    # generate code to construct variance components
+    for i=2:size(expr.args, 1)
+      code_str = string(code_str, "VarianceComponent(",
+        expr.args[i].args[2], ",", expr.args[i].args[3], ")")
+      if i < size(expr.args, 1) 
+        code_str = string(code_str, ",")
+      end
+    end
+
+  else
+    #TODO: throw an exception here
+    return nothing
+  end
+
+  # return the code
+  code_str = string(code_str, "]")
+  return code_str
+
+end
 
 """
 Expand the right hand side of the formula
