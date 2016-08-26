@@ -243,7 +243,8 @@ end
 Simulate traits based on model specified in "model" using data
 stored in "data_frame".
 """
-function simulate(model::Model, data_frame::DataFrame)
+function simulate(model::Model, data_frame::DataFrame;
+  missing::Union{Float64, Vector{Bool}}=1.0)
 
   # get dimensions
   npeople = size(data_frame, 1)
@@ -252,7 +253,7 @@ function simulate(model::Model, data_frame::DataFrame)
 
   # initialize traits
   μ = zeros(Float64, npeople, ntraits)
-  col_names = [formulae[i].lhs for i=1:ntraits]
+  col_names = [parse(string(formulae[i].lhs)) for i=1:ntraits]
 
   # evalute the formulae
   for i=1:ntraits
@@ -287,7 +288,7 @@ function simulate(model::Model, data_frame::DataFrame)
 
   # convert to data frame
   y = convert(DataFrame, y)
-  names!(y, col_names)
+  names!(y::DataFrame, col_names)
 
   return y
 
