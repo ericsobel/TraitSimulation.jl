@@ -18,7 +18,7 @@ GRM = cor(data')
 names!(df, [:A, :B, :C, :D, :E, :F])
 
 # simulate a single trait using GLM
-sim_model = Model(T ~ A + 2B*C, IdentityLink(), NormalResponse(1.0))
+sim_model = Model(T ~ A+2B*C, IdentityLink(), NormalResponse(1.0))
 y = simulate(sim_model, df)
 
 # simulate two traits with the same link and response using GLM
@@ -53,12 +53,15 @@ y = simulate(sim_model, df)
 A = [0.2 -0.1; -0.1 0.3]
 B = [0.8 -0.2; -0.2 0.7]
 I = eye(5)
-vc = @vc A ⊗ GRM + B ⊗ I
-println(vc)
 vc = [VarianceComponent(A, GRM),
-      VarianceComponent(B, eye(5))]
+      VarianceComponent(B, I)]
 formulae = [T1 ~ A+2B*C, T2 ~ C+log(C)+3.0]
 sim_model = Model(formulae, vc, IdentityLink(), NormalResponse(1.0))
+y = simulate(sim_model, df)
+
+formulae = [T1 ~ A+2B*C, T2 ~ C+log(C)+3.0]
+sim_model = Model(formulae, (@vc A ⊗ GRM + B ⊗ I), IdentityLink(),
+  NormalResponse(1.0))
 y = simulate(sim_model, df)
 
 #end

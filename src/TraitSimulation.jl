@@ -6,7 +6,6 @@ module TraitSimulation
 
 export Model,
        simulate,
-       @vc,
        NormalResponse,
        PoissonResponse,
        ExponentialResponse,
@@ -147,40 +146,7 @@ Model(formula::Union{Formula, Vector{Formula}},
   resp_dist::Union{ResponseDistribution, Vector{ResponseDistribution}}) =
 Model(formula, Vector{VarianceComponent}(), link, resp_dist)
 
-"""
-Parse a variance component
-"""
-macro vc(expr::Expr)
-  # check if components are additive
-  num_vc = size(expr.args,1)-1
-  if num_vc < 0
-    # throw an exception here
-    return nothing
-  end
 
-  # parse the variance components
-  code_str = "["
-  if expr.args[1] == :+
-
-    # generate code to construct variance components
-    for i=2:size(expr.args, 1)
-      code_str = string(code_str, "VarianceComponent(",
-        expr.args[i].args[2], ",", expr.args[i].args[3], ")")
-      if i < size(expr.args, 1) 
-        code_str = string(code_str, ",")
-      end
-    end
-
-  else
-    #TODO: throw an exception here
-    return nothing
-  end
-
-  # return the code
-  code_str = string(code_str, "]")
-  return code_str
-
-end
 
 """
 Expand the right hand side of the formula
@@ -328,3 +294,21 @@ function simulate(model::Model, data_frame::DataFrame)
 end
 
 end # end module
+
+"""
+Parse a variance component
+"""
+macro vc(expr::Expr)
+  expr_str = string(expr)
+  quote
+    expr = parse($expr_str)
+    [VarianceComponent(eval(expr.args[i].args[2]),
+                       eval(expr.args[i].args[3]))
+     for i=2:size(expr.args,1)]
+  end
+end
+
+"""
+Define kronecker product operator
+"""
+⊗(A, B) = kron(A,B)
