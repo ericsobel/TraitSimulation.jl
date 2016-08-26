@@ -85,7 +85,7 @@ type InverseGaussianResponse <: ResponseDistribution λ::Float64 end
 type PoissonResponse <: ResponseDistribution end
 type ExponentialResponse <: ResponseDistribution end
 type BernoulliResponse <: ResponseDistribution end
-type DiracResponse <: ResponseDistribution end # returns itself
+type DiracResponse <: ResponseDistribution end
 
 """
 A type to store variance component and its covariance matrix
@@ -146,8 +146,6 @@ Model(formula::Union{Formula, Vector{Formula}},
   link::Union{LinkFunction, Vector{LinkFunction}},
   resp_dist::Union{ResponseDistribution, Vector{ResponseDistribution}}) =
 Model(formula, Vector{VarianceComponent}(), link, resp_dist)
-
-
 
 """
 Expand the right hand side of the formula
@@ -306,13 +304,12 @@ Parse a variance component
 macro vc(expr::Expr)
   
   expr_str = string(expr)
-  num_vc = size(expr.args,1)
   
   ret_expr = quote
     expr = parse($expr_str)
     [VarianceComponent(eval(expr.args[i].args[2]),
                        eval(expr.args[i].args[3]))
-     for i=2:$num_vc]
+     for i=2:size(expr.args,1)]
   end
 
   return esc(ret_expr)
