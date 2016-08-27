@@ -27,6 +27,14 @@
 
     
     <url>
+     <loc>None/vc/vc/</loc>
+     <lastmod>2016-08-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
      <loc>None/link/link/</loc>
      <lastmod>2016-08-27</lastmod>
      <changefreq>daily</changefreq>
@@ -36,14 +44,6 @@
     
     <url>
      <loc>None/dist/dist/</loc>
-     <lastmod>2016-08-27</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-    
-
-    
-    <url>
-     <loc>None/vc/vc/</loc>
      <lastmod>2016-08-27</lastmod>
      <changefreq>daily</changefreq>
     </url>

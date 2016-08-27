@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>Simulating the Model - TraitSimulation.jl</title>
+        <title>Simulate the Model - TraitSimulation.jl</title>
       
       
       
@@ -96,7 +96,7 @@
             
           </span>
         
-        Simulating the Model
+        Simulate the Model
       </div>
     </div>
     
@@ -184,8 +184,8 @@
           
             
   <li>
-    <a class="current" title="Simulating the Model" href="./">
-      Simulating the Model
+    <a class="current" title="Simulate the Model" href="./">
+      Simulate the Model
     </a>
     
       
@@ -200,8 +200,23 @@
               </a>
             </li>
           
+            <li class="anchor">
+              <a title="simulate" href="#simulate">
+                simulate
+              </a>
+            </li>
+          
         </ul>
       
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Variance Components" href="../../vc/vc/">
+      Variance Components
+    </a>
     
   </li>
 
@@ -219,15 +234,6 @@
   <li>
     <a class="" title="Response Distributions" href="../../dist/dist/">
       Response Distributions
-    </a>
-    
-  </li>
-
-          
-            
-  <li>
-    <a class="" title="Variance Components" href="../../vc/vc/">
-      Variance Components
     </a>
     
   </li>
@@ -270,6 +276,13 @@
 
 
 <p>In addition to the three parameters in the fixed-effect model constructor, the mixed-effect model constructors requires the additional parameter <code>vc</code>, an array of variance components.</p>
+<p><a id='simulate-1'></a></p>
+<h2 id="simulate">simulate</h2>
+<div class="codehilite"><pre><span class="n">simulate</span><span class="p">(</span><span class="n">model</span><span class="p">::</span><span class="n">Model</span><span class="p">,</span> <span class="n">data_frame</span><span class="p">::</span><span class="n">DataFrame</span><span class="p">)</span>
+</pre></div>
+
+
+<p>The <code>simulate</code> function simulates traits according to the <code>Model</code> using data stored in the <code>DataFrame</code>.</p>
           <aside class="copyright" role="note">
             
             Documentation built with
@@ -305,14 +318,14 @@
     </div>
     <div class="next">
       
-        <a href="../../link/link/" title="Link Functions">
+        <a href="../../vc/vc/" title="Variance Components">
           <span class="direction">
             Next
           </span>
           <div class="page">
             <div class="stretch">
               <div class="title">
-                Link Functions
+                Variance Components
               </div>
             </div>
             <div class="button button-next" role="button" aria-label="Next">
