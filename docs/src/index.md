@@ -1,11 +1,12 @@
-#Documentation Title
+# TraitSimulation.jl (prototype)
  
-Some text describing the package.
+A Julia module to perform trait simulation.
+
+## Key features
  
-## Subtitle
- 
-More text
- 
+1. Simulate trait under GLM and GLMM
+2. Provide convenient ways to specify the simulation model
+
 ## Tutorials
  
 ```@contents
