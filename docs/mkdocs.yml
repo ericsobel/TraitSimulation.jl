@@ -23,11 +23,5 @@ docs_dir: 'build'
 pages:
 - Introduction: index.md
 - Getting Started: example/example.md
-  - Create a test data set: example/create_test_data.md
-  - Simulate under fixed-effect models: example/sim_fixed.md
-  - Simulate under mixed models: example/sim_mixed.md
 - Types: types/types.md
-  - Model: types/model_type.md
-  - VarianceComponent: types/vc_type.md
-  - LinkFunction: types/link_type.md
-  - ResponseDistribution: types/resp_dist_type.md
+- Generate Simulations: sim/sim.md
