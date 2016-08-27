@@ -56,14 +56,64 @@
             "title": "Simulate random effects"
         }, 
         {
-            "location": "/types/types/", 
-            "text": "", 
-            "title": "Types"
+            "location": "/link/link/", 
+            "text": "Link Functions\n\n\nThis section lists the link function types supported by the TraitSimulation module.\n\n\n\n\nLinkFunction\n\n\nLinkFunction\n is an abstract type. It\ns the super type of each specific link function type listed below. All sub types of \nLinkFunction\n have constructors of the form \n[name of the link]()\n, and contain \nlink_inv::Function\n as their member variables. For example the constructor for identity link function type is \nIdentityLink()\n, and its \nlink_inv\n member variable is the function \nf(x) = x\n.\n\n\n\n\nCauchitLink\n\n\nImplements the Cauchit link $g(\\mu) = \\text{arctan}(\\mu)/\\pi+1/2$, which has inverse $g^{-1}(\\eta) = \\text{tan}[(\\eta-1/2)\\pi]$.\n\n\n\n\nCloglogLink\n\n\nImplements the complementary log log link, $g(\\mu) = \\log(-\\log(1-\\mu))$ which has invserse $g^{-1}(\\eta) = 1 - \\exp(-\\exp(\\eta))$.\n\n\n\n\nIdentityLink\n\n\nImplements the identity link $g(\\mu) = \\mu$, which has inverse $g^{-1}(\\eta) = \\eta$\n\n\n\n\nLogitLink\n\n\nImplements the logit link $g(\\mu) = \\log(\\mu / (1-\\mu))$, which has inverse $g^{-1}(\\eta) = 1 / (1+\\exp(-\\eta))$.\n\n\n\n\nProbitLink\n\n\nImplements the probit link $g(\\mu) = \\Phi^{-1}(\\mu)$, which has inverse $g^{-1}(\\eta) = \\Phi(\\eta)$\n\n\n\n\nSqrtLink\n\n\nImplements the square root link $g(\\mu) = \\sqrt{\\mu}$, which has inverse $g^{-1}(\\eta) = \\eta^2$.\n\n\n\n\nLogLink\n\n\nImplements the log link $g(\\mu) = \\log(\\mu)$, which has inverse $g^{-1}(\\eta) = \\exp(\\eta)$.", 
+            "title": "Link Functions"
         }, 
         {
-            "location": "/sim/sim/", 
+            "location": "/link/link/#link-functions", 
+            "text": "This section lists the link function types supported by the TraitSimulation module.", 
+            "title": "Link Functions"
+        }, 
+        {
+            "location": "/link/link/#linkfunction", 
+            "text": "LinkFunction  is an abstract type. It s the super type of each specific link function type listed below. All sub types of  LinkFunction  have constructors of the form  [name of the link]() , and contain  link_inv::Function  as their member variables. For example the constructor for identity link function type is  IdentityLink() , and its  link_inv  member variable is the function  f(x) = x .", 
+            "title": "LinkFunction"
+        }, 
+        {
+            "location": "/link/link/#cauchitlink", 
+            "text": "Implements the Cauchit link $g(\\mu) = \\text{arctan}(\\mu)/\\pi+1/2$, which has inverse $g^{-1}(\\eta) = \\text{tan}[(\\eta-1/2)\\pi]$.", 
+            "title": "CauchitLink"
+        }, 
+        {
+            "location": "/link/link/#clogloglink", 
+            "text": "Implements the complementary log log link, $g(\\mu) = \\log(-\\log(1-\\mu))$ which has invserse $g^{-1}(\\eta) = 1 - \\exp(-\\exp(\\eta))$.", 
+            "title": "CloglogLink"
+        }, 
+        {
+            "location": "/link/link/#identitylink", 
+            "text": "Implements the identity link $g(\\mu) = \\mu$, which has inverse $g^{-1}(\\eta) = \\eta$", 
+            "title": "IdentityLink"
+        }, 
+        {
+            "location": "/link/link/#logitlink", 
+            "text": "Implements the logit link $g(\\mu) = \\log(\\mu / (1-\\mu))$, which has inverse $g^{-1}(\\eta) = 1 / (1+\\exp(-\\eta))$.", 
+            "title": "LogitLink"
+        }, 
+        {
+            "location": "/link/link/#probitlink", 
+            "text": "Implements the probit link $g(\\mu) = \\Phi^{-1}(\\mu)$, which has inverse $g^{-1}(\\eta) = \\Phi(\\eta)$", 
+            "title": "ProbitLink"
+        }, 
+        {
+            "location": "/link/link/#sqrtlink", 
+            "text": "Implements the square root link $g(\\mu) = \\sqrt{\\mu}$, which has inverse $g^{-1}(\\eta) = \\eta^2$.", 
+            "title": "SqrtLink"
+        }, 
+        {
+            "location": "/link/link/#loglink", 
+            "text": "Implements the log link $g(\\mu) = \\log(\\mu)$, which has inverse $g^{-1}(\\eta) = \\exp(\\eta)$.", 
+            "title": "LogLink"
+        }, 
+        {
+            "location": "/dist/dist/", 
             "text": "", 
-            "title": "Generate Simulations"
+            "title": "Response Distributions"
+        }, 
+        {
+            "location": "/func/func/", 
+            "text": "", 
+            "title": "Functions and Macros"
         }
     ]
 }

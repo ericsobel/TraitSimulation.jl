@@ -9,10 +9,8 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>TraitSimulation.jl - A julia module to perform trait simulation</title>
+        <title>Link Functions - TraitSimulation.jl</title>
       
-      
-        <meta name="description" content="A julia module to perform trait simulation">
       
       
       
@@ -21,33 +19,33 @@
     
     <meta property="og:url" content="None">
     <meta property="og:title" content="TraitSimulation.jl">
-    <meta property="og:image" content="None/./">
+    <meta property="og:image" content="None/../../">
     <meta name="apple-mobile-web-app-title" content="TraitSimulation.jl">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     
-    <link rel="shortcut icon" type="image/x-icon" href="./assets/images/favicon-e565ddfa3b.ico">
-    <link rel="icon" type="image/x-icon" href="./assets/images/favicon-e565ddfa3b.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
     <style>
       @font-face {
       	font-family: 'Icon';
-      	src: url('./assets/fonts/icon.eot?52m981');
-      	src: url('./assets/fonts/icon.eot?#iefix52m981')
+      	src: url('../../assets/fonts/icon.eot?52m981');
+      	src: url('../../assets/fonts/icon.eot?#iefix52m981')
                format('embedded-opentype'),
-      		   url('./assets/fonts/icon.woff?52m981')
+      		   url('../../assets/fonts/icon.woff?52m981')
                format('woff'),
-      		   url('./assets/fonts/icon.ttf?52m981')
+      		   url('../../assets/fonts/icon.ttf?52m981')
                format('truetype'),
-      		   url('./assets/fonts/icon.svg?52m981#icon')
+      		   url('../../assets/fonts/icon.svg?52m981#icon')
                format('svg');
       	font-weight: normal;
       	font-style: normal;
       }
     </style>
-    <link rel="stylesheet" href="./assets/stylesheets/application-a422ff04cc.css">
+    <link rel="stylesheet" href="../../assets/stylesheets/application-a422ff04cc.css">
     
-      <link rel="stylesheet" href="./assets/stylesheets/palettes-05ab2406df.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/palettes-05ab2406df.css">
     
     
       
@@ -64,9 +62,9 @@
       </style>
     
     
-      <link rel="stylesheet" href="./assets/Documenter.css">
+      <link rel="stylesheet" href="../../assets/Documenter.css">
     
-    <script src="./assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    <script src="../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
     
   </head>
   
@@ -98,7 +96,7 @@
             
           </span>
         
-        TraitSimulation.jl
+        Link Functions
       </div>
     </div>
     
@@ -168,8 +166,26 @@
           
             
   <li>
-    <a class="current" title="Introduction" href=".">
+    <a class="" title="Introduction" href="../..">
       Introduction
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Getting Started" href="../../example/example/">
+      Getting Started
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="current" title="Link Functions" href="./">
+      Link Functions
     </a>
     
       
@@ -179,20 +195,50 @@
         <ul>
           
             <li class="anchor">
-              <a title="Installation" href="#installation">
-                Installation
+              <a title="LinkFunction" href="#linkfunction">
+                LinkFunction
               </a>
             </li>
           
             <li class="anchor">
-              <a title="Key Features" href="#key-features">
-                Key Features
+              <a title="CauchitLink" href="#cauchitlink">
+                CauchitLink
               </a>
             </li>
           
             <li class="anchor">
-              <a title="Contact" href="#contact">
-                Contact
+              <a title="CloglogLink" href="#clogloglink">
+                CloglogLink
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="IdentityLink" href="#identitylink">
+                IdentityLink
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="LogitLink" href="#logitlink">
+                LogitLink
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="ProbitLink" href="#probitlink">
+                ProbitLink
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="SqrtLink" href="#sqrtlink">
+                SqrtLink
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="LogLink" href="#loglink">
+                LogLink
               </a>
             </li>
           
@@ -204,25 +250,7 @@
           
             
   <li>
-    <a class="" title="Getting Started" href="example/example/">
-      Getting Started
-    </a>
-    
-  </li>
-
-          
-            
-  <li>
-    <a class="" title="Link Functions" href="link/link/">
-      Link Functions
-    </a>
-    
-  </li>
-
-          
-            
-  <li>
-    <a class="" title="Response Distributions" href="dist/dist/">
+    <a class="" title="Response Distributions" href="../../dist/dist/">
       Response Distributions
     </a>
     
@@ -231,7 +259,7 @@
           
             
   <li>
-    <a class="" title="Functions and Macros" href="func/func/">
+    <a class="" title="Functions and Macros" href="../../func/func/">
       Functions and Macros
     </a>
     
@@ -248,25 +276,33 @@
       <article class="article">
         <div class="wrapper">
           
-          <p><a id='TraitSimulation.jl-(prototype)-1'></a></p>
-<h1 id="traitsimulationjl-prototype">TraitSimulation.jl (prototype)</h1>
-<p>A Julia module to perform trait simulation.</p>
-<p><a id='Installation-1'></a></p>
-<h2 id="installation">Installation</h2>
-<p>To install TraitSimulation please type the following code in a Julia REPL:</p>
-<div class="codehilite"><pre>Pkg.clone(&quot;https://github.com/huwenboshi/TraitSimulation.jl.git&quot;)
-</pre></div>
-
-
-<p><a id='Key-Features-1'></a></p>
-<h2 id="key-features">Key Features</h2>
-<ol>
-<li>Simulate trait under GLM and GLMM</li>
-<li>Provide convenient ways to specify the simulation model</li>
-</ol>
-<p><a id='Contact-1'></a></p>
-<h2 id="contact">Contact</h2>
-<p><a href="https://huwenboshi.github.io">Huwenbo Shi</a> (shihuwenbo [at] ucla [dot] edu)</p>
+          <p><a id='Link-Functions-1'></a></p>
+<h1 id="link-functions">Link Functions</h1>
+<p>This section lists the link function types supported by the TraitSimulation module.</p>
+<p><a id='LinkFunction-1'></a></p>
+<h2 id="linkfunction">LinkFunction</h2>
+<p><code>LinkFunction</code> is an abstract type. It&rsquo;s the super type of each specific link function type listed below. All sub types of <code>LinkFunction</code> have constructors of the form <code>[name of the link]()</code>, and contain <code>link_inv::Function</code> as their member variables. For example the constructor for identity link function type is <code>IdentityLink()</code>, and its <code>link_inv</code> member variable is the function <code>f(x) = x</code>.</p>
+<p><a id='CauchitLink-1'></a></p>
+<h2 id="cauchitlink">CauchitLink</h2>
+<p>Implements the Cauchit link $g(\mu) = \text{arctan}(\mu)/\pi+1/2$, which has inverse $g^{-1}(\eta) = \text{tan}[(\eta-1/2)\pi]$.</p>
+<p><a id='CloglogLink-1'></a></p>
+<h2 id="clogloglink">CloglogLink</h2>
+<p>Implements the complementary log log link, $g(\mu) = \log(-\log(1-\mu))$ which has invserse $g^{-1}(\eta) = 1 - \exp(-\exp(\eta))$.</p>
+<p><a id='IdentityLink-1'></a></p>
+<h2 id="identitylink">IdentityLink</h2>
+<p>Implements the identity link $g(\mu) = \mu$, which has inverse $g^{-1}(\eta) = \eta$</p>
+<p><a id='LogitLink-1'></a></p>
+<h2 id="logitlink">LogitLink</h2>
+<p>Implements the logit link $g(\mu) = \log(\mu / (1-\mu))$, which has inverse $g^{-1}(\eta) = 1 / (1+\exp(-\eta))$.</p>
+<p><a id='ProbitLink-1'></a></p>
+<h2 id="probitlink">ProbitLink</h2>
+<p>Implements the probit link $g(\mu) = \Phi^{-1}(\mu)$, which has inverse $g^{-1}(\eta) = \Phi(\eta)$</p>
+<p><a id='SqrtLink-1'></a></p>
+<h2 id="sqrtlink">SqrtLink</h2>
+<p>Implements the square root link $g(\mu) = \sqrt{\mu}$, which has inverse $g^{-1}(\eta) = \eta^2$.</p>
+<p><a id='LogLink-1'></a></p>
+<h2 id="loglink">LogLink</h2>
+<p>Implements the log link $g(\mu) = \log(\mu)$, which has inverse $g^{-1}(\eta) = \exp(\eta)$.</p>
           <aside class="copyright" role="note">
             
             Documentation built with
@@ -283,17 +319,33 @@
   <nav class="pagination" aria-label="Footer">
     <div class="previous">
       
+        <a href="../../example/example/" title="Getting Started">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                Getting Started
+              </div>
+            </div>
+          </div>
+        </a>
+      
     </div>
     <div class="next">
       
-        <a href="example/example/" title="Getting Started">
+        <a href="../../dist/dist/" title="Response Distributions">
           <span class="direction">
             Next
           </span>
           <div class="page">
             <div class="stretch">
               <div class="title">
-                Getting Started
+                Response Distributions
               </div>
             </div>
             <div class="button button-next" role="button" aria-label="Next">
@@ -319,14 +371,14 @@
       </div>
     </main>
     <script>
-      var base_url = '.';
+      var base_url = '../..';
       var repo_id  = 'huwenboshi/TraitSimulation.jl';
     </script>
-    <script src="./assets/javascripts/application-997097ee0c.js"></script>
+    <script src="../../assets/javascripts/application-997097ee0c.js"></script>
     
       <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
     
-      <script src="./assets/mathjaxhelper.js"></script>
+      <script src="../../assets/mathjaxhelper.js"></script>
     
     
   </body>
