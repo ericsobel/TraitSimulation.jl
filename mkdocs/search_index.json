@@ -29,6 +29,11 @@
             "location": "/types/types/", 
             "text": "", 
             "title": "Types"
+        }, 
+        {
+            "location": "/sim/sim/", 
+            "text": "", 
+            "title": "Generate Simulations"
         }
     ]
 }
