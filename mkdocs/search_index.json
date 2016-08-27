@@ -2,7 +2,7 @@
     "docs": [
         {
             "location": "/", 
-            "text": "TraitSimulation.jl (prototype)\n\n\nA Julia module to perform trait simulation.\n\n\n\n\nInstallation\n\n\nTo install TraitSimulation please type the following code in a Julia REPL:\n\n\nPkg.clone(\nhttps://github.com/huwenboshi/TraitSimulation.jl.git\n)\n\n\n\n\n\n\n\nKey Features\n\n\n\n\nSimulate trait under GLM and GLMM\n\n\nProvide convenient ways to specify the simulation model\n\n\n\n\n\n\nContact\n\n\nHuwenbo Shi\n (shihuwenbo [at] ucla [dot] edu)", 
+            "text": "TraitSimulation.jl (prototype)\n\n\nA Julia module to perform trait simulation.\n\n\n\n\nInstallation\n\n\nTraitSimulation requires Julia 0.5. To install TraitSimulation please type the following code in a Julia REPL:\n\n\nPkg.clone(\nhttps://github.com/huwenboshi/TraitSimulation.jl.git\n)\n\n\n\n\n\n\n\nUninstallation\n\n\nTo uninstall TraitSimulation please type the following code in a Julia REPL:\n\n\nPkg.rm(\nTraitSimulation\n)\n\n\n\n\n\nFor a complete uninstallation, please also remove the TraitSimulation directory in the .julia folder.\n\n\n\n\nKey Features\n\n\n\n\nSimulate trait under GLM and GLMM\n\n\nProvide convenient ways to specify the simulation model\n\n\n\n\n\n\nContact\n\n\nHuwenbo Shi\n (shihuwenbo [at] ucla [dot] edu)", 
             "title": "Introduction"
         }, 
         {
@@ -12,8 +12,13 @@
         }, 
         {
             "location": "/#installation", 
-            "text": "To install TraitSimulation please type the following code in a Julia REPL:  Pkg.clone( https://github.com/huwenboshi/TraitSimulation.jl.git )", 
+            "text": "TraitSimulation requires Julia 0.5. To install TraitSimulation please type the following code in a Julia REPL:  Pkg.clone( https://github.com/huwenboshi/TraitSimulation.jl.git )", 
             "title": "Installation"
+        }, 
+        {
+            "location": "/#uninstallation", 
+            "text": "To uninstall TraitSimulation please type the following code in a Julia REPL:  Pkg.rm( TraitSimulation )  For a complete uninstallation, please also remove the TraitSimulation directory in the .julia folder.", 
+            "title": "Uninstallation"
         }, 
         {
             "location": "/#key-features", 
@@ -54,6 +59,31 @@
             "location": "/example/example/#simulate-random-effects", 
             "text": "The following code snippet simulates a trait with Poisson response with two variance components, using the data frame created in  the first step .   \n\\mu = (0.2X_1 + 2.0) + X u + \\epsilon, u \\sim N(0, 0.04K), \\epsilon \\sim N(0, 0.8I), Y \\sim \\text{Pois}(\\mu)   # a fake GRM  K   =   cor ( data )  I   =   eye ( npeople )  \u03a3   =   [ VarianceComponent ( 0.2 ,   K ),   VarianceComponent ( 0.8 ,   I )]  \u03bc   =   Y   ~   0.2 X1 + 2.0  model   =   Model ( \u03bc ,   \u03a3 ,   LogLink (),   PoissonResponse ())  simulate ( model ,   data_frame )   We also provide the  @vc  macro to simplify the specification of the covariances. Note, the variables K and I must be defined before calling the  @vc  macro.  \u03a3   =   @ vc   0.2 K   +   0.8 I  model   =   Model ( \u03bc ,   \u03a3 ,   LogLink (),   PoissonResponse ())  simulate ( model ,   data_frame )   The following code snippet simulates two traits where the random effects have cross covariances.  # a fake GRM  K   =   cor ( data )  I   =   eye ( npeople )  A   =   [ 0.2   - 0.1 ;   - 0.1   0.3 ]  B   =   [ 0.8   - 0.2 ;   - 0.2   0.7 ]  \u03bc   =   [ Y1   ~   X1 + 0.2 X2 * X3 + 1.0 ,   Y2   ~   X3 + 0.1 log ( HDL + LDL ) + 0.1 ]  model   =   Model ( \u03bc ,   (@ vc   A   \u2297   K   +   B   \u2297   I ),   IdentityLink (),   NormalResponse ( 1.0 ))  simulate ( model ,   data_frame )", 
             "title": "Simulate random effects"
+        }, 
+        {
+            "location": "/model/model/", 
+            "text": "Simulating the Model\n\n\nThis section introduces the \nModel\n type for specifying the simulation model and the \nsimulate\n function for generating simulations according to the model. Types mentioned in this section are introduced in detail in the following sections.\n\n\n\n\nModel\n\n\nThe \nModel\n type provides two types of constructors for specifying a simulation module with / without random effect\n\n\n\n\nSpecify a simulation model with fixed-effect only\n\n\nModel\n(\nfrml\n::\nUnion\n{\nFormula\n,\n \nVector\n{\nFormula\n}},\n\n      \nlink\n::\nUnion\n{\nLinkFunction\n,\n \nVector\n{\nLinkFunction\n}},\n\n      \ndist\n::\nUnion\n{\nResponseDistribution\n,\n \nVector\n{\nResponseDistribution\n}})\n\n\n\n\n\n\nfrml\n can be a single formula, in which case, a single trait will be simulated, or an array of formula, in which case, multiple traits will be simulated. Here, we use the \nFormula\n type in the \nDataFrames\n module.\n\n\nlink\n can be a single \nLinkFunction\n, in which case, all traits will be simulated under the same link function, or an array of \nLinkFunction\n, in which case, each trait will be simulated under its own link function.\n\n\ndist\n can be a single \nResponseDistribution\n, in which case, all traits will have the same response distribution, or an array of \nResponseDistribution\n, in which case, each trait will have its own response distribution.\n\n\n\n\nSpecifying the variance components\n\n\nModel\n(\nfrml\n::\nUnion\n{\nFormula\n,\n \nVector\n{\nFormula\n}},\n\n      \nvc\n::\nVector\n{\nVarianceComponent\n},\n\n      \nlink\n::\nUnion\n{\nLinkFunction\n,\n \nVector\n{\nLinkFunction\n}},\n\n      \ndist\n::\nUnion\n{\nResponseDistribution\n,\n \nVector\n{\nResponseDistribution\n}})\n\n\n\n\n\n\nIn addition to the three parameters in the fixed-effect model constructor, the mixed-effect model constructors requires the additional parameter \nvc\n, an array of variance components.", 
+            "title": "Simulating the Model"
+        }, 
+        {
+            "location": "/model/model/#simulating-the-model", 
+            "text": "This section introduces the  Model  type for specifying the simulation model and the  simulate  function for generating simulations according to the model. Types mentioned in this section are introduced in detail in the following sections.", 
+            "title": "Simulating the Model"
+        }, 
+        {
+            "location": "/model/model/#model", 
+            "text": "The  Model  type provides two types of constructors for specifying a simulation module with / without random effect", 
+            "title": "Model"
+        }, 
+        {
+            "location": "/model/model/#specify-a-simulation-model-with-fixed-effect-only", 
+            "text": "Model ( frml :: Union { Formula ,   Vector { Formula }}, \n       link :: Union { LinkFunction ,   Vector { LinkFunction }}, \n       dist :: Union { ResponseDistribution ,   Vector { ResponseDistribution }})   frml  can be a single formula, in which case, a single trait will be simulated, or an array of formula, in which case, multiple traits will be simulated. Here, we use the  Formula  type in the  DataFrames  module.  link  can be a single  LinkFunction , in which case, all traits will be simulated under the same link function, or an array of  LinkFunction , in which case, each trait will be simulated under its own link function.  dist  can be a single  ResponseDistribution , in which case, all traits will have the same response distribution, or an array of  ResponseDistribution , in which case, each trait will have its own response distribution.", 
+            "title": "Specify a simulation model with fixed-effect only"
+        }, 
+        {
+            "location": "/model/model/#specifying-the-variance-components", 
+            "text": "Model ( frml :: Union { Formula ,   Vector { Formula }}, \n       vc :: Vector { VarianceComponent }, \n       link :: Union { LinkFunction ,   Vector { LinkFunction }}, \n       dist :: Union { ResponseDistribution ,   Vector { ResponseDistribution }})   In addition to the three parameters in the fixed-effect model constructor, the mixed-effect model constructors requires the additional parameter  vc , an array of variance components.", 
+            "title": "Specifying the variance components"
         }, 
         {
             "location": "/link/link/", 
@@ -107,13 +137,63 @@
         }, 
         {
             "location": "/dist/dist/", 
-            "text": "", 
+            "text": "Response Distribution\n\n\nThis sections lists the response distributions supported by the TraitSimulation module.\n\n\n\n\nResponseDistribution\n\n\nResponseDistribution\n is an abstract type. It\ns the super type of each specific response distribution listed below. All sub types of \nResponseDistribution\n have constructors of the form \n[distribution type](...)\n. Parameter(s) passed to the constructor of each ResponseDistribution are specific to the type of the distribution.\n\n\n\n\nNormalResponse\n\n\nConstructs a normal response type, through \nNormalResponse(\u03c3)\n, where \n\u03c3\n is the standard deviation of the normal distribution.\n\n\n\n\nBinomialResponse\n\n\nConstructs a binomial response type, through \nBinomialResponse(n)\n, where \nn\n is the number of trials in the binomial distribution.\n\n\n\n\nTResponse\n\n\nConstructs a T response type, through \nTResponse(\u03bd)\n,  where \n\u03bd\n is the degrees of freedom. The simulated trait is a shifted (by $\\mu$) version of T response.\n\n\n\n\nGammaResponse\n\n\nConstructs a Gamma response type, through \nGammaResponse(\u03b1)\n, where \n\u03b1\n is the shape parameter.\n\n\n\n\nInverseGaussianResponse\n\n\nConstructs an inverse Gaussian response, through \nInverseGaussianResponse(\u03bb)\n where \n\u03bb\n is the shape parameter.\n\n\n\n\nPoissonResponse\n\n\nConstructs a Poisson response, through \nPoisson()\n.\n\n\n\n\nExponentialResponse\n\n\nConstructs an exponential response, through \nExponentialResponse()\n.\n\n\n\n\nBernoulliResponse\n\n\nConstructs a Bernoulli response, through \nBernoulli()\n.", 
             "title": "Response Distributions"
         }, 
         {
-            "location": "/func/func/", 
+            "location": "/dist/dist/#response-distribution", 
+            "text": "This sections lists the response distributions supported by the TraitSimulation module.", 
+            "title": "Response Distribution"
+        }, 
+        {
+            "location": "/dist/dist/#responsedistribution", 
+            "text": "ResponseDistribution  is an abstract type. It s the super type of each specific response distribution listed below. All sub types of  ResponseDistribution  have constructors of the form  [distribution type](...) . Parameter(s) passed to the constructor of each ResponseDistribution are specific to the type of the distribution.", 
+            "title": "ResponseDistribution"
+        }, 
+        {
+            "location": "/dist/dist/#normalresponse", 
+            "text": "Constructs a normal response type, through  NormalResponse(\u03c3) , where  \u03c3  is the standard deviation of the normal distribution.", 
+            "title": "NormalResponse"
+        }, 
+        {
+            "location": "/dist/dist/#binomialresponse", 
+            "text": "Constructs a binomial response type, through  BinomialResponse(n) , where  n  is the number of trials in the binomial distribution.", 
+            "title": "BinomialResponse"
+        }, 
+        {
+            "location": "/dist/dist/#tresponse", 
+            "text": "Constructs a T response type, through  TResponse(\u03bd) ,  where  \u03bd  is the degrees of freedom. The simulated trait is a shifted (by $\\mu$) version of T response.", 
+            "title": "TResponse"
+        }, 
+        {
+            "location": "/dist/dist/#gammaresponse", 
+            "text": "Constructs a Gamma response type, through  GammaResponse(\u03b1) , where  \u03b1  is the shape parameter.", 
+            "title": "GammaResponse"
+        }, 
+        {
+            "location": "/dist/dist/#inversegaussianresponse", 
+            "text": "Constructs an inverse Gaussian response, through  InverseGaussianResponse(\u03bb)  where  \u03bb  is the shape parameter.", 
+            "title": "InverseGaussianResponse"
+        }, 
+        {
+            "location": "/dist/dist/#poissonresponse", 
+            "text": "Constructs a Poisson response, through  Poisson() .", 
+            "title": "PoissonResponse"
+        }, 
+        {
+            "location": "/dist/dist/#exponentialresponse", 
+            "text": "Constructs an exponential response, through  ExponentialResponse() .", 
+            "title": "ExponentialResponse"
+        }, 
+        {
+            "location": "/dist/dist/#bernoulliresponse", 
+            "text": "Constructs a Bernoulli response, through  Bernoulli() .", 
+            "title": "BernoulliResponse"
+        }, 
+        {
+            "location": "/vc/vc/", 
             "text": "", 
-            "title": "Functions and Macros"
+            "title": "Variance Components"
         }
     ]
 }

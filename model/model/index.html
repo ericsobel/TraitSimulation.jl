@@ -9,10 +9,8 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>TraitSimulation.jl - A julia module to perform trait simulation</title>
+        <title>Simulating the Model - TraitSimulation.jl</title>
       
-      
-        <meta name="description" content="A julia module to perform trait simulation">
       
       
       
@@ -21,33 +19,33 @@
     
     <meta property="og:url" content="None">
     <meta property="og:title" content="TraitSimulation.jl">
-    <meta property="og:image" content="None/./">
+    <meta property="og:image" content="None/../../">
     <meta name="apple-mobile-web-app-title" content="TraitSimulation.jl">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     
-    <link rel="shortcut icon" type="image/x-icon" href="./assets/images/favicon-e565ddfa3b.ico">
-    <link rel="icon" type="image/x-icon" href="./assets/images/favicon-e565ddfa3b.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
     <style>
       @font-face {
       	font-family: 'Icon';
-      	src: url('./assets/fonts/icon.eot?52m981');
-      	src: url('./assets/fonts/icon.eot?#iefix52m981')
+      	src: url('../../assets/fonts/icon.eot?52m981');
+      	src: url('../../assets/fonts/icon.eot?#iefix52m981')
                format('embedded-opentype'),
-      		   url('./assets/fonts/icon.woff?52m981')
+      		   url('../../assets/fonts/icon.woff?52m981')
                format('woff'),
-      		   url('./assets/fonts/icon.ttf?52m981')
+      		   url('../../assets/fonts/icon.ttf?52m981')
                format('truetype'),
-      		   url('./assets/fonts/icon.svg?52m981#icon')
+      		   url('../../assets/fonts/icon.svg?52m981#icon')
                format('svg');
       	font-weight: normal;
       	font-style: normal;
       }
     </style>
-    <link rel="stylesheet" href="./assets/stylesheets/application-a422ff04cc.css">
+    <link rel="stylesheet" href="../../assets/stylesheets/application-a422ff04cc.css">
     
-      <link rel="stylesheet" href="./assets/stylesheets/palettes-05ab2406df.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/palettes-05ab2406df.css">
     
     
       
@@ -64,9 +62,9 @@
       </style>
     
     
-      <link rel="stylesheet" href="./assets/Documenter.css">
+      <link rel="stylesheet" href="../../assets/Documenter.css">
     
-    <script src="./assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    <script src="../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
     
   </head>
   
@@ -98,7 +96,7 @@
             
           </span>
         
-        TraitSimulation.jl
+        Simulating the Model
       </div>
     </div>
     
@@ -168,8 +166,26 @@
           
             
   <li>
-    <a class="current" title="Introduction" href=".">
+    <a class="" title="Introduction" href="../..">
       Introduction
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Getting Started" href="../../example/example/">
+      Getting Started
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="current" title="Simulating the Model" href="./">
+      Simulating the Model
     </a>
     
       
@@ -179,26 +195,8 @@
         <ul>
           
             <li class="anchor">
-              <a title="Installation" href="#installation">
-                Installation
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Uninstallation" href="#uninstallation">
-                Uninstallation
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Key Features" href="#key-features">
-                Key Features
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Contact" href="#contact">
-                Contact
+              <a title="Model" href="#model">
+                Model
               </a>
             </li>
           
@@ -210,25 +208,7 @@
           
             
   <li>
-    <a class="" title="Getting Started" href="example/example/">
-      Getting Started
-    </a>
-    
-  </li>
-
-          
-            
-  <li>
-    <a class="" title="Simulating the Model" href="model/model/">
-      Simulating the Model
-    </a>
-    
-  </li>
-
-          
-            
-  <li>
-    <a class="" title="Link Functions" href="link/link/">
+    <a class="" title="Link Functions" href="../../link/link/">
       Link Functions
     </a>
     
@@ -237,7 +217,7 @@
           
             
   <li>
-    <a class="" title="Response Distributions" href="dist/dist/">
+    <a class="" title="Response Distributions" href="../../dist/dist/">
       Response Distributions
     </a>
     
@@ -246,7 +226,7 @@
           
             
   <li>
-    <a class="" title="Variance Components" href="vc/vc/">
+    <a class="" title="Variance Components" href="../../vc/vc/">
       Variance Components
     </a>
     
@@ -263,33 +243,33 @@
       <article class="article">
         <div class="wrapper">
           
-          <p><a id='TraitSimulation.jl-(prototype)-1'></a></p>
-<h1 id="traitsimulationjl-prototype">TraitSimulation.jl (prototype)</h1>
-<p>A Julia module to perform trait simulation.</p>
-<p><a id='Installation-1'></a></p>
-<h2 id="installation">Installation</h2>
-<p>TraitSimulation requires Julia 0.5. To install TraitSimulation please type the following code in a Julia REPL:</p>
-<div class="codehilite"><pre>Pkg.clone(&quot;https://github.com/huwenboshi/TraitSimulation.jl.git&quot;)
+          <p><a id='Simulating-the-Model-1'></a></p>
+<h1 id="simulating-the-model">Simulating the Model</h1>
+<p>This section introduces the <code>Model</code> type for specifying the simulation model and the <code>simulate</code> function for generating simulations according to the model. Types mentioned in this section are introduced in detail in the following sections.</p>
+<p><a id='Model-1'></a></p>
+<h2 id="model">Model</h2>
+<p>The <code>Model</code> type provides two types of constructors for specifying a simulation module with / without random effect</p>
+<p><a id='Specify-a-simulation-model-with-fixed-effect-only-1'></a></p>
+<h3 id="specify-a-simulation-model-with-fixed-effect-only">Specify a simulation model with fixed-effect only</h3>
+<div class="codehilite"><pre><span class="n">Model</span><span class="p">(</span><span class="n">frml</span><span class="p">::</span><span class="n">Union</span><span class="p">{</span><span class="n">Formula</span><span class="p">,</span> <span class="n">Vector</span><span class="p">{</span><span class="n">Formula</span><span class="p">}},</span>
+      <span class="n">link</span><span class="p">::</span><span class="n">Union</span><span class="p">{</span><span class="n">LinkFunction</span><span class="p">,</span> <span class="n">Vector</span><span class="p">{</span><span class="n">LinkFunction</span><span class="p">}},</span>
+      <span class="n">dist</span><span class="p">::</span><span class="n">Union</span><span class="p">{</span><span class="n">ResponseDistribution</span><span class="p">,</span> <span class="n">Vector</span><span class="p">{</span><span class="n">ResponseDistribution</span><span class="p">}})</span>
 </pre></div>
 
 
-<p><a id='Uninstallation-1'></a></p>
-<h2 id="uninstallation">Uninstallation</h2>
-<p>To uninstall TraitSimulation please type the following code in a Julia REPL:</p>
-<div class="codehilite"><pre>Pkg.rm(&quot;TraitSimulation&quot;)
+<p><code>frml</code> can be a single formula, in which case, a single trait will be simulated, or an array of formula, in which case, multiple traits will be simulated. Here, we use the <code>Formula</code> type in the <code>DataFrames</code> module.</p>
+<p><code>link</code> can be a single <code>LinkFunction</code>, in which case, all traits will be simulated under the same link function, or an array of <code>LinkFunction</code>, in which case, each trait will be simulated under its own link function.</p>
+<p><code>dist</code> can be a single <code>ResponseDistribution</code>, in which case, all traits will have the same response distribution, or an array of <code>ResponseDistribution</code>, in which case, each trait will have its own response distribution.</p>
+<p><a id='Specifying-the-variance-components-1'></a></p>
+<h3 id="specifying-the-variance-components">Specifying the variance components</h3>
+<div class="codehilite"><pre><span class="n">Model</span><span class="p">(</span><span class="n">frml</span><span class="p">::</span><span class="n">Union</span><span class="p">{</span><span class="n">Formula</span><span class="p">,</span> <span class="n">Vector</span><span class="p">{</span><span class="n">Formula</span><span class="p">}},</span>
+      <span class="n">vc</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">VarianceComponent</span><span class="p">},</span>
+      <span class="n">link</span><span class="p">::</span><span class="n">Union</span><span class="p">{</span><span class="n">LinkFunction</span><span class="p">,</span> <span class="n">Vector</span><span class="p">{</span><span class="n">LinkFunction</span><span class="p">}},</span>
+      <span class="n">dist</span><span class="p">::</span><span class="n">Union</span><span class="p">{</span><span class="n">ResponseDistribution</span><span class="p">,</span> <span class="n">Vector</span><span class="p">{</span><span class="n">ResponseDistribution</span><span class="p">}})</span>
 </pre></div>
 
 
-<p>For a complete uninstallation, please also remove the TraitSimulation directory in the .julia folder.</p>
-<p><a id='Key-Features-1'></a></p>
-<h2 id="key-features">Key Features</h2>
-<ol>
-<li>Simulate trait under GLM and GLMM</li>
-<li>Provide convenient ways to specify the simulation model</li>
-</ol>
-<p><a id='Contact-1'></a></p>
-<h2 id="contact">Contact</h2>
-<p><a href="https://huwenboshi.github.io">Huwenbo Shi</a> (shihuwenbo [at] ucla [dot] edu)</p>
+<p>In addition to the three parameters in the fixed-effect model constructor, the mixed-effect model constructors requires the additional parameter <code>vc</code>, an array of variance components.</p>
           <aside class="copyright" role="note">
             
             Documentation built with
@@ -306,17 +286,33 @@
   <nav class="pagination" aria-label="Footer">
     <div class="previous">
       
+        <a href="../../example/example/" title="Getting Started">
+          <span class="direction">
+            Previous
+          </span>
+          <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
+            <div class="stretch">
+              <div class="title">
+                Getting Started
+              </div>
+            </div>
+          </div>
+        </a>
+      
     </div>
     <div class="next">
       
-        <a href="example/example/" title="Getting Started">
+        <a href="../../link/link/" title="Link Functions">
           <span class="direction">
             Next
           </span>
           <div class="page">
             <div class="stretch">
               <div class="title">
-                Getting Started
+                Link Functions
               </div>
             </div>
             <div class="button button-next" role="button" aria-label="Next">
@@ -342,14 +338,14 @@
       </div>
     </main>
     <script>
-      var base_url = '.';
+      var base_url = '../..';
       var repo_id  = 'huwenboshi/TraitSimulation.jl';
     </script>
-    <script src="./assets/javascripts/application-997097ee0c.js"></script>
+    <script src="../../assets/javascripts/application-997097ee0c.js"></script>
     
       <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
     
-      <script src="./assets/mathjaxhelper.js"></script>
+      <script src="../../assets/mathjaxhelper.js"></script>
     
     
   </body>

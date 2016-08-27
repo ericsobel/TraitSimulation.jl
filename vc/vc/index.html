@@ -9,10 +9,8 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>TraitSimulation.jl - A julia module to perform trait simulation</title>
+        <title>Variance Components - TraitSimulation.jl</title>
       
-      
-        <meta name="description" content="A julia module to perform trait simulation">
       
       
       
@@ -21,33 +19,33 @@
     
     <meta property="og:url" content="None">
     <meta property="og:title" content="TraitSimulation.jl">
-    <meta property="og:image" content="None/./">
+    <meta property="og:image" content="None/../../">
     <meta name="apple-mobile-web-app-title" content="TraitSimulation.jl">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     
     
-    <link rel="shortcut icon" type="image/x-icon" href="./assets/images/favicon-e565ddfa3b.ico">
-    <link rel="icon" type="image/x-icon" href="./assets/images/favicon-e565ddfa3b.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
+    <link rel="icon" type="image/x-icon" href="../../assets/images/favicon-e565ddfa3b.ico">
     <style>
       @font-face {
       	font-family: 'Icon';
-      	src: url('./assets/fonts/icon.eot?52m981');
-      	src: url('./assets/fonts/icon.eot?#iefix52m981')
+      	src: url('../../assets/fonts/icon.eot?52m981');
+      	src: url('../../assets/fonts/icon.eot?#iefix52m981')
                format('embedded-opentype'),
-      		   url('./assets/fonts/icon.woff?52m981')
+      		   url('../../assets/fonts/icon.woff?52m981')
                format('woff'),
-      		   url('./assets/fonts/icon.ttf?52m981')
+      		   url('../../assets/fonts/icon.ttf?52m981')
                format('truetype'),
-      		   url('./assets/fonts/icon.svg?52m981#icon')
+      		   url('../../assets/fonts/icon.svg?52m981#icon')
                format('svg');
       	font-weight: normal;
       	font-style: normal;
       }
     </style>
-    <link rel="stylesheet" href="./assets/stylesheets/application-a422ff04cc.css">
+    <link rel="stylesheet" href="../../assets/stylesheets/application-a422ff04cc.css">
     
-      <link rel="stylesheet" href="./assets/stylesheets/palettes-05ab2406df.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/palettes-05ab2406df.css">
     
     
       
@@ -64,9 +62,9 @@
       </style>
     
     
-      <link rel="stylesheet" href="./assets/Documenter.css">
+      <link rel="stylesheet" href="../../assets/Documenter.css">
     
-    <script src="./assets/javascripts/modernizr-4ab42b99fd.js"></script>
+    <script src="../../assets/javascripts/modernizr-4ab42b99fd.js"></script>
     
   </head>
   
@@ -98,7 +96,7 @@
             
           </span>
         
-        TraitSimulation.jl
+        Variance Components
       </div>
     </div>
     
@@ -168,49 +166,16 @@
           
             
   <li>
-    <a class="current" title="Introduction" href=".">
+    <a class="" title="Introduction" href="../..">
       Introduction
     </a>
-    
-      
-        
-      
-      
-        <ul>
-          
-            <li class="anchor">
-              <a title="Installation" href="#installation">
-                Installation
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Uninstallation" href="#uninstallation">
-                Uninstallation
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Key Features" href="#key-features">
-                Key Features
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="Contact" href="#contact">
-                Contact
-              </a>
-            </li>
-          
-        </ul>
-      
     
   </li>
 
           
             
   <li>
-    <a class="" title="Getting Started" href="example/example/">
+    <a class="" title="Getting Started" href="../../example/example/">
       Getting Started
     </a>
     
@@ -219,7 +184,7 @@
           
             
   <li>
-    <a class="" title="Simulating the Model" href="model/model/">
+    <a class="" title="Simulating the Model" href="../../model/model/">
       Simulating the Model
     </a>
     
@@ -228,7 +193,7 @@
           
             
   <li>
-    <a class="" title="Link Functions" href="link/link/">
+    <a class="" title="Link Functions" href="../../link/link/">
       Link Functions
     </a>
     
@@ -237,7 +202,7 @@
           
             
   <li>
-    <a class="" title="Response Distributions" href="dist/dist/">
+    <a class="" title="Response Distributions" href="../../dist/dist/">
       Response Distributions
     </a>
     
@@ -246,9 +211,12 @@
           
             
   <li>
-    <a class="" title="Variance Components" href="vc/vc/">
+    <a class="current" title="Variance Components" href="./">
       Variance Components
     </a>
+    
+      
+      
     
   </li>
 
@@ -263,33 +231,9 @@
       <article class="article">
         <div class="wrapper">
           
-          <p><a id='TraitSimulation.jl-(prototype)-1'></a></p>
-<h1 id="traitsimulationjl-prototype">TraitSimulation.jl (prototype)</h1>
-<p>A Julia module to perform trait simulation.</p>
-<p><a id='Installation-1'></a></p>
-<h2 id="installation">Installation</h2>
-<p>TraitSimulation requires Julia 0.5. To install TraitSimulation please type the following code in a Julia REPL:</p>
-<div class="codehilite"><pre>Pkg.clone(&quot;https://github.com/huwenboshi/TraitSimulation.jl.git&quot;)
-</pre></div>
-
-
-<p><a id='Uninstallation-1'></a></p>
-<h2 id="uninstallation">Uninstallation</h2>
-<p>To uninstall TraitSimulation please type the following code in a Julia REPL:</p>
-<div class="codehilite"><pre>Pkg.rm(&quot;TraitSimulation&quot;)
-</pre></div>
-
-
-<p>For a complete uninstallation, please also remove the TraitSimulation directory in the .julia folder.</p>
-<p><a id='Key-Features-1'></a></p>
-<h2 id="key-features">Key Features</h2>
-<ol>
-<li>Simulate trait under GLM and GLMM</li>
-<li>Provide convenient ways to specify the simulation model</li>
-</ol>
-<p><a id='Contact-1'></a></p>
-<h2 id="contact">Contact</h2>
-<p><a href="https://huwenboshi.github.io">Huwenbo Shi</a> (shihuwenbo [at] ucla [dot] edu)</p>
+            <h1>Variance Components</h1>
+          
+          
           <aside class="copyright" role="note">
             
             Documentation built with
@@ -306,24 +250,24 @@
   <nav class="pagination" aria-label="Footer">
     <div class="previous">
       
-    </div>
-    <div class="next">
-      
-        <a href="example/example/" title="Getting Started">
+        <a href="../../dist/dist/" title="Response Distributions">
           <span class="direction">
-            Next
+            Previous
           </span>
           <div class="page">
+            <div class="button button-previous" role="button" aria-label="Previous">
+              <i class="icon icon-back"></i>
+            </div>
             <div class="stretch">
               <div class="title">
-                Getting Started
+                Response Distributions
               </div>
-            </div>
-            <div class="button button-next" role="button" aria-label="Next">
-              <i class="icon icon-forward"></i>
             </div>
           </div>
         </a>
+      
+    </div>
+    <div class="next">
       
     </div>
   </nav>
@@ -342,14 +286,14 @@
       </div>
     </main>
     <script>
-      var base_url = '.';
+      var base_url = '../..';
       var repo_id  = 'huwenboshi/TraitSimulation.jl';
     </script>
-    <script src="./assets/javascripts/application-997097ee0c.js"></script>
+    <script src="../../assets/javascripts/application-997097ee0c.js"></script>
     
       <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
     
-      <script src="./assets/mathjaxhelper.js"></script>
+      <script src="../../assets/mathjaxhelper.js"></script>
     
     
   </body>

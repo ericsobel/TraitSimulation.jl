@@ -184,6 +184,15 @@
           
             
   <li>
+    <a class="" title="Simulating the Model" href="../../model/model/">
+      Simulating the Model
+    </a>
+    
+  </li>
+
+          
+            
+  <li>
     <a class="" title="Link Functions" href="../../link/link/">
       Link Functions
     </a>
@@ -198,6 +207,66 @@
     </a>
     
       
+        
+      
+      
+        <ul>
+          
+            <li class="anchor">
+              <a title="ResponseDistribution" href="#responsedistribution">
+                ResponseDistribution
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="NormalResponse" href="#normalresponse">
+                NormalResponse
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="BinomialResponse" href="#binomialresponse">
+                BinomialResponse
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="TResponse" href="#tresponse">
+                TResponse
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="GammaResponse" href="#gammaresponse">
+                GammaResponse
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="InverseGaussianResponse" href="#inversegaussianresponse">
+                InverseGaussianResponse
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="PoissonResponse" href="#poissonresponse">
+                PoissonResponse
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="ExponentialResponse" href="#exponentialresponse">
+                ExponentialResponse
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="BernoulliResponse" href="#bernoulliresponse">
+                BernoulliResponse
+              </a>
+            </li>
+          
+        </ul>
       
     
   </li>
@@ -205,8 +274,8 @@
           
             
   <li>
-    <a class="" title="Functions and Macros" href="../../func/func/">
-      Functions and Macros
+    <a class="" title="Variance Components" href="../../vc/vc/">
+      Variance Components
     </a>
     
   </li>
@@ -222,9 +291,36 @@
       <article class="article">
         <div class="wrapper">
           
-            <h1>Response Distributions</h1>
-          
-          
+          <p><a id='Response-Distribution-1'></a></p>
+<h1 id="response-distribution">Response Distribution</h1>
+<p>This sections lists the response distributions supported by the TraitSimulation module.</p>
+<p><a id='ResponseDistribution-1'></a></p>
+<h2 id="responsedistribution">ResponseDistribution</h2>
+<p><code>ResponseDistribution</code> is an abstract type. It&rsquo;s the super type of each specific response distribution listed below. All sub types of <code>ResponseDistribution</code> have constructors of the form <code>[distribution type](...)</code>. Parameter(s) passed to the constructor of each ResponseDistribution are specific to the type of the distribution.</p>
+<p><a id='NormalResponse-1'></a></p>
+<h2 id="normalresponse">NormalResponse</h2>
+<p>Constructs a normal response type, through <code>NormalResponse(σ)</code>, where <code>σ</code> is the standard deviation of the normal distribution.</p>
+<p><a id='BinomialResponse-1'></a></p>
+<h2 id="binomialresponse">BinomialResponse</h2>
+<p>Constructs a binomial response type, through <code>BinomialResponse(n)</code>, where <code>n</code> is the number of trials in the binomial distribution.</p>
+<p><a id='TResponse-1'></a></p>
+<h2 id="tresponse">TResponse</h2>
+<p>Constructs a T response type, through <code>TResponse(ν)</code>,  where <code>ν</code> is the degrees of freedom. The simulated trait is a shifted (by $\mu$) version of T response.</p>
+<p><a id='GammaResponse-1'></a></p>
+<h2 id="gammaresponse">GammaResponse</h2>
+<p>Constructs a Gamma response type, through <code>GammaResponse(α)</code>, where <code>α</code> is the shape parameter.</p>
+<p><a id='InverseGaussianResponse-1'></a></p>
+<h2 id="inversegaussianresponse">InverseGaussianResponse</h2>
+<p>Constructs an inverse Gaussian response, through <code>InverseGaussianResponse(λ)</code> where <code>λ</code> is the shape parameter.</p>
+<p><a id='PoissonResponse-1'></a></p>
+<h2 id="poissonresponse">PoissonResponse</h2>
+<p>Constructs a Poisson response, through <code>Poisson()</code>.</p>
+<p><a id='ExponentialResponse-1'></a></p>
+<h2 id="exponentialresponse">ExponentialResponse</h2>
+<p>Constructs an exponential response, through <code>ExponentialResponse()</code>.</p>
+<p><a id='BernoulliResponse-1'></a></p>
+<h2 id="bernoulliresponse">BernoulliResponse</h2>
+<p>Constructs a Bernoulli response, through <code>Bernoulli()</code>.</p>
           <aside class="copyright" role="note">
             
             Documentation built with
@@ -260,14 +356,14 @@
     </div>
     <div class="next">
       
-        <a href="../../func/func/" title="Functions and Macros">
+        <a href="../../vc/vc/" title="Variance Components">
           <span class="direction">
             Next
           </span>
           <div class="page">
             <div class="stretch">
               <div class="title">
-                Functions and Macros
+                Variance Components
               </div>
             </div>
             <div class="button button-next" role="button" aria-label="Next">

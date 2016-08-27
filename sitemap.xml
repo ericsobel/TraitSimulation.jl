@@ -19,6 +19,14 @@
 
     
     <url>
+     <loc>None/model/model/</loc>
+     <lastmod>2016-08-27</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+    <url>
      <loc>None/link/link/</loc>
      <lastmod>2016-08-27</lastmod>
      <changefreq>daily</changefreq>
@@ -35,7 +43,7 @@
 
     
     <url>
-     <loc>None/func/func/</loc>
+     <loc>None/vc/vc/</loc>
      <lastmod>2016-08-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
