@@ -2,33 +2,43 @@
  
 A Julia module to perform trait simulation.
 
-## Key features
+## Installation
+
+```
+Pkg.clone("https://github.com/huwenboshi/TraitSimulation.jl.git")
+```
+
+## Key Features
  
 1. Simulate trait under GLM and GLMM
 2. Provide convenient ways to specify the simulation model
 
-## Tutorials
- 
+## Getting Started
+
+test getting started
+
 ```@contents
 Pages = [
-    "tutorials/page1.md",
-    "tutorials/page2.md",
-    "tutorials/page3.md"
+    "example/create_test_data.md",
+    "example/sim_fixed.md",
+    "example/sim_mixed.md",
     ]
 Depth = 2
 ```
+## Types
  
-## Another Section
+test types
+
 ```@contents
 Pages = [
-    "sec2/page1.md",
-    "sec2/page2.md",
-    "sec2/page3.md"
+    "types/model_type.md"
+    "types/vc_type.md",
+    "types/link_type.md",
+    "types/resp_dist_type.md"
     ]
 Depth = 2
 ```
- 
 ## Index
  
 ```@index
-```
+``` 
