@@ -50,11 +50,6 @@ names!(data_frame, [:X1, :X2, :X3, :X4, :X5, :HDL, :LDL])
 
 #### Simulate a single trait with Normal response
 
-$\mu = -0.2X_1 + 0.1X_2 \times X_5 + 0.3\log(\text{HDL} + \text{LDL})$
-
-$y \sim N(\mu, 1.0)$
-
-
 ```julia
 model = Model(Y ~ -0.2X1+0.1X2*X5+0.3log(HDL+LDL),
     IdentityLink(), NormalResponse(1.0))
@@ -63,11 +58,6 @@ simulate(model, data_frame)
 
 #### Simulate three traits with different mean but same response distribution
 
-$\mu_1 = 0.2X1+3.0$, $\mu_2 = 0.3X_3+2.0$, $\mu_3 = 0.3X_4+\text{HDL}$
-
-$y_1 \sim N(\mu_1, 1.0)$, $y_2 \sim N(\mu_2, 1.0)$, $y_3 \sim N(\mu_3, 1.0)$
-
-
 ```julia
 model = Model([Y1 ~ 0.2X1+3.0, Y2 ~ 0.1X3+2.0, Y3 ~ 0.3X4+HDL],
     IdentityLink(), NormalResponse(1.0))
@@ -75,16 +65,6 @@ simulate(model, data_frame)
 ```
 
 #### Simulate three traits with Binomial, Poisson, and Normal response
-
-$\mu_1 = 0.2X_1 + 3.0$, 
-$y_1 \sim \text{Bin}(100, \mu_1)$
-
-$\mu_2 = 0.1X_3 + 2.0$, 
-$y_2 \sim \text{Pois}(\mu_2)$
-
-$\mu_3 = 0.3X_4 + HDL$, 
-$y_3 \sim N(\mu_3, 2.0)$
-
 
 ```julia
 μ = [Y1 ~ 0.2X1+3.0, Y2 ~ 0.1X3+2.0, Y3 ~ 0.3X4+HDL]
@@ -95,11 +75,6 @@ simulate(model, data_frame)
 ```
 
 #### Simulate a single Poisson distributed trait with two variance components
-
-$\mu = (0.2X_1 + 2.0) + X u + \epsilon$, $u \sim N(0, 0.04K)$, $\epsilon \sim N(0, 0.8I)$
-
-$y \sim \text{Pois}(\mu)$
-
 
 ```julia
 μ = Y ~ 0.2X1+2.0
