@@ -2,18 +2,18 @@
     "docs": [
         {
             "location": "/", 
-            "text": "Documentation Title\n\n\nSome text describing the package.\n\n\n\n\nSubtitle\n\n\nMore text\n\n\n\n\nTutorials\n\n\n\n\nAnother Section\n\n\n\n\nIndex", 
+            "text": "TraitSimulation.jl (prototype)\n\n\nA \njulia\n module to perform trait simulation.\n\n\n\n\nKey features\n\n\n\n\nSimulate trait under GLM and GLMM\n\n\nProvide convenient ways to specify the simulation model\n\n\n\n\n\n\nTutorials\n\n\n\n\nAnother Section\n\n\n\n\nIndex", 
             "title": "Introduction"
         }, 
         {
-            "location": "/#documentation-title", 
-            "text": "Some text describing the package.", 
-            "title": "Documentation Title"
+            "location": "/#traitsimulationjl-prototype", 
+            "text": "A  julia  module to perform trait simulation.", 
+            "title": "TraitSimulation.jl (prototype)"
         }, 
         {
-            "location": "/#subtitle", 
-            "text": "More text", 
-            "title": "Subtitle"
+            "location": "/#key-features", 
+            "text": "Simulate trait under GLM and GLMM  Provide convenient ways to specify the simulation model", 
+            "title": "Key features"
         }, 
         {
             "location": "/#tutorials", 
