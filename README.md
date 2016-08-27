@@ -4,7 +4,6 @@
 phenotypes under a generalized linear model or generalized linear mixed model.
 
 [![Build Status](https://travis-ci.org/huwenboshi/TraitSimulation.jl.svg?branch=master)](https://travis-ci.org/huwenboshi/TraitSimulation.jl)
-
 [![](https://img.shields.io/badge/docs-latest-blue.svg)](https://huwenboshi.github.io/TraitSimulation.jl)
 
 ##Installation
