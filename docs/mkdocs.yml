@@ -1,7 +1,7 @@
-site_name:           https://huwenboshi.github.io/TraitSimulation.jl
+site_name:           TraitSimulation.jl
 repo_url:            https://github.com/huwenboshi/TraitSimulation.jl
-site_description:    Description
-site_author:         You
+site_description:    A julia module to perform trait simulation
+site_author:         Huwenbo Shi
 theme:               readthedocs
 
 markdown_extensions:
