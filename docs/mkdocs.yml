@@ -2,14 +2,21 @@ site_name:           TraitSimulation.jl
 repo_url:            https://github.com/huwenboshi/TraitSimulation.jl
 site_description:    A julia module to perform trait simulation
 site_author:         Huwenbo Shi
-theme:               readthedocs
+theme:               material
+
+extra:
+  palette:
+    primary: 'indigo'
+    accent:  'blue'
 
 markdown_extensions:
   - codehilite
   - extra
   - tables
   - fenced_code
-  - mdx_math # For LaTeX
+  - mdx_math
+  - smarty
+  - admonition
 
 extra_css:
   - assets/Documenter.css
@@ -23,5 +30,7 @@ docs_dir: 'build'
 pages:
 - Introduction: index.md
 - Getting Started: example/example.md
-- Types: types/types.md
-- Generate Simulations: sim/sim.md
+- Simulate the Model: model/model.md
+- Variance Components: vc/vc.md
+- Link Functions: link/link.md
+- Response Distributions: dist/dist.md

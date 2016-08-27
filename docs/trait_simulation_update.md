@@ -1,23 +1,17 @@
-##TraitSimulation
 
-*TraitSimulation* is a julia package that provides utilities to simulate
-phenotypes under a generalized linear model or generalized linear mixed model.
+# Trait Simulation Update
 
-[![Build Status](https://travis-ci.org/huwenboshi/TraitSimulation.jl.svg?branch=master)](https://travis-ci.org/huwenboshi/TraitSimulation.jl)
-[![](https://img.shields.io/badge/docs-latest-blue.svg)](https://huwenboshi.github.io/TraitSimulation.jl)
+## Huwenbo Shi
+#### UCLA Bioinformatics -- Prof. Bogdan Pasaniuc's Lab
+#### shihuwenbo@ucla.edu
 
-##Installation
+## Functionalities
 
-To install *TraitSimulation*, please type the following command in a julia
-interactive terminal
-```julia
-Pkg.clone("https://github.com/huwenboshi/TraitSimulation.jl.git")
-```
+1. Simulate under a generalized linear model or a generalized linear mixed model
+2. Can simulate single or multiple correlated traits
+3. Provide convenient ways to specify the simulation model 
 
-##Examples
-
-
-####Create a random data set for testing
+## Examples
 
 ### First, simulate some data
 
@@ -154,3 +148,16 @@ simulate(model, data_frame)
 
 
 <table class="data-frame"><tr><th></th><th>Y1</th><th>Y2</th></tr><tr><th>1</th><td>-0.10222997669454736</td><td>1.242014570782589</td></tr><tr><th>2</th><td>1.6985645798391524</td><td>-1.7314710486455063</td></tr><tr><th>3</th><td>0.6579712947986169</td><td>2.2033770111233073</td></tr><tr><th>4</th><td>1.0769182112301432</td><td>1.7076290809531234</td></tr><tr><th>5</th><td>2.9038228662096914</td><td>3.303032046765953</td></tr><tr><th>6</th><td>1.468375569093222</td><td>-0.31254353576852456</td></tr><tr><th>7</th><td>-1.3096109093801487</td><td>2.193982272458793</td></tr><tr><th>8</th><td>3.753520436943161</td><td>-2.1563700974996456</td></tr><tr><th>9</th><td>1.1805594385983615</td><td>0.29668922663399433</td></tr><tr><th>10</th><td>2.7257943887238394</td><td>-0.04193614515632327</td></tr></table>
+
+
+
+## Future work
+
+1. Add missingness to the trait simulation module
+2. Speed up the code in variance component simulation
+3. Add code to check user input and handle error gracefully
+
+
+```julia
+
+```
