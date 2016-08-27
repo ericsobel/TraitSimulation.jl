@@ -17,9 +17,7 @@ Pkg.clone("https://github.com/huwenboshi/TraitSimulation.jl.git")
 ##Examples
 
 
-####Create a random data set for testing
-
-### First, simulate some data
+#### First, simulate some data
 
 
 ```julia
@@ -50,7 +48,7 @@ names!(data_frame, [:X1, :X2, :X3, :X4, :X5, :HDL, :LDL])
 
 
 
-### Simulate a single trait with Normal response
+#### Simulate a single trait with Normal response
 
 $\mu = -0.2X_1 + 0.1X_2 \times X_5 + 0.3\log(\text{HDL} + \text{LDL})$
 
@@ -63,7 +61,7 @@ model = Model(Y ~ -0.2X1+0.1X2*X5+0.3log(HDL+LDL),
 simulate(model, data_frame)
 ```
 
-### Simulate three traits with different mean but same response distribution
+#### Simulate three traits with different mean but same response distribution
 
 $\mu_1 = 0.2X1+3.0$, $\mu_2 = 0.3X_3+2.0$, $\mu_3 = 0.3X_4+\text{HDL}$
 
@@ -76,7 +74,7 @@ model = Model([Y1 ~ 0.2X1+3.0, Y2 ~ 0.1X3+2.0, Y3 ~ 0.3X4+HDL],
 simulate(model, data_frame)
 ```
 
-### Simulate three traits with Binomial, Poisson, and Normal response
+#### Simulate three traits with Binomial, Poisson, and Normal response
 
 $\mu_1 = 0.2X_1 + 3.0$, 
 $y_1 \sim \text{Bin}(100, \mu_1)$
@@ -96,7 +94,7 @@ model = Model(μ, link, dist)
 simulate(model, data_frame)
 ```
 
-### Simulate a single Poisson distributed trait with two variance components
+#### Simulate a single Poisson distributed trait with two variance components
 
 $\mu = (0.2X_1 + 2.0) + X u + \epsilon$, $u \sim N(0, 0.04K)$, $\epsilon \sim N(0, 0.8I)$
 
@@ -119,7 +117,7 @@ simulate(model, data_frame)
 
 
 
-### A simple way to expression variance component model
+#### A simple way to expression variance component model
 
 Using the macro ```@vc``` instead of ```[VarianceComponent(0.2, K), VarianceComponent(0.8, I)]```
 
@@ -139,7 +137,7 @@ simulate(model, data_frame)
 
 
 
-### Simulate two traits with two variance components and cross covariance
+#### Simulate two traits with two variance components and cross covariance
 
 
 ```julia
