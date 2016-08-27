@@ -70,6 +70,11 @@
         
             <ul>
             
+                <li class="toctree-l3"><a href="#getting-started">Getting Started</a></li>
+                
+                    <li><a class="toctree-l4" href="#create-a-random-data-set">Create A Random Data Set</a></li>
+                
+            
             </ul>
         
     </li>
@@ -125,7 +130,30 @@
           <div role="main">
             <div class="section">
               
-                
+                <p><a id='Getting-Started-1'></a></p>
+<h1 id="getting-started">Getting Started</h1>
+<p>This section provides some examples on how to use the TraitSimulation module.</p>
+<p><a id='Create-A-Random-Data-Set-1'></a></p>
+<h2 id="create-a-random-data-set">Create A Random Data Set</h2>
+<div class="codehilite"><pre><span class="n">include</span><span class="p">(</span><span class="s">&quot;../src/TraitSimulation.jl&quot;</span><span class="p">);</span>
+<span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">TraitSimulation</span><span class="p">;</span>
+<span class="n">srand</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">npeople</span><span class="p">,</span> <span class="n">nsnp</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+<span class="n">snp_data</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="n">npeople</span><span class="p">,</span> <span class="n">nsnp</span><span class="p">);</span>
+<span class="n">freqs</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">];</span>
+<span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">nsnp</span>
+    <span class="n">snp_data</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">Binomial</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">freqs</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">npeople</span><span class="p">);</span>
+<span class="k">end</span>
+<span class="n">hdl_data</span><span class="p">,</span> <span class="n">ldl_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="n">npeople</span><span class="p">),</span>
+    <span class="n">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="n">npeople</span><span class="p">));</span>
+<span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">npeople</span>
+    <span class="n">hdl_data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">Uniform</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">80</span><span class="p">));</span>
+    <span class="n">ldl_data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">Uniform</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">80</span><span class="p">));</span>
+<span class="k">end</span>
+<span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">snp_data</span> <span class="n">hdl_data</span> <span class="n">ldl_data</span><span class="p">]</span>
+<span class="n">data_frame</span> <span class="o">=</span> <span class="nb">convert</span><span class="p">(</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">data</span><span class="p">);</span>
+<span class="n">names!</span><span class="p">(</span><span class="n">data_frame</span><span class="p">,</span> <span class="p">[:</span><span class="n">X1</span><span class="p">,</span> <span class="p">:</span><span class="n">X2</span><span class="p">,</span> <span class="p">:</span><span class="n">X3</span><span class="p">,</span> <span class="p">:</span><span class="n">X4</span><span class="p">,</span> <span class="p">:</span><span class="n">X5</span><span class="p">,</span> <span class="p">:</span><span class="n">HDL</span><span class="p">,</span> <span class="p">:</span><span class="n">LDL</span><span class="p">])</span>
+</pre></div>
               
             </div>
           </div>

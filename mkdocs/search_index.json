@@ -2,7 +2,7 @@
     "docs": [
         {
             "location": "/", 
-            "text": "TraitSimulation.jl (prototype)\n\n\nA Julia module to perform trait simulation.\n\n\n\n\nInstallation\n\n\nPkg.clone(\nhttps://github.com/huwenboshi/TraitSimulation.jl.git\n)\n\n\n\n\n\n\n\nKey Features\n\n\n\n\nSimulate trait under GLM and GLMM\n\n\nProvide convenient ways to specify the simulation model", 
+            "text": "TraitSimulation.jl (prototype)\n\n\nA Julia module to perform trait simulation.\n\n\n\n\nInstallation\n\n\nTo install TraitSimulation please type the following code in a Julia REPL:\n\n\nPkg.clone(\nhttps://github.com/huwenboshi/TraitSimulation.jl.git\n)\n\n\n\n\n\n\n\nKey Features\n\n\n\n\nSimulate trait under GLM and GLMM\n\n\nProvide convenient ways to specify the simulation model\n\n\n\n\n\n\nContact\n\n\nHuwenbo Shi\n (shihuwenbo [at] ucla [dot] edu)", 
             "title": "Introduction"
         }, 
         {
@@ -12,7 +12,7 @@
         }, 
         {
             "location": "/#installation", 
-            "text": "Pkg.clone( https://github.com/huwenboshi/TraitSimulation.jl.git )", 
+            "text": "To install TraitSimulation please type the following code in a Julia REPL:  Pkg.clone( https://github.com/huwenboshi/TraitSimulation.jl.git )", 
             "title": "Installation"
         }, 
         {
@@ -21,9 +21,24 @@
             "title": "Key Features"
         }, 
         {
+            "location": "/#contact", 
+            "text": "Huwenbo Shi  (shihuwenbo [at] ucla [dot] edu)", 
+            "title": "Contact"
+        }, 
+        {
             "location": "/example/example/", 
-            "text": "", 
+            "text": "Getting Started\n\n\nThis section provides some examples on how to use the TraitSimulation module.\n\n\n\n\nCreate A Random Data Set\n\n\ninclude\n(\n../src/TraitSimulation.jl\n);\n\n\nusing\n \nDataFrames\n,\n \nDistributions\n,\n \nTraitSimulation\n;\n\n\nsrand\n(\n1\n);\n\n\nnpeople\n,\n \nnsnp\n \n=\n \n(\n10\n,\n \n5\n);\n\n\nsnp_data\n \n=\n \nMatrix\n{\nFloat64\n}(\nnpeople\n,\n \nnsnp\n);\n\n\nfreqs\n \n=\n \n[\n0.2\n,\n \n0.3\n,\n \n0.4\n,\n \n0.7\n,\n \n0.5\n];\n\n\nfor\n \ni\n=\n1\n:\nnsnp\n\n    \nsnp_data\n[:,\ni\n]\n \n=\n \nrand\n(\nBinomial\n(\n2\n,\nfreqs\n[\ni\n]),\n \nnpeople\n);\n\n\nend\n\n\nhdl_data\n,\n \nldl_data\n \n=\n \n(\nVector\n{\nFloat64\n}(\nnpeople\n),\n\n    \nVector\n{\nFloat64\n}(\nnpeople\n));\n\n\nfor\n \ni\n=\n1\n:\nnpeople\n\n    \nhdl_data\n[\ni\n]\n \n=\n \nrand\n(\nUniform\n(\n20\n,\n80\n));\n\n    \nldl_data\n[\ni\n]\n \n=\n \nrand\n(\nUniform\n(\n20\n,\n80\n));\n\n\nend\n\n\ndata\n \n=\n \n[\nsnp_data\n \nhdl_data\n \nldl_data\n]\n\n\ndata_frame\n \n=\n \nconvert\n(\nDataFrame\n,\n \ndata\n);\n\n\nnames!\n(\ndata_frame\n,\n \n[:\nX1\n,\n \n:\nX2\n,\n \n:\nX3\n,\n \n:\nX4\n,\n \n:\nX5\n,\n \n:\nHDL\n,\n \n:\nLDL\n])", 
             "title": "Getting Started"
+        }, 
+        {
+            "location": "/example/example/#getting-started", 
+            "text": "This section provides some examples on how to use the TraitSimulation module.", 
+            "title": "Getting Started"
+        }, 
+        {
+            "location": "/example/example/#create-a-random-data-set", 
+            "text": "include ( ../src/TraitSimulation.jl );  using   DataFrames ,   Distributions ,   TraitSimulation ;  srand ( 1 );  npeople ,   nsnp   =   ( 10 ,   5 );  snp_data   =   Matrix { Float64 }( npeople ,   nsnp );  freqs   =   [ 0.2 ,   0.3 ,   0.4 ,   0.7 ,   0.5 ];  for   i = 1 : nsnp \n     snp_data [:, i ]   =   rand ( Binomial ( 2 , freqs [ i ]),   npeople );  end  hdl_data ,   ldl_data   =   ( Vector { Float64 }( npeople ), \n     Vector { Float64 }( npeople ));  for   i = 1 : npeople \n     hdl_data [ i ]   =   rand ( Uniform ( 20 , 80 )); \n     ldl_data [ i ]   =   rand ( Uniform ( 20 , 80 ));  end  data   =   [ snp_data   hdl_data   ldl_data ]  data_frame   =   convert ( DataFrame ,   data );  names! ( data_frame ,   [: X1 ,   : X2 ,   : X3 ,   : X4 ,   : X5 ,   : HDL ,   : LDL ])", 
+            "title": "Create A Random Data Set"
         }, 
         {
             "location": "/types/types/", 
