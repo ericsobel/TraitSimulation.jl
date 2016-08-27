@@ -10,47 +10,19 @@
     
 
     
-        
     <url>
-     <loc>None/tutorials/page1/</loc>
+     <loc>None/example/example/</loc>
      <lastmod>2016-08-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
-    <url>
-     <loc>None/tutorials/page2/</loc>
-     <lastmod>2016-08-27</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>None/tutorials/page3/</loc>
-     <lastmod>2016-08-27</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
     
 
     
-        
     <url>
-     <loc>None/sec2/page1/</loc>
+     <loc>None/types/types/</loc>
      <lastmod>2016-08-27</lastmod>
      <changefreq>daily</changefreq>
     </url>
-        
-    <url>
-     <loc>None/sec2/page2/</loc>
-     <lastmod>2016-08-27</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>None/sec2/page3/</loc>
-     <lastmod>2016-08-27</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
     
 
 </urlset>

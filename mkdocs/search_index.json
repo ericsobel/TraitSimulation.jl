@@ -2,63 +2,33 @@
     "docs": [
         {
             "location": "/", 
-            "text": "TraitSimulation.jl (prototype)\n\n\nA \njulia\n module to perform trait simulation.\n\n\n\n\nKey features\n\n\n\n\nSimulate trait under GLM and GLMM\n\n\nProvide convenient ways to specify the simulation model\n\n\n\n\n\n\nTutorials\n\n\n\n\nAnother Section\n\n\n\n\nIndex", 
+            "text": "TraitSimulation.jl (prototype)\n\n\nA Julia module to perform trait simulation.\n\n\n\n\nInstallation\n\n\nPkg.clone(\nhttps://github.com/huwenboshi/TraitSimulation.jl.git\n)\n\n\n\n\n\n\n\nKey Features\n\n\n\n\nSimulate trait under GLM and GLMM\n\n\nProvide convenient ways to specify the simulation model", 
             "title": "Introduction"
         }, 
         {
             "location": "/#traitsimulationjl-prototype", 
-            "text": "A  julia  module to perform trait simulation.", 
+            "text": "A Julia module to perform trait simulation.", 
             "title": "TraitSimulation.jl (prototype)"
+        }, 
+        {
+            "location": "/#installation", 
+            "text": "Pkg.clone( https://github.com/huwenboshi/TraitSimulation.jl.git )", 
+            "title": "Installation"
         }, 
         {
             "location": "/#key-features", 
             "text": "Simulate trait under GLM and GLMM  Provide convenient ways to specify the simulation model", 
-            "title": "Key features"
+            "title": "Key Features"
         }, 
         {
-            "location": "/#tutorials", 
+            "location": "/example/example/", 
             "text": "", 
-            "title": "Tutorials"
+            "title": "Getting Started"
         }, 
         {
-            "location": "/#another-section", 
+            "location": "/types/types/", 
             "text": "", 
-            "title": "Another Section"
-        }, 
-        {
-            "location": "/#index", 
-            "text": "", 
-            "title": "Index"
-        }, 
-        {
-            "location": "/tutorials/page1/", 
-            "text": "", 
-            "title": "Title 1"
-        }, 
-        {
-            "location": "/tutorials/page2/", 
-            "text": "", 
-            "title": "Title 2"
-        }, 
-        {
-            "location": "/tutorials/page3/", 
-            "text": "", 
-            "title": "Title 3"
-        }, 
-        {
-            "location": "/sec2/page1/", 
-            "text": "", 
-            "title": "Title 1"
-        }, 
-        {
-            "location": "/sec2/page2/", 
-            "text": "", 
-            "title": "Title 2"
-        }, 
-        {
-            "location": "/sec2/page3/", 
-            "text": "", 
-            "title": "Title 3"
+            "title": "Types"
         }
     ]
 }
