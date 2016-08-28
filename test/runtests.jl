@@ -71,7 +71,7 @@ I = eye(5)
 model = MixedEffectModel(μ, Σ, LogLink(), PoissonResponse())
 simulate(model, df)
 
-model = RandomEffectModel([:A], Σ, LogLink(), PoissonResponse())
+model = RandomEffectModel(:A, Σ, LogLink(), PoissonResponse())
 simulate(model, df)
 
 

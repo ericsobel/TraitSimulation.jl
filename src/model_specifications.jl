@@ -57,6 +57,20 @@ type RandomEffectModel <: SimulationModel
   # specify the distribution of the response
   resp_dist::Union{ResponseDistribution, Vector{ResponseDistribution}}
 
+  # inner constructor to enforce at least one variance components
+  function RandomEffectModel(traits::Union{Symbol, Vector{Symbol}},
+    vc::Vector{VarianceComponent},
+    link::Union{LinkFunction, Vector{LinkFunction}},
+    resp_dist::Union{ResponseDistribution, Vector{ResponseDistribution}})
+    
+    if size(vc, 1) < 1
+      error("Random-effect model must have at least one variance components")
+    else
+      return new(traits, vc, link, resp_dist)
+    end
+
+  end
+
 end
 
 # return the number of traits being simulated
