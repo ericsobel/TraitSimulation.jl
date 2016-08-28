@@ -59,7 +59,7 @@ cross covariance matrix to be simulated. If ```var_comp``` is of type
 ```Vector{Float64}```, it will be interpreted as a cross covariance
 matrix with off-diagnal elements equal to 0.
 
-## operator ⊗
+### operator ⊗
 
 The TraitSimulation module implements the ```⊗``` operator to compute
 the Kronecker product between two matrices.
@@ -68,7 +68,7 @@ the Kronecker product between two matrices.
 ⊗(A, B) = kron(A,B)
 ```
 
-## macro @vc
+### macro @vc
 
 The TraitSimulation module provides a macro ```@vc``` to simplify
 the specification of variance components. The following code snippet
