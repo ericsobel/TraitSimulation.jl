@@ -30,7 +30,7 @@ docs_dir: 'build'
 pages:
 - Introduction: index.md
 - Getting Started: example/example.md
-- Simulate the Model: model/model.md
-- Variance Components: vc/vc.md
+- Model Specifications: model/model.md
+- Generate Simulations: generate/generate.md
 - Link Functions: link/link.md
 - Response Distributions: dist/dist.md

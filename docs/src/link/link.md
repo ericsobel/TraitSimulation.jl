@@ -27,6 +27,11 @@ which has invserse $g^{-1}(\eta) = 1 - \exp(-\exp(\eta))$.
 Implements the identity link $g(\mu) = \mu$, which has inverse
 $g^{-1}(\eta) = \eta$
 
+## InverseLink
+
+Implements the inverse link $g(\mu) = 1/\mu$, which has inverse
+$g^{-1}(\eta) = 1/\eta$
+
 ## LogitLink
 
 Implements the logit link $g(\mu) = \log(\mu / (1-\mu))$, which has inverse
