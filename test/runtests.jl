@@ -18,24 +18,24 @@ GRM = cor(data')
 names!(df, [:A, :B, :C, :D, :E, :F])
 
 # simulate a single trait using GLM
-sim_model = Model(T ~ A+2B*C, IdentityLink(), NormalResponse(1.0))
+sim_model = FixedEffectModel(T ~ A+2B*C, IdentityLink(), NormalResponse(1.0))
 y = simulate(sim_model, df)
 
 # simulate two traits with the same link and response using GLM
 μ = [T1 ~ A+2B*C, T2 ~ A+2log(B+C)+2.0]
-sim_model = Model(μ, IdentityLink(), NormalResponse(1.0))
+sim_model = FixedEffectModel(μ, IdentityLink(), NormalResponse(1.0))
 y = simulate(sim_model, df)
 
 # simulate three traits with different link and response using GLM
 μ = [T1 ~ A+2B*C, T2 ~ A+2log(B+C)+2.0, T3 ~ A+B+C+1.0]
 links = [IdentityLink(), LogitLink(), LogLink()]
 resp_dists = [NormalResponse(1.0), BinomialResponse(100), PoissonResponse()]
-sim_model = Model(μ, links, resp_dists)
+sim_model = FixedEffectModel(μ, links, resp_dists)
 y = simulate(sim_model, df)
 
 # simulate a single trait with two variance components using GLMM
 Σ = [VarianceComponent(0.2, GRM), VarianceComponent(0.8, eye(5))]
-sim_model = Model(T ~ A+2B*C, Σ, LogitLink(), BinomialResponse(100))
+sim_model = MixedEffectModel(T~A+2B*C, Σ, LogitLink(), BinomialResponse(100))
 y = simulate(sim_model, df)
 
 # simulate two traits with two variance components using GLMM
@@ -45,7 +45,7 @@ y = simulate(sim_model, df)
 μ = [T1 ~ A+2B*C, T2 ~ C+log(C)+3.0]
 links = [IdentityLink(), LogitLink()]
 resp_dists = [NormalResponse(1.0), PoissonResponse()]
-sim_model = Model(μ, Σ, links, resp_dists, )
+sim_model = MixedEffectModel(μ, Σ, links, resp_dists)
 y = simulate(sim_model, df)
 
 # simulate two traits with two variance components with cross covariances
@@ -56,11 +56,11 @@ I = eye(5)
 Σ = [VarianceComponent(A, GRM),
       VarianceComponent(B, I)]
 μ = [T1 ~ A+2B*C, T2 ~ C+log(C)+3.0]
-sim_model = Model(μ, Σ, IdentityLink(), NormalResponse(1.0))
+sim_model = MixedEffectModel(μ, Σ, IdentityLink(), NormalResponse(1.0))
 y = simulate(sim_model, df)
 
 μ = [T1 ~ A+2B*C, T2 ~ C+log(C)+3.0]
-sim_model = Model(μ, (@vc A ⊗ GRM + B ⊗ I), IdentityLink(),
+sim_model = MixedEffectModel(μ, (@vc A ⊗ GRM + B ⊗ I), IdentityLink(),
   NormalResponse(1.0))
 y = simulate(sim_model, df)
 
@@ -68,7 +68,11 @@ y = simulate(sim_model, df)
 K = GRM
 I = eye(5)
 Σ = [VarianceComponent(0.8, K), VarianceComponent(0.2, I)]
-model = Model(μ, Σ, LogLink(), PoissonResponse())
+model = MixedEffectModel(μ, Σ, LogLink(), PoissonResponse())
 simulate(model, df)
+
+model = RandomEffectModel([:A], Σ, LogLink(), PoissonResponse())
+simulate(model, df)
+
 
 #end

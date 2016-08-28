@@ -1,4 +1,29 @@
 """
+The Model abstract type, super type for each specific simulation model
+"""
+abstract SimulationModel
+
+"""
+A type to store fixed effect simulation model
+"""
+type FixedEffectModel <: SimulationModel
+
+  # specify the formula of the simulation
+  formula::Union{Formula, Vector{Formula}}
+  
+  # specify the link function
+  link::Union{LinkFunction, Vector{LinkFunction}}
+
+  # specify the distribution of the response
+  resp_dist::Union{ResponseDistribution, Vector{ResponseDistribution}}
+
+end
+
+# return the number of traits being simulated
+Base.size(model::FixedEffectModel) = 
+typeof(model.formula) == Formula ? 1 : size(model.formula, 1)
+
+"""
 A type to store variance component and its covariance matrix
 """
 # TODO: Implement a "toString" function for print
@@ -10,53 +35,56 @@ type VarianceComponent
   """
   var_comp::Union{Float64, Vector{Float64}, Matrix{Float64}}
 
-  """
-  Stores the covariance matrix
-  """
+  # stores the covariance matrix
   cov_mat::Matrix{Float64}
 
 end
 
 """
-A type to store simulation parameters.
+A type to store random effect simulation model
 """
-# TODO: Implement a "toString" function for print
-type Model
+type RandomEffectModel <: SimulationModel
 
-  """
-  Specify the formula of the simulation, using DataFrames' Formula
-  e.g. TC ~ AGE + 1.5SNP1*SNP2 + 2.0HDL
-  """
-  formula::Union{Formula, Vector{Formula}}
+  # specify trait names
+  traits::Union{Symbol, Vector{Symbol}}
 
-  """
-  Specify the variance components for GLMM
-  """
+  # specify the variance components for GLMM
   vc::Vector{VarianceComponent}
   
-  """
-  Specify the link function, GLM.jl currently supports:
-  1) CauchitLink 2) CloglogLink 3) IdentityLink 4) InverseLink
-  5) LogitLink 6) LogLink 7) ProbitLink 8) SqrtLink
-  """
+  # specify the link function
   link::Union{LinkFunction, Vector{LinkFunction}}
 
-  """
-  Specify the distribution of the response:
-    1) Binomial 2) Gamma 3) Normal 4) Poisson 5) Exponential
-    6) Inverse Gaussian 7) Bernoulli etc.
-  """
+  # specify the distribution of the response
   resp_dist::Union{ResponseDistribution, Vector{ResponseDistribution}}
 
 end
 
+# return the number of traits being simulated
+Base.size(model::RandomEffectModel) =
+typeof(model.vc[1].var_comp) == Float64 ? 1 : size(model.vc.var_comp, 1)
+
 """
-Construct a Model object without random effect component
+A type to store fixed effect simulation model
 """
-Model(formula::Union{Formula, Vector{Formula}},
-  link::Union{LinkFunction, Vector{LinkFunction}},
-  resp_dist::Union{ResponseDistribution, Vector{ResponseDistribution}}) =
-Model(formula, Vector{VarianceComponent}(), link, resp_dist)
+type MixedEffectModel <: SimulationModel
+
+  # specify the formula of the simulation
+  formula::Union{Formula, Vector{Formula}}
+
+  # specify the variance components for GLMM
+  vc::Vector{VarianceComponent}
+  
+  # specify the link function
+  link::Union{LinkFunction, Vector{LinkFunction}}
+
+  # specify the distribution of the response
+  resp_dist::Union{ResponseDistribution, Vector{ResponseDistribution}}
+
+end
+
+# return the number of traits being simulated
+Base.size(model::MixedEffectModel) = 
+typeof(model.formula) == Formula ? 1 : size(model.formula, 1)
 
 """
 Parse an expression specifying the covariance matrix of the random effects

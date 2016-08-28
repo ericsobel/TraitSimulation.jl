@@ -110,30 +110,40 @@ end
 Simulate traits based on model specified in "model" using data
 stored in "data_frame".
 """
-function simulate(model::Model, data_frame::DataFrame;
+function simulate(model::SimulationModel, data_frame::DataFrame;
   missing::Union{Float64, Vector{Bool}}=1.0)
 
   # get dimensions
   npeople = size(data_frame, 1)
-  ntraits = typeof(model.formula)==Formula ? 1 : size(model.formula,1)
-  formulae = typeof(model.formula)==Formula ? [model.formula] : model.formula
+  ntraits = size(model)
+
+  # for simulating under fixed and mixed effect model only
+  if typeof(model) == FixedEffectModel || typeof(model) == MixedEffectModel
+    formulae = typeof(model.formula)==Formula?[model.formula]:model.formula
+  end
 
   # initialize traits
   μ = zeros(Float64, npeople, ntraits)
-  col_names = [parse(string(formulae[i].lhs)) for i=1:ntraits]
+  if typeof(model) == FixedEffectModel || typeof(model) == MixedEffectModel
+    col_names = [parse(string(formulae[i].lhs)) for i=1:ntraits]
+  else
+    col_names = typeof(model.traits)==Symbol ? [model.traits] : model.traits
+  end
 
-  # evalute the formulae
-  for i=1:ntraits
-    lhs = formulae[i].lhs
-    rhs = formulae[i].rhs
+  # evalute the formulae for fixed and mixed effect model
+  if typeof(model) == FixedEffectModel || typeof(model) == MixedEffectModel
+    for i=1:ntraits
+      lhs = formulae[i].lhs
+      rhs = formulae[i].rhs
 
-    # TODO: throw an exception when formula cannot be evaluated
-    expand_rhs!(rhs, Set(names(data_frame)))
-    μ[:,i] = (@eval x -> $rhs)(data_frame)
+      # TODO: throw an exception when formula cannot be evaluated
+      expand_rhs!(rhs, Set(names(data_frame)))
+      μ[:,i] = (@eval x -> $rhs)(data_frame)
+    end
   end
 
   # add random effect
-  if length(model.vc) > 0
+  if typeof(model) == RandomEffectModel || typeof(model) == MixedEffectModel
     randeff = calc_randeff(model.vc, npeople, ntraits)
     μ += reshape(randeff, npeople, ntraits)
   end

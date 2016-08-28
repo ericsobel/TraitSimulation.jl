@@ -4,9 +4,11 @@ generalized linear mixed model (GLMM).
 """
 module TraitSimulation
 
-export Model,
-       simulate,
-       @vc, ⊗,
+export SimulationModel,
+       FixedEffectModel,
+       RandomEffectModel,
+       MixedEffectModel,
+       VarianceComponent,
        NormalResponse,
        PoissonResponse,
        ExponentialResponse,
@@ -24,7 +26,8 @@ export Model,
        ProbitLink,
        SqrtLink,
        LogLink,
-       VarianceComponent
+       simulate,
+       @vc, ⊗
 
 using DataFrames,
       Distributions
