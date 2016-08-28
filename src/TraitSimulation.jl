@@ -29,10 +29,7 @@ export Model,
 using DataFrames,
       Distributions
 
-"""
-Define kronecker product operator
-"""
-⊗(A, B) = kron(A,B)
+
 
 """
 Parse an expression specifying the covariance matrix of the random effects

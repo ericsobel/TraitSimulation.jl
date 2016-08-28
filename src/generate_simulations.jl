@@ -1,4 +1,9 @@
 """
+Define kronecker product operator for the symbol ⊗
+"""
+⊗(A, B) = kron(A,B)
+
+"""
 Expand the right hand side of the formula
 """
 const operands = Set([:*, :/, :^])
@@ -61,29 +66,41 @@ Simulate random effect
 function calc_randeff(vc::Vector{VarianceComponent},
   npeople::Int64, ntraits::Int64)
 
-  # create the covariance matrix
+  # get number of components
   ncomponents = length(vc)
-  cov_mat = zeros(Float64, ntraits*npeople, ntraits*npeople)
+  
+  # sample from the normal distribution with mean 0 and variance 1
+  dist = Normal(0.0, 1.0)
+  randeff = rand(dist, npeople*ntraits)
+  
+  # check if there is a lower triangle type in julia
+  L = zeros(Float64, npeople*ntraits, npeople*ntraits)
+
+  # construct a cholesky of the covairance matrix
   for i=1:ncomponents
+
+    # in case of float or vector, make them diagonal
     if typeof(vc[i].var_comp) == Float64 ||
        typeof(vc[i].var_comp) == Vector{Float64}
-      cov_mat += kron(diagm(vc[i].var_comp), vc[i].cov_mat)
+      
+      cross_cov = diagm(vc[i].var_comp)
+      cov_mat = vc[i].cov_mat
+  
+    # input is a matrix, no change
+    else typeof(vc[i].var_comp) == Matrix{Float64}
+      
+      cross_cov = vc[i].var_comp
+      cov_mat = vc[i].cov_mat
 
-    elseif typeof(vc[i].var_comp) == Matrix{Float64}
-      cov_mat += kron(vc[i].var_comp, vc[i].cov_mat)
-
-    else
-      #TODO: throw an exception here
-      return nothing
     end
+
+    # add to the cholesky decomposition 
+    L += chol(cross_cov)' ⊗ chol(cov_mat)'
+
   end
 
-  # sample the random effect
-  randeff = zeros(Float64, ntraits*npeople)
-  if ncomponents > 0
-    dist = MvNormal(zeros(Float64, ntraits*npeople), cov_mat)
-    randeff = rand(dist)
-  end
+  # apply the cholesky
+  randeff = L * randeff
 
   return randeff
 
