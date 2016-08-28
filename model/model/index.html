@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>Simulate the Model - TraitSimulation.jl</title>
+        <title>Model Specifications - TraitSimulation.jl</title>
       
       
       
@@ -96,7 +96,7 @@
             
           </span>
         
-        Simulate the Model
+        Model Specifications
       </div>
     </div>
     
@@ -184,8 +184,8 @@
           
             
   <li>
-    <a class="current" title="Simulate the Model" href="./">
-      Simulate the Model
+    <a class="current" title="Model Specifications" href="./">
+      Model Specifications
     </a>
     
       
@@ -197,6 +197,24 @@
             <li class="anchor">
               <a title="Model" href="#model">
                 Model
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="VarianceComponent" href="#variancecomponent">
+                VarianceComponent
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="operator ⊗" href="#operator">
+                operator ⊗
+              </a>
+            </li>
+          
+            <li class="anchor">
+              <a title="macro @vc" href="#macro-vc">
+                macro @vc
               </a>
             </li>
           
@@ -275,7 +293,41 @@
 </pre></div>
 
 
-<p>In addition to the three parameters in the fixed-effect model constructor, the mixed-effect model constructors requires the additional parameter <code>vc</code>, an array of variance components.</p>
+<p>In addition to the three parameters in the fixed-effect model constructor, the mixed-effect model constructors requires the additional parameter <code>vc</code>, an array of variance components. See next section for details on the <code>VarianceComponent</code> type.</p>
+<p><a id='VarianceComponent-1'></a></p>
+<h2 id="variancecomponent">VarianceComponent</h2>
+<div class="codehilite"><pre><span class="n">VarianceComponent</span><span class="p">(</span><span class="n">var_comp</span><span class="p">::</span><span class="n">Union</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span> <span class="n">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span> <span class="n">Matrix</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}}</span>
+                  <span class="n">cov_mat</span><span class="p">::</span><span class="n">Matrix</span><span class="p">{</span><span class="kt">Float64</span><span class="p">})</span>
+</pre></div>
+
+
+<p>The <code>var_comp</code> parameter specifies the variance component or the cross covariance matrix to be simulated. If <code>var_comp</code> is of type <code>Vector{Float64}</code>, it will be interpreted as a cross covariance matrix with off-diagnal elements equal to 0.</p>
+<p><a id='operator-1'></a></p>
+<h2 id="operator">operator ⊗</h2>
+<p>The TraitSimulation module implements the <code>⊗</code> operator to compute the Kronecker product between two matrices.</p>
+<div class="codehilite"><pre><span class="n">⊗</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span> <span class="o">=</span> <span class="n">kron</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">B</span><span class="p">)</span>
+</pre></div>
+
+
+<p><a id='macro-@vc-1'></a></p>
+<h2 id="macro-vc">macro @vc</h2>
+<p>The TraitSimulation module provides a macro <code>@vc</code> to simplify the specification of variance components. The following code snippet lists some equivalent ways to specify the variance components in the simulation model. The terms in the expression to the right of <code>@vc</code> must be defined.</p>
+<div class="codehilite"><pre><span class="c"># a fake GRM</span>
+<span class="n">K</span> <span class="o">=</span> <span class="n">cor</span><span class="p">(</span><span class="n">data</span><span class="o">&#39;</span><span class="p">)</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">eye</span><span class="p">(</span><span class="n">npeople</span><span class="p">)</span>
+<span class="n">A</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.2</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">;</span> <span class="o">-</span><span class="mf">0.1</span> <span class="mf">0.3</span><span class="p">]</span>
+<span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.8</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">;</span> <span class="o">-</span><span class="mf">0.2</span> <span class="mf">0.7</span><span class="p">]</span>
+
+<span class="c"># the following two ways to specify Σ are equivalent</span>
+<span class="n">Σ</span> <span class="o">=</span> <span class="p">[</span><span class="n">VarianceComponent</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="n">VarianceComponent</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">I</span><span class="p">)]</span>
+<span class="n">Σ</span> <span class="o">=</span> <span class="p">@</span><span class="n">vc</span> <span class="mf">0.2</span><span class="n">K</span> <span class="o">+</span> <span class="mf">0.8</span><span class="n">I</span> 
+
+<span class="c"># the following two ways to specify Σ are equivalent</span>
+<span class="n">Σ</span> <span class="o">=</span> <span class="p">[</span><span class="n">VarianceComponent</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="n">VarianceComponent</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">I</span><span class="p">)]</span>
+<span class="n">Σ</span> <span class="o">=</span> <span class="p">@</span><span class="n">vc</span> <span class="n">A</span> <span class="n">⊗</span> <span class="n">K</span> <span class="o">+</span> <span class="n">B</span> <span class="n">⊗</span> <span class="n">I</span>
+</pre></div>
+
+
 <p><a id='simulate-1'></a></p>
 <h2 id="simulate">simulate</h2>
 <div class="codehilite"><pre><span class="n">simulate</span><span class="p">(</span><span class="n">model</span><span class="p">::</span><span class="n">Model</span><span class="p">,</span> <span class="n">data_frame</span><span class="p">::</span><span class="n">DataFrame</span><span class="p">)</span>
