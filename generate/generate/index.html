@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
     
       
-        <title>Link Functions - TraitSimulation.jl</title>
+        <title>Generate Simulations - TraitSimulation.jl</title>
       
       
       
@@ -96,7 +96,7 @@
             
           </span>
         
-        Link Functions
+        Generate Simulations
       </div>
     </div>
     
@@ -193,17 +193,8 @@
           
             
   <li>
-    <a class="" title="Generate Simulations" href="../../generate/generate/">
+    <a class="current" title="Generate Simulations" href="./">
       Generate Simulations
-    </a>
-    
-  </li>
-
-          
-            
-  <li>
-    <a class="current" title="Link Functions" href="./">
-      Link Functions
     </a>
     
       
@@ -213,61 +204,28 @@
         <ul>
           
             <li class="anchor">
-              <a title="LinkFunction" href="#linkfunction">
-                LinkFunction
+              <a title="simulate" href="#simulate">
+                simulate
               </a>
             </li>
           
             <li class="anchor">
-              <a title="CauchitLink" href="#cauchitlink">
-                CauchitLink
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="CloglogLink" href="#clogloglink">
-                CloglogLink
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="IdentityLink" href="#identitylink">
-                IdentityLink
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="InverseLink" href="#inverselink">
-                InverseLink
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="LogitLink" href="#logitlink">
-                LogitLink
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="ProbitLink" href="#probitlink">
-                ProbitLink
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="SqrtLink" href="#sqrtlink">
-                SqrtLink
-              </a>
-            </li>
-          
-            <li class="anchor">
-              <a title="LogLink" href="#loglink">
-                LogLink
+              <a title="TODO" href="#todo">
+                TODO
               </a>
             </li>
           
         </ul>
       
+    
+  </li>
+
+          
+            
+  <li>
+    <a class="" title="Link Functions" href="../../link/link/">
+      Link Functions
+    </a>
     
   </li>
 
@@ -291,36 +249,24 @@
       <article class="article">
         <div class="wrapper">
           
-          <p><a id='Link-Functions-1'></a></p>
-<h1 id="link-functions">Link Functions</h1>
-<p>This section lists the link function types supported by the TraitSimulation module.</p>
-<p><a id='LinkFunction-1'></a></p>
-<h2 id="linkfunction">LinkFunction</h2>
-<p><code>LinkFunction</code> is an abstract type. It&rsquo;s the super type of each specific link function type listed below. All sub types of <code>LinkFunction</code> have constructors of the form <code>[name of the link]()</code>, and contain <code>link_inv::Function</code> as their member variables. For example the constructor for identity link function type is <code>IdentityLink()</code>, and its <code>link_inv</code> member variable is the function <code>f(x) = x</code>.</p>
-<p><a id='CauchitLink-1'></a></p>
-<h2 id="cauchitlink">CauchitLink</h2>
-<p>Implements the Cauchit link $g(\mu) = \text{arctan}(\mu)/\pi+1/2$, which has inverse $g^{-1}(\eta) = \text{tan}[(\eta-1/2)\pi]$.</p>
-<p><a id='CloglogLink-1'></a></p>
-<h2 id="clogloglink">CloglogLink</h2>
-<p>Implements the complementary log log link, $g(\mu) = \log(-\log(1-\mu))$ which has invserse $g^{-1}(\eta) = 1 - \exp(-\exp(\eta))$.</p>
-<p><a id='IdentityLink-1'></a></p>
-<h2 id="identitylink">IdentityLink</h2>
-<p>Implements the identity link $g(\mu) = \mu$, which has inverse $g^{-1}(\eta) = \eta$</p>
-<p><a id='InverseLink-1'></a></p>
-<h2 id="inverselink">InverseLink</h2>
-<p>Implements the inverse link $g(\mu) = 1/\mu$, which has inverse $g^{-1}(\eta) = 1/\eta$</p>
-<p><a id='LogitLink-1'></a></p>
-<h2 id="logitlink">LogitLink</h2>
-<p>Implements the logit link $g(\mu) = \log(\mu / (1-\mu))$, which has inverse $g^{-1}(\eta) = 1 / (1+\exp(-\eta))$.</p>
-<p><a id='ProbitLink-1'></a></p>
-<h2 id="probitlink">ProbitLink</h2>
-<p>Implements the probit link $g(\mu) = \Phi^{-1}(\mu)$, which has inverse $g^{-1}(\eta) = \Phi(\eta)$</p>
-<p><a id='SqrtLink-1'></a></p>
-<h2 id="sqrtlink">SqrtLink</h2>
-<p>Implements the square root link $g(\mu) = \sqrt{\mu}$, which has inverse $g^{-1}(\eta) = \eta^2$.</p>
-<p><a id='LogLink-1'></a></p>
-<h2 id="loglink">LogLink</h2>
-<p>Implements the log link $g(\mu) = \log(\mu)$, which has inverse $g^{-1}(\eta) = \exp(\eta)$.</p>
+          <p><a id='Generate-Simulations-1'></a></p>
+<h1 id="generate-simulations">Generate Simulations</h1>
+<p>This section introduces the <code>simulate</code> function for simulating traits according to the specified model.</p>
+<p><a id='simulate-1'></a></p>
+<h2 id="simulate">simulate</h2>
+<div class="codehilite"><pre><span class="n">simulate</span><span class="p">(</span><span class="n">model</span><span class="p">::</span><span class="n">Model</span><span class="p">,</span> <span class="n">data_frame</span><span class="p">::</span><span class="n">DataFrame</span><span class="p">)</span>
+</pre></div>
+
+
+<p>The <code>simulate</code> function simulates traits according to the <code>Model</code> using data stored in the <code>DataFrame</code>.</p>
+<p><a id='TODO-1'></a></p>
+<h2 id="todo">TODO</h2>
+<ol>
+<li>add a parameter to simulate missingness</li>
+<li>add other functionalities in old Mendel</li>
+<li>simulate based on SnpArrays</li>
+<li>simulate based on float arrays</li>
+</ol>
           <aside class="copyright" role="note">
             
             Documentation built with
@@ -337,7 +283,7 @@
   <nav class="pagination" aria-label="Footer">
     <div class="previous">
       
-        <a href="../../generate/generate/" title="Generate Simulations">
+        <a href="../../model/model/" title="Model Specifications">
           <span class="direction">
             Previous
           </span>
@@ -347,7 +293,7 @@
             </div>
             <div class="stretch">
               <div class="title">
-                Generate Simulations
+                Model Specifications
               </div>
             </div>
           </div>
@@ -356,14 +302,14 @@
     </div>
     <div class="next">
       
-        <a href="../../dist/dist/" title="Response Distributions">
+        <a href="../../link/link/" title="Link Functions">
           <span class="direction">
             Next
           </span>
           <div class="page">
             <div class="stretch">
               <div class="title">
-                Response Distributions
+                Link Functions
               </div>
             </div>
             <div class="button button-next" role="button" aria-label="Next">
