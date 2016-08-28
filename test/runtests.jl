@@ -1,4 +1,6 @@
-module TraitSimulationTest
+#module TraitSimulationTest
+
+include("../src/TraitSimulation.jl")
 
 using DataFrames, TraitSimulation
 
@@ -69,4 +71,4 @@ I = eye(5)
 model = Model(μ, Σ, LogLink(), PoissonResponse())
 simulate(model, df)
 
-end
+#end

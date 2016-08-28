@@ -35,17 +35,20 @@ Define kronecker product operator
 ⊗(A, B) = kron(A,B)
 
 """
-Parse a variance component
+Parse an expression specifying the covariance matrix of the random effects
+Returns code for constructing the array of VarianceComponent
 """
 macro vc(expr::Expr)
   
+  # TODO: add code to check validity of expr before parseing it
+  # throw an exception if the expr doesn't follow the syntax
+
   expr_str = string(expr)
   
   ret_expr = quote
-    expr = parse($expr_str)
-    [VarianceComponent(eval(expr.args[i].args[2]),
-                       eval(expr.args[i].args[3]))
-     for i=2:size(expr.args,1)]
+    [VarianceComponent(eval(parse($expr_str).args[i].args[2]),
+                       eval(parse($expr_str).args[i].args[3]))
+     for i=2:size(parse($expr_str).args,1)]
   end
 
   return esc(ret_expr)
