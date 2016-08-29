@@ -3,6 +3,7 @@ Define kronecker product operator for the symbol ⊗
 """
 ⊗(A, B) = kron(A,B)
 
+
 """
 Expand the right hand side of the formula
 """
@@ -20,6 +21,7 @@ function expand_rhs!(rhs::Expr, df_nameset::Set{Symbol})
     end
   end
 end
+
 
 """
 Simulate trait by sampling from the specified distribution
@@ -59,6 +61,7 @@ function calc_trait(μ::Vector{Float64}, resp_dist::ResponseDistribution)
   end
 
 end
+
 
 """
 Simulate random effect
@@ -105,6 +108,7 @@ function calc_randeff(vc::Vector{VarianceComponent},
   return randeff
 
 end
+
 
 """
 Simulate traits based on model specified in "model" using data
