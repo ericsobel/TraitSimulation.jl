@@ -58,14 +58,13 @@ LogitLink() = LogitLink(x::Float64 -> log(x/(1.0-x)),
 
 
 # probit link function
-const normal_dist = Normal(0.0, 1.0)
 type ProbitLink <: LinkFunction
   link::Function
   link_inv::Function
 end
 
-ProbitLink() = ProbitLink(x::Float64 -> quantile(normal_dist, x),
-                          x::Float64 -> cdf(normal_dist, x))
+ProbitLink() = ProbitLink(x::Float64 -> (√2.0)erfinv(2.0*x-1.0),
+                          x::Float64 -> 0.5*erfc(-x/√2.0))
 
 
 # square root link function
