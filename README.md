@@ -21,7 +21,6 @@ Pkg.clone("https://github.com/huwenboshi/TraitSimulation.jl.git")
 
 
 ```julia
-include("../src/TraitSimulation.jl");
 using DataFrames, Distributions, TraitSimulation;
 srand(1);
 npeople, nsnp = (10, 5);

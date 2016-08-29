@@ -1,4 +1,7 @@
-module TraitSimulationTest
+#module TraitSimulationTest
+
+
+include("../src/TraitSimulation.jl")
 
 using DataFrames, TraitSimulation
 
@@ -72,5 +75,7 @@ simulate(model, df)
 model = RandomEffectModel(:A, Σ, LogLink(), PoissonResponse())
 simulate(model, df)
 
+model = RandomEffectModel(:A, Σ, LogLink(), PoissonResponse())
 
-end
+
+#end

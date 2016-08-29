@@ -4,6 +4,7 @@ generalized linear mixed model (GLMM).
 """
 module TraitSimulation
 
+
 export SimulationModel,
        FixedEffectModel,
        RandomEffectModel,
@@ -29,12 +30,15 @@ export SimulationModel,
        simulate,
        @vc, ⊗
 
+
 using DataFrames,
       Distributions
+
 
 include("link_functions.jl")
 include("response_distributions.jl")
 include("model_specifications.jl")
 include("generate_simulations.jl")
+
 
 end
