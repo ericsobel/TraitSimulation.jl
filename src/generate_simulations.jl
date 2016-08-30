@@ -127,7 +127,7 @@ function missing!(df::DataFrame, pattern::MissingPattern)
     
     for i=1:ntraits
       missing_idx = randperm(npeople)[1:npeople]
-      df[miss_idx,i] = NA
+      df[missing_idx,i] = NA
     end
 
   # if missing pattern is a bool vector, bit array, step range
@@ -222,6 +222,11 @@ function simulate(model::SimulationModel, data_frame::DataFrame;
   end
 
   # impose missingness
+  try
+    missing!(y, pattern)
+  catch
+    throw(ErrorException("An error occured while imposing missingness."))
+  end
 
   return y
 
