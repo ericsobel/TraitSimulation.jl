@@ -269,7 +269,7 @@
           
           <p><a id='Model-Specifications-1'></a></p>
 <h1 id="model-specifications">Model Specifications</h1>
-<p>This section introduces the <code>SimulationModel</code> type for specifying the simulation model. Other types mentioned in this section are introduced in detail in the following sections.</p>
+<p>This section introduces types for specifying the simulation model. Other types mentioned in this section are introduced in detail in the following sections.</p>
 <p><a id='SimulationModel-1'></a></p>
 <h2 id="simulationmodel">SimulationModel</h2>
 <p><code>SimulationModel</code> is an abstract supertype for each spefic simulation model.</p>
@@ -307,16 +307,6 @@
 </pre></div>
 
 
-<p><a id='Specifying-the-variance-components-1'></a></p>
-<h3 id="specifying-the-variance-components">Specifying the variance components</h3>
-<div class="codehilite"><pre><span class="n">Model</span><span class="p">(</span><span class="n">frml</span><span class="p">::</span><span class="n">Union</span><span class="p">{</span><span class="n">Formula</span><span class="p">,</span> <span class="n">Vector</span><span class="p">{</span><span class="n">Formula</span><span class="p">}},</span>
-      <span class="n">vc</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">VarianceComponent</span><span class="p">},</span>
-      <span class="n">link</span><span class="p">::</span><span class="n">Union</span><span class="p">{</span><span class="n">LinkFunction</span><span class="p">,</span> <span class="n">Vector</span><span class="p">{</span><span class="n">LinkFunction</span><span class="p">}},</span>
-      <span class="n">dist</span><span class="p">::</span><span class="n">Union</span><span class="p">{</span><span class="n">ResponseDistribution</span><span class="p">,</span> <span class="n">Vector</span><span class="p">{</span><span class="n">ResponseDistribution</span><span class="p">}})</span>
-</pre></div>
-
-
-<p>In addition to the three parameters in the fixed-effect model constructor, the mixed-effect model constructors requires the additional parameter <code>vc</code>, an array of variance components. See next section for details on the <code>VarianceComponent</code> type.</p>
 <p><a id='VarianceComponent-1'></a></p>
 <h2 id="variancecomponent">VarianceComponent</h2>
 <div class="codehilite"><pre><span class="n">VarianceComponent</span><span class="p">(</span><span class="n">var_comp</span><span class="p">::</span><span class="n">Union</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span> <span class="n">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span> <span class="n">Matrix</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}}</span>
