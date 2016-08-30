@@ -75,6 +75,6 @@ model = RandomEffectModel(:A, Σ, LogLink(), PoissonResponse())
 simulate(model, df)
 
 model = RandomEffectModel(:A, Σ, LogLink(), PoissonResponse())
-
+simulate(model, df; pattern=0.1)
 
 #end

@@ -1,4 +1,17 @@
 """
+This file contains functions to simulate traits.
+"""
+
+
+# define some some type alias for clearer code
+typealias MissingPattern
+  Union{Float64, Vector{Bool}, Matrix{Bool}, BitArray{1}, BitArray{2},
+        Vector{Int64}, Vector{Vector{Int64}}, UnitRange{Int64},
+        Vector{UnitRange{Int64}}, StepRange{Int64, Int64},
+        Vector{StepRange{Int64,Int64}}}
+
+
+"""
 Define kronecker product operator for the symbol ⊗
 """
 ⊗(A, B) = kron(A,B)
@@ -98,11 +111,53 @@ end
 
 
 """
+Create some missingness in the simulated data
+"""
+function missing!(df::DataFrame, pattern::MissingPattern)
+  
+  # get dimensions
+  ntraits = size(df, 2)
+  npeople = size(df, 1)
+
+  # if missing pattern is a float, sample missing entries
+  if typeof(pattern) == Float64
+
+    # sample some missing entries
+    num_missing = convert(Int64, floor(pattern*npeople))
+    
+    for i=1:ntraits
+      missing_idx = randperm(npeople)[1:npeople]
+      df[miss_idx,i] = NA
+    end
+
+  # if missing pattern is a bool vector, bit array, step range
+  elseif typeof(pattern)==Vector{Bool} || typeof(pattern)==BitArray{1} ||
+         typeof(pattern)==Vector{Int64} || typeof(pattern)==UnitRange{Int64} ||
+         typeof(pattern) == StepRange{Int64,Int64}
+    for i=1:ntraits
+      df[pattern,i] = NA
+    end
+  
+  # if missing pattern is a matrix of bool or bit array
+  elseif typeof(pattern) == Matrix{Bool} || typeof(pattern) == BitArray{2}
+    df[pattern] = NA
+  
+  # if missing pattern is a vector of vector of int 64 or vector of ranges
+  else
+    for i=1:ntraits
+      df[pattern[i],i] = NA
+    end
+  end
+   
+end
+
+
+"""
 Simulate traits based on model specified in "model" using data
 stored in "data_frame".
 """
 function simulate(model::SimulationModel, data_frame::DataFrame;
-  missing::Union{Float64, Vector{Bool}}=1.0)
+  pattern::MissingPattern=0.0)
 
   # get dimensions
   npeople = size(data_frame, 1)
@@ -162,6 +217,11 @@ function simulate(model::SimulationModel, data_frame::DataFrame;
   # convert to data frame
   y = convert(DataFrame, y)
   names!(y::DataFrame, col_names)
+  for i=1:ntraits
+    y[:,i] = convert(DataArray, y[:,i])
+  end
+
+  # impose missingness
 
   return y
 
