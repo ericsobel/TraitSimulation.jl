@@ -1,21 +1,24 @@
 # Model Specifications
 
-This section introduces the ```Model``` type for specifying the
-simulation model. Types mentioned in this section are introduced
+This section introduces the ```SimulationModel``` type for specifying the
+simulation model. Other types mentioned in this section are introduced
 in detail in the following sections.
 
-## Model
+## SimulationModel
 
-The ```Model``` type provides two types of constructors for specifying
-a simulation module with / without random effect
+```SimulationModel``` is an abstract supertype for each spefic
+simulation model.
 
-### Specify a simulation model with fixed-effect only
+## FixedEffectModel
+
+```FixedEffectModel``` is a type to specify simulations under the
+fixed-effect model. It's a subtype of ```SimulationModel```.
 
 ```julia
 
-Model(frml::Union{Formula, Vector{Formula}},
-      link::Union{LinkFunction, Vector{LinkFunction}},
-      dist::Union{ResponseDistribution, Vector{ResponseDistribution}})
+FixedEffectModel(frml::FormulaType,
+                 link::LinkFunctionType
+                 dist::ResponseDistributionType)
 ```
 
 ```frml``` can be a single formula, in which case, a single trait
@@ -32,6 +35,38 @@ its own link function.
 all traits will have the same response distribution, or an array
 of ```ResponseDistribution```, in which case, each trait will have
 its own response distribution.
+
+## RandomEffectModel
+
+```RandomEffectModel``` is a type to specify simulations under the random
+effect model. It's a subtype of ```SimulationModel```.
+
+```julia
+RandomEffectModel(traits::TraitType,
+                  vc::Vector{VarianceComponent},
+                  link::LinkFunctionType,
+                  resp_dist::ResponseDistributionType)
+```
+
+```traits``` can be a single symbol, in which case, a single trait
+will be simulated, or an array of symbol, in which case multiple
+traits will be simulated.
+
+```vc``` is an array of variance components / cross covariances and the
+corresponding covariance matrices. See the section on the
+```VarianceComponent``` type for more detail.
+
+## MixedEffectModel
+
+```MixedEffectModel``` is a type of specify simulations under a
+fixed-effect model. It's a subtype of ```SimulationModel```.
+
+```julia
+MixedEffectModel(formula::FormulaType,
+                 vc::Vector{VarianceComponent},
+                 link::LinkFunctionType,
+                 resp_dist::ResponseDistributionType)
+```
 
 ### Specifying the variance components
 

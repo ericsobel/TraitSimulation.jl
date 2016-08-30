@@ -160,8 +160,7 @@ function simulate(model::SimulationModel, data_frame::DataFrame;
   pattern::MissingPattern=0.0)
 
   # get dimensions
-  npeople = size(data_frame, 1)
-  ntraits = size(model)
+  npeople, ntraits = (size(data_frame, 1), size(model))
 
   # for simulating under fixed and mixed effect model only
   if typeof(model) == FixedEffectModel || typeof(model) == MixedEffectModel
@@ -179,17 +178,13 @@ function simulate(model::SimulationModel, data_frame::DataFrame;
   # evalute the formulae for fixed and mixed effect model
   if typeof(model) == FixedEffectModel || typeof(model) == MixedEffectModel
     for i=1:ntraits
-      lhs = formulae[i].lhs
       rhs = formulae[i].rhs
-
-      # eval the rhs, throw an exception when formula cannot be evaluated
       expand_rhs!(rhs, Set(names(data_frame)))
       try
         μ[:,i] = (@eval x -> $rhs)(data_frame)
       catch
         throw(ErrorException(string("Failed to evaluate: ", rhs)))
       end
-
     end
   end
 
