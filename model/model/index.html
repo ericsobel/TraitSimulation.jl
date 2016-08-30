@@ -333,20 +333,6 @@
 
 
 <p>The <code>var_comp</code> parameter specifies the variance component or the cross covariance matrix to be simulated. If <code>var_comp</code> is of type <code>Vector{Float64}</code>, it will be interpreted as a cross covariance matrix with off-diagnal elements equal to 0.</p>
-<p><a id='VarianceComponentType-1'></a></p>
-<h2 id="variancecomponenttype">VarianceComponentType</h2>
-<p><code>VarianceComponentType</code> is a type alias to specify the variance component or covariance matrices.</p>
-<div class="codehilite"><pre><span class="k">typealias</span><span class="nc"> VarianceComponentType</span>
-  <span class="n">Union</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span> <span class="n">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span> <span class="n">Matrix</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}}</span>
-</pre></div>
-
-
-<p><a id='FormulaType-1'></a></p>
-<h2 id="formulatype">FormulaType</h2>
-<p><code>FormulaType</code> is a type alias to specify a single formula or a vector of formulae.</p>
-<p><a id='TraitType-1'></a></p>
-<h2 id="traittype">TraitType</h2>
-<p><code>TraitType</code> is a type alias to specify a single symbol or a vector of symbols.</p>
 <p><a id='operator-1'></a></p>
 <h3 id="operator">operator ⊗</h3>
 <p>The TraitSimulation module implements the <code>⊗</code> operator to compute the Kronecker product between two matrices.</p>
@@ -371,6 +357,22 @@
 <span class="n">Σ</span> <span class="o">=</span> <span class="p">[</span><span class="n">VarianceComponent</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="n">VarianceComponent</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">I</span><span class="p">)]</span>
 <span class="n">Σ</span> <span class="o">=</span> <span class="p">@</span><span class="n">vc</span> <span class="n">A</span> <span class="n">⊗</span> <span class="n">K</span> <span class="o">+</span> <span class="n">B</span> <span class="n">⊗</span> <span class="n">I</span>
 </pre></div>
+
+
+<p><a id='VarianceComponentType-1'></a></p>
+<h2 id="variancecomponenttype">VarianceComponentType</h2>
+<p><code>VarianceComponentType</code> is a type alias to specify the variance component or covariance matrices.</p>
+<div class="codehilite"><pre><span class="k">typealias</span><span class="nc"> VarianceComponentType</span>
+  <span class="n">Union</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span> <span class="n">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span> <span class="n">Matrix</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}}</span>
+</pre></div>
+
+
+<p><a id='FormulaType-1'></a></p>
+<h2 id="formulatype">FormulaType</h2>
+<p><code>FormulaType</code> is a type alias to specify a single formula or a vector of formulae.</p>
+<p><a id='TraitType-1'></a></p>
+<h2 id="traittype">TraitType</h2>
+<p><code>TraitType</code> is a type alias to specify a single symbol or a vector of symbols.</p>
           <aside class="copyright" role="note">
             
             Documentation built with
