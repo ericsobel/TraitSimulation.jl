@@ -56,8 +56,8 @@ function calc_trait(μ::Vector{Float64}, resp_dist::ResponseDistribution)
     return μ
 
   else
-    # TODO: throw an exception here
-    return nothing
+    # throw an exception if the response distribution is not supported
+    throw(ErrorException("Response distribution not supported."))
   end
 
 end
@@ -73,17 +73,16 @@ function calc_randeff(vc::Vector{VarianceComponent},
   ncomponents = length(vc)
   cov_mat = zeros(Float64, ntraits*npeople, ntraits*npeople)
   for i=1:ncomponents
+    
+    # if a float or vector of float, make a diagonal matrix
     if typeof(vc[i].var_comp) == Float64 ||
        typeof(vc[i].var_comp) == Vector{Float64}
       cov_mat += kron(diagm(vc[i].var_comp), vc[i].cov_mat)
 
-    elseif typeof(vc[i].var_comp) == Matrix{Float64}
+    else typeof(vc[i].var_comp) == Matrix{Float64}
       cov_mat += kron(vc[i].var_comp, vc[i].cov_mat)
-
-    else
-      #TODO: throw an exception here
-      return nothing
     end
+
   end
 
   # sample the random effect
@@ -128,9 +127,14 @@ function simulate(model::SimulationModel, data_frame::DataFrame;
       lhs = formulae[i].lhs
       rhs = formulae[i].rhs
 
-      # TODO: throw an exception when formula cannot be evaluated
+      # eval the rhs, throw an exception when formula cannot be evaluated
       expand_rhs!(rhs, Set(names(data_frame)))
-      μ[:,i] = (@eval x -> $rhs)(data_frame)
+      try
+        μ[:,i] = (@eval x -> $rhs)(data_frame)
+      catch
+        throw(ErrorException(string("Failed to evaluate: ", rhs)))
+      end
+
     end
   end
 
