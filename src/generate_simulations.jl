@@ -52,7 +52,7 @@ function calc_trait(μ::Vector{Float64}, resp_dist::ResponseDistribution)
   elseif typeof(resp_dist) == InverseGaussianResponse
     return map(x -> rand(InverseGaussian(x, resp_dist.λ)), μ)
 
-  elseif typeof(resp_dist) == DiracResponse
+  elseif typeof(resp_dist) == DirectResponse
     return μ
 
   else
