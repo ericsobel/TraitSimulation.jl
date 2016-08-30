@@ -3,25 +3,15 @@ The Model abstract type, super type for each specific simulation model
 """
 abstract SimulationModel
 
-
-"""
-Define some aliases for clarity
-"""
+# Define some aliases for clarity
 typealias FormulaType
   Union{Formula, Vector{Formula}}
-
-typealias LinkFunctionType
-  Union{LinkFunction, Vector{LinkFunction}}
-
-typealias ResponseDistributionType
-  Union{ResponseDistribution, Vector{ResponseDistribution}}
 
 typealias VarianceComponentType
   Union{Float64, Vector{Float64}, Matrix{Float64}}
 
 typealias TraitType
   Union{Symbol, Vector{Symbol}}
-
 
 """
 A type to store fixed effect simulation model

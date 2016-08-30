@@ -1,6 +1,6 @@
 # Model Specifications
 
-This section introduces the ```SimulationModel``` type for specifying the
+This section introduces types for specifying the
 simulation model. Other types mentioned in this section are introduced
 in detail in the following sections.
 
@@ -67,20 +67,6 @@ MixedEffectModel(formula::FormulaType,
                  link::LinkFunctionType,
                  resp_dist::ResponseDistributionType)
 ```
-
-### Specifying the variance components
-
-```julia
-Model(frml::Union{Formula, Vector{Formula}},
-      vc::Vector{VarianceComponent},
-      link::Union{LinkFunction, Vector{LinkFunction}},
-      dist::Union{ResponseDistribution, Vector{ResponseDistribution}})
-```
-
-In addition to the three parameters in the fixed-effect model constructor,
-the mixed-effect model constructors requires the additional parameter
-```vc```, an array of variance components. See next section for details
-on the ```VarianceComponent``` type.
 
 ## VarianceComponent
 

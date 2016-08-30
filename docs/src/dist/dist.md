@@ -48,3 +48,7 @@ Constructs an exponential response, through ```ExponentialResponse()```.
 ## BernoulliResponse
 
 Constructs a Bernoulli response, through ```Bernoulli()```.
+
+## DirectResponse
+
+Directly output the mean, without imposing any distribution.

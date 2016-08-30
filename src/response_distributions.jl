@@ -7,6 +7,11 @@ A list of types to store distribution parameters in simulations
 abstract ResponseDistribution
 
 
+# a type alias for a single distribution and a vector of distributions
+typealias ResponseDistributionType
+  Union{ResponseDistribution, Vector{ResponseDistribution}}
+
+
 # normal response with standard deviation σ
 type NormalResponse <: ResponseDistribution
   σ::Float64

@@ -35,7 +35,7 @@ $\mu = -0.2X_1 + 0.1X_2 \times X_5 + 0.3\log(\text{HDL} + \text{LDL})$
 $Y \sim N(\mu, 1.0)$
 
 ```julia
-model = Model(Y ~ -0.2X1+0.1X2*X5+0.3log(HDL+LDL), IdentityLink(), NormalResponse(1.0))
+model = FixedEffectModel(Y ~ -0.2X1+0.1X2*X5+0.3log(HDL+LDL), IdentityLink(), NormalResponse(1.0))
 simulate(model, data_frame)
 ```
 
@@ -46,7 +46,7 @@ normal response ($\sigma = 1.0$) but different mean parameter, using the data
 frame created in [the first step](#first_step).
 
 ```julia
-model = Model([Y1 ~ 0.2X1+3.0, Y2 ~ 0.1X3+2.0, Y3 ~ 0.3X4+HDL], IdentityLink(), NormalResponse(1.0))
+model = FixedEffectModel([Y1 ~ 0.2X1+3.0, Y2 ~ 0.1X3+2.0, Y3 ~ 0.3X4+HDL], IdentityLink(), NormalResponse(1.0))
 simulate(model, data_frame)
 ```
 
@@ -63,7 +63,7 @@ $\mu_3 = 0.3X_4 + \text{HDL}, Y_3 \sim N(\mu_3, 2.0)$
 μ = [Y1 ~ 0.2X1+3.0, Y2 ~ 0.1X3+2.0, Y3 ~ 0.3X4+HDL]
 link = [LogitLink(), LogLink(), IdentityLink()]
 dist = [BinomialResponse(100), PoissonResponse(), NormalResponse(2.0)]
-model = Model(μ, link, dist)
+model = FixedEffectModel(μ, link, dist)
 simulate(model, data_frame)
 ```
 ## Simulate random effects
@@ -79,7 +79,7 @@ K = cor(data')
 I = eye(npeople)
 Σ = [VarianceComponent(0.2, K), VarianceComponent(0.8, I)]
 μ = Y ~ 0.2X1+2.0
-model = Model(μ, Σ, LogLink(), PoissonResponse())
+model = MixedEffectModel(μ, Σ, LogLink(), PoissonResponse())
 simulate(model, data_frame)
 ```
 
@@ -88,7 +88,7 @@ Note, the variables K and I must be defined before calling the ```@vc``` macro.
 
 ```julia
 Σ = @vc 0.2K + 0.8I
-model = Model(μ, Σ, LogLink(), PoissonResponse())
+model = MixedEffectModel(μ, Σ, LogLink(), PoissonResponse())
 simulate(model, data_frame)
 ```
 
@@ -101,6 +101,6 @@ I = eye(npeople)
 A = [0.2 -0.1; -0.1 0.3]
 B = [0.8 -0.2; -0.2 0.7]
 μ = [Y1 ~ X1+0.2X2*X3+1.0, Y2 ~ X3+0.1log(HDL+LDL)+0.1]
-model = Model(μ, (@vc A ⊗ K + B ⊗ I), IdentityLink(), NormalResponse(1.0))
+model = MixedEffectModel(μ, (@vc A ⊗ K + B ⊗ I), IdentityLink(), NormalResponse(1.0))
 simulate(model, data_frame)
 ```

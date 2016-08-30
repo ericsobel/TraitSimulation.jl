@@ -7,6 +7,11 @@ A list of types to store inverse link functions
 abstract LinkFunction
 
 
+# a type alias for a single link function or a vector of link functions
+typealias LinkFunctionType
+  Union{LinkFunction, Vector{LinkFunction}}
+
+
 # Cauchit link function
 type CauchitLink <: LinkFunction
   link::Function
