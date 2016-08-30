@@ -219,6 +219,12 @@
             </li>
           
             <li class="anchor">
+              <a title="LinkFunctionType" href="#linkfunctiontype">
+                LinkFunctionType
+              </a>
+            </li>
+          
+            <li class="anchor">
               <a title="CauchitLink" href="#cauchitlink">
                 CauchitLink
               </a>
@@ -297,6 +303,9 @@
 <p><a id='LinkFunction-1'></a></p>
 <h2 id="linkfunction">LinkFunction</h2>
 <p><code>LinkFunction</code> is an abstract type. It&rsquo;s the super type of each specific link function type listed below. All sub types of <code>LinkFunction</code> have constructors of the form <code>[name of the link]()</code>, and contain <code>link_inv::Function</code> as their member variables. For example the constructor for identity link function type is <code>IdentityLink()</code>, and its <code>link_inv</code> member variable is the function <code>f(x) = x</code>.</p>
+<p><a id='LinkFunctionType-1'></a></p>
+<h2 id="linkfunctiontype">LinkFunctionType</h2>
+<p><code>LinkFunctionType</code> is a type alias for a single link function or a vector of link functions.</p>
 <p><a id='CauchitLink-1'></a></p>
 <h2 id="cauchitlink">CauchitLink</h2>
 <p>Implements the Cauchit link $g(\mu) = \text{arctan}(\mu)/\pi+1/2$, which has inverse $g^{-1}(\eta) = \text{tan}[(\eta-1/2)\pi]$.</p>
