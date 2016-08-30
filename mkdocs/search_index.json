@@ -182,7 +182,7 @@
         }, 
         {
             "location": "/dist/dist/", 
-            "text": "Response Distribution\n\n\nThis sections lists the response distributions supported by the TraitSimulation module.\n\n\n\n\nResponseDistribution\n\n\nResponseDistribution\n is an abstract type. It\ns the super type of each specific response distribution listed below. All sub types of \nResponseDistribution\n have constructors of the form \n[distribution type](...)\n. Parameter(s) passed to the constructor of each ResponseDistribution are specific to the type of the distribution.\n\n\n\n\nNormalResponse\n\n\nConstructs a normal response type, through \nNormalResponse(\u03c3)\n, where \n\u03c3\n is the standard deviation of the normal distribution.\n\n\n\n\nBinomialResponse\n\n\nConstructs a binomial response type, through \nBinomialResponse(n)\n, where \nn\n is the number of trials in the binomial distribution.\n\n\n\n\nTResponse\n\n\nConstructs a T response type, through \nTResponse(\u03bd)\n,  where \n\u03bd\n is the degrees of freedom. The simulated trait is a shifted (by $\\mu$) version of T response.\n\n\n\n\nGammaResponse\n\n\nConstructs a Gamma response type, through \nGammaResponse(\u03b1)\n, where \n\u03b1\n is the shape parameter.\n\n\n\n\nInverseGaussianResponse\n\n\nConstructs an inverse Gaussian response, through \nInverseGaussianResponse(\u03bb)\n where \n\u03bb\n is the shape parameter.\n\n\n\n\nPoissonResponse\n\n\nConstructs a Poisson response, through \nPoisson()\n.\n\n\n\n\nExponentialResponse\n\n\nConstructs an exponential response, through \nExponentialResponse()\n.\n\n\n\n\nBernoulliResponse\n\n\nConstructs a Bernoulli response, through \nBernoulli()\n.", 
+            "text": "Response Distribution\n\n\nThis sections lists the response distributions supported by the TraitSimulation module.\n\n\n\n\nResponseDistribution\n\n\nResponseDistribution\n is an abstract type. It\ns the super type of each specific response distribution listed below. All sub types of \nResponseDistribution\n have constructors of the form \n[distribution type](...)\n. Parameter(s) passed to the constructor of each ResponseDistribution are specific to the type of the distribution.\n\n\n\n\nNormalResponse\n\n\nConstructs a normal response type, through \nNormalResponse(\u03c3)\n, where \n\u03c3\n is the standard deviation of the normal distribution.\n\n\n\n\nBinomialResponse\n\n\nConstructs a binomial response type, through \nBinomialResponse(n)\n, where \nn\n is the number of trials in the binomial distribution.\n\n\n\n\nTResponse\n\n\nConstructs a T response type, through \nTResponse(\u03bd)\n,  where \n\u03bd\n is the degrees of freedom. The simulated trait is a shifted (by $\\mu$) version of T response.\n\n\n\n\nGammaResponse\n\n\nConstructs a Gamma response type, through \nGammaResponse(\u03b1)\n, where \n\u03b1\n is the shape parameter.\n\n\n\n\nInverseGaussianResponse\n\n\nConstructs an inverse Gaussian response, through \nInverseGaussianResponse(\u03bb)\n where \n\u03bb\n is the shape parameter.\n\n\n\n\nPoissonResponse\n\n\nConstructs a Poisson response, through \nPoisson()\n.\n\n\n\n\nExponentialResponse\n\n\nConstructs an exponential response, through \nExponentialResponse()\n.\n\n\n\n\nBernoulliResponse\n\n\nConstructs a Bernoulli response, through \nBernoulli()\n.\n\n\n\n\nDirectResponse\n\n\nDirectly output the mean, without imposing any distribution.", 
             "title": "Response Distributions"
         }, 
         {
@@ -234,6 +234,11 @@
             "location": "/dist/dist/#bernoulliresponse", 
             "text": "Constructs a Bernoulli response, through  Bernoulli() .", 
             "title": "BernoulliResponse"
+        }, 
+        {
+            "location": "/dist/dist/#directresponse", 
+            "text": "Directly output the mean, without imposing any distribution.", 
+            "title": "DirectResponse"
         }
     ]
 }
