@@ -80,6 +80,26 @@ cross covariance matrix to be simulated. If ```var_comp``` is of type
 ```Vector{Float64}```, it will be interpreted as a cross covariance
 matrix with off-diagnal elements equal to 0.
 
+## VarianceComponentType
+
+```VarianceComponentType``` is a type alias to specify the
+variance component or covariance matrices.
+
+```julia
+typealias VarianceComponentType
+  Union{Float64, Vector{Float64}, Matrix{Float64}}
+```
+
+## FormulaType
+
+```FormulaType``` is a type alias to specify a single formula or a
+vector of formulae.
+
+## TraitType
+
+```TraitType``` is a type alias to specify a single symbol or a
+vector of symbols.
+
 ### operator ⊗
 
 The TraitSimulation module implements the ```⊗``` operator to compute

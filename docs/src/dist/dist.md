@@ -11,6 +11,11 @@ types of ```ResponseDistribution``` have constructors of the form
 of each ResponseDistribution are specific to the type of the
 distribution.
 
+## ResponseDistributionType
+
+```ResponseDistributionType``` is a type alias for a single
+response distribution or a vector of response distributions.
+
 ## NormalResponse
 
 Constructs a normal response type, through ```NormalResponse(σ)```,

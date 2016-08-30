@@ -12,6 +12,11 @@ contain ```link_inv::Function``` as their member variables. For example
 the constructor for identity link function type is ```IdentityLink()```,
 and its ```link_inv``` member variable is the function ```f(x) = x```.
 
+## LinkFunctionType
+
+```LinkFunctionType``` is a type alias for a single link function or a
+vector of link functions.
+
 ## CauchitLink
 
 Implements the Cauchit link $g(\mu) = \text{arctan}(\mu)/\pi+1/2$,
@@ -51,3 +56,5 @@ $g^{-1}(\eta) = \eta^2$.
 
 Implements the log link $g(\mu) = \log(\mu)$, which has inverse
 $g^{-1}(\eta) = \exp(\eta)$.
+
+
