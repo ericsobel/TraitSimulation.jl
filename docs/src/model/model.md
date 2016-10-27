@@ -6,12 +6,12 @@ in detail in the following sections.
 
 ## SimulationModel
 
-```SimulationModel``` is an abstract supertype for each spefic
+```SimulationModel``` is an abstract supertype for each specific
 simulation model.
 
 ## FixedEffectModel
 
-```FixedEffectModel``` is a type to specify simulations under the
+```FixedEffectModel``` specifies simulations under the
 fixed-effect model. It's a subtype of ```SimulationModel```.
 
 ```julia
@@ -22,23 +22,23 @@ FixedEffectModel(frml::FormulaType,
 ```
 
 ```frml``` can be a single formula, in which case, a single trait
-will be simulated, or an array of formula, in which case, multiple
+will be simulated, or an array of formulae, in which case, multiple
 traits will be simulated. Here, we use the ```Formula``` type
 in the ```DataFrames``` module.
 
-```link``` can be a single ```LinkFunction```, in which case, all traits
-will be simulated under the same link function, or an array of
-```LinkFunction```, in which case, each trait will be simulated under
+```link``` can be a single link function, in which case, all traits
+will be simulated under the same link function, or a vector of
+link functions, in which case, each trait will be simulated under
 its own link function.
 
-```dist``` can be a single ```ResponseDistribution```, in which case,
-all traits will have the same response distribution, or an array
-of ```ResponseDistribution```, in which case, each trait will have
+```dist``` can be a single response distribution, in which case,
+all traits will have the same response distribution, or a vector
+of response distributions, in which case, each trait will have
 its own response distribution.
 
 ## RandomEffectModel
 
-```RandomEffectModel``` is a type to specify simulations under the random
+```RandomEffectModel``` specifies simulations under the random
 effect model. It's a subtype of ```SimulationModel```.
 
 ```julia
@@ -49,7 +49,7 @@ RandomEffectModel(traits::TraitType,
 ```
 
 ```traits``` can be a single symbol, in which case, a single trait
-will be simulated, or an array of symbol, in which case multiple
+will be simulated, or a vector of symbols, in which case multiple
 traits will be simulated.
 
 ```vc``` is an array of variance components / cross covariances and the
@@ -76,8 +76,8 @@ VarianceComponent(var_comp::Union{Float64, Vector{Float64}, Matrix{Float64}}
 ```
 
 The ```var_comp``` parameter specifies the variance component or the
-cross covariance matrix to be simulated. If ```var_comp``` is of type
-```Vector{Float64}```, it will be interpreted as a cross covariance
+covariance matrix to be simulated. If ```var_comp``` is of type
+```Vector{Float64}```, it will be interpreted as a diagonal covariance
 matrix with off-diagnal elements equal to 0.
 
 ### operator ⊗
@@ -92,24 +92,19 @@ the Kronecker product between two matrices.
 ### macro @vc
 
 The TraitSimulation module provides a macro ```@vc``` to simplify
-the specification of variance components. The following code snippet
-lists some equivalent ways to specify the variance components in the
+the specification of variance components. The following code
+lists some examples to specify the variance components in a
 simulation model. The terms in the expression to the right of ```@vc```
 must be defined.
 
 ```julia
 # a fake GRM
-K = cor(data')
-I = eye(npeople)
+K = cor(snp_data')
+I = eye(people)
 A = [0.2 -0.1; -0.1 0.3]
 B = [0.8 -0.2; -0.2 0.7]
 
-# the following two ways to specify Σ are equivalent
-Σ = [VarianceComponent(0.2, K), VarianceComponent(0.8, I)]
 Σ = @vc 0.2K + 0.8I 
-
-# the following two ways to specify Σ are equivalent
-Σ = [VarianceComponent(A, K), VarianceComponent(B, I)]
 Σ = @vc A ⊗ K + B ⊗ I
 ```
 
