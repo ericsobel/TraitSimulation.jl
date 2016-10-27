@@ -290,22 +290,22 @@
 <p>This section introduces types for specifying the simulation model. Other types mentioned in this section are introduced in detail in the following sections.</p>
 <p><a id='SimulationModel-1'></a></p>
 <h2 id="simulationmodel">SimulationModel</h2>
-<p><code>SimulationModel</code> is an abstract supertype for each spefic simulation model.</p>
+<p><code>SimulationModel</code> is an abstract supertype for each specific simulation model.</p>
 <p><a id='FixedEffectModel-1'></a></p>
 <h2 id="fixedeffectmodel">FixedEffectModel</h2>
-<p><code>FixedEffectModel</code> is a type to specify simulations under the fixed-effect model. It&rsquo;s a subtype of <code>SimulationModel</code>.</p>
+<p><code>FixedEffectModel</code> specifies simulations under the fixed-effect model. It&rsquo;s a subtype of <code>SimulationModel</code>.</p>
 <div class="codehilite"><pre><span class="n">FixedEffectModel</span><span class="p">(</span><span class="n">frml</span><span class="p">::</span><span class="n">FormulaType</span><span class="p">,</span>
                  <span class="n">link</span><span class="p">::</span><span class="n">LinkFunctionType</span>
                  <span class="n">dist</span><span class="p">::</span><span class="n">ResponseDistributionType</span><span class="p">)</span>
 </pre></div>
 
 
-<p><code>frml</code> can be a single formula, in which case, a single trait will be simulated, or an array of formula, in which case, multiple traits will be simulated. Here, we use the <code>Formula</code> type in the <code>DataFrames</code> module.</p>
-<p><code>link</code> can be a single <code>LinkFunction</code>, in which case, all traits will be simulated under the same link function, or an array of <code>LinkFunction</code>, in which case, each trait will be simulated under its own link function.</p>
-<p><code>dist</code> can be a single <code>ResponseDistribution</code>, in which case, all traits will have the same response distribution, or an array of <code>ResponseDistribution</code>, in which case, each trait will have its own response distribution.</p>
+<p><code>frml</code> can be a single formula, in which case, a single trait will be simulated, or an array of formulae, in which case, multiple traits will be simulated. Here, we use the <code>Formula</code> type in the <code>DataFrames</code> module.</p>
+<p><code>link</code> can be a single link function, in which case, all traits will be simulated under the same link function, or a vector of link functions, in which case, each trait will be simulated under its own link function.</p>
+<p><code>dist</code> can be a single response distribution, in which case, all traits will have the same response distribution, or a vector of response distributions, in which case, each trait will have its own response distribution.</p>
 <p><a id='RandomEffectModel-1'></a></p>
 <h2 id="randomeffectmodel">RandomEffectModel</h2>
-<p><code>RandomEffectModel</code> is a type to specify simulations under the random effect model. It&rsquo;s a subtype of <code>SimulationModel</code>.</p>
+<p><code>RandomEffectModel</code> specifies simulations under the random effect model. It&rsquo;s a subtype of <code>SimulationModel</code>.</p>
 <div class="codehilite"><pre><span class="n">RandomEffectModel</span><span class="p">(</span><span class="n">traits</span><span class="p">::</span><span class="n">TraitType</span><span class="p">,</span>
                   <span class="n">vc</span><span class="p">::</span><span class="n">Vector</span><span class="p">{</span><span class="n">VarianceComponent</span><span class="p">},</span>
                   <span class="n">link</span><span class="p">::</span><span class="n">LinkFunctionType</span><span class="p">,</span>
@@ -313,7 +313,7 @@
 </pre></div>
 
 
-<p><code>traits</code> can be a single symbol, in which case, a single trait will be simulated, or an array of symbol, in which case multiple traits will be simulated.</p>
+<p><code>traits</code> can be a single symbol, in which case, a single trait will be simulated, or a vector of symbols, in which case multiple traits will be simulated.</p>
 <p><code>vc</code> is an array of variance components / cross covariances and the corresponding covariance matrices. See the section on the <code>VarianceComponent</code> type for more detail.</p>
 <p><a id='MixedEffectModel-1'></a></p>
 <h2 id="mixedeffectmodel">MixedEffectModel</h2>
@@ -332,7 +332,7 @@
 </pre></div>
 
 
-<p>The <code>var_comp</code> parameter specifies the variance component or the cross covariance matrix to be simulated. If <code>var_comp</code> is of type <code>Vector{Float64}</code>, it will be interpreted as a cross covariance matrix with off-diagnal elements equal to 0.</p>
+<p>The <code>var_comp</code> parameter specifies the variance component or the covariance matrix to be simulated. If <code>var_comp</code> is of type <code>Vector{Float64}</code>, it will be interpreted as a diagonal covariance matrix with off-diagnal elements equal to 0.</p>
 <p><a id='operator-1'></a></p>
 <h3 id="operator">operator ⊗</h3>
 <p>The TraitSimulation module implements the <code>⊗</code> operator to compute the Kronecker product between two matrices.</p>
@@ -342,19 +342,14 @@
 
 <p><a id='macro-@vc-1'></a></p>
 <h3 id="macro-vc">macro @vc</h3>
-<p>The TraitSimulation module provides a macro <code>@vc</code> to simplify the specification of variance components. The following code snippet lists some equivalent ways to specify the variance components in the simulation model. The terms in the expression to the right of <code>@vc</code> must be defined.</p>
+<p>The TraitSimulation module provides a macro <code>@vc</code> to simplify the specification of variance components. The following code lists some examples to specify the variance components in a simulation model. The terms in the expression to the right of <code>@vc</code> must be defined.</p>
 <div class="codehilite"><pre><span class="c"># a fake GRM</span>
-<span class="n">K</span> <span class="o">=</span> <span class="n">cor</span><span class="p">(</span><span class="n">data</span><span class="o">&#39;</span><span class="p">)</span>
-<span class="n">I</span> <span class="o">=</span> <span class="n">eye</span><span class="p">(</span><span class="n">npeople</span><span class="p">)</span>
+<span class="n">K</span> <span class="o">=</span> <span class="n">cor</span><span class="p">(</span><span class="n">snp_data</span><span class="o">&#39;</span><span class="p">)</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">eye</span><span class="p">(</span><span class="n">people</span><span class="p">)</span>
 <span class="n">A</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.2</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">;</span> <span class="o">-</span><span class="mf">0.1</span> <span class="mf">0.3</span><span class="p">]</span>
 <span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.8</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">;</span> <span class="o">-</span><span class="mf">0.2</span> <span class="mf">0.7</span><span class="p">]</span>
 
-<span class="c"># the following two ways to specify Σ are equivalent</span>
-<span class="n">Σ</span> <span class="o">=</span> <span class="p">[</span><span class="n">VarianceComponent</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="n">VarianceComponent</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">I</span><span class="p">)]</span>
 <span class="n">Σ</span> <span class="o">=</span> <span class="p">@</span><span class="n">vc</span> <span class="mf">0.2</span><span class="n">K</span> <span class="o">+</span> <span class="mf">0.8</span><span class="n">I</span> 
-
-<span class="c"># the following two ways to specify Σ are equivalent</span>
-<span class="n">Σ</span> <span class="o">=</span> <span class="p">[</span><span class="n">VarianceComponent</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="n">VarianceComponent</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">I</span><span class="p">)]</span>
 <span class="n">Σ</span> <span class="o">=</span> <span class="p">@</span><span class="n">vc</span> <span class="n">A</span> <span class="n">⊗</span> <span class="n">K</span> <span class="o">+</span> <span class="n">B</span> <span class="n">⊗</span> <span class="n">I</span>
 </pre></div>
 

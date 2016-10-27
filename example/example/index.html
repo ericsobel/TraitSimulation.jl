@@ -266,16 +266,16 @@
 <p>This section provides some examples on how to use the TraitSimulation module.</p>
 <p><a id='a-name"first_step"Random-test-data-set/a-1'></a></p>
 <h2 id="random-test-data-set"><a name="first_step">Random test data set</a></h2>
-<p>The following code snippet creates a data frame containing genotype (X1, &hellip;, X5) and phenotype (HDL and LDL) measurements for 10 individuals.</p>
+<p>The following code creates a data frame containing genotype (X1, &hellip;, X5) and phenotype (HDL and LDL) measurements for 10 individuals.</p>
 <div class="codehilite"><pre><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">TraitSimulation</span>
-<span class="n">npeople</span><span class="p">,</span> <span class="n">nsnp</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-<span class="n">snp_data</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="n">npeople</span><span class="p">,</span> <span class="n">nsnp</span><span class="p">)</span>
-<span class="n">freqs</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>
-<span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">nsnp</span>
-    <span class="n">snp_data</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">Binomial</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">freqs</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">npeople</span><span class="p">)</span>
+<span class="p">(</span><span class="n">people</span><span class="p">,</span> <span class="n">snps</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">snp_data</span> <span class="o">=</span> <span class="n">Matrix</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="n">people</span><span class="p">,</span> <span class="n">snps</span><span class="p">)</span>
+<span class="n">freq</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">snps</span>
+    <span class="n">snp_data</span><span class="p">[:,</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">Binomial</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">freq</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">people</span><span class="p">)</span>
 <span class="k">end</span>
-<span class="n">hdl_data</span><span class="p">,</span> <span class="n">ldl_data</span> <span class="o">=</span> <span class="p">(</span><span class="n">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="n">npeople</span><span class="p">),</span> <span class="n">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="n">npeople</span><span class="p">))</span>
-<span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">npeople</span>
+<span class="p">(</span><span class="n">hdl_data</span><span class="p">,</span> <span class="n">ldl_data</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="n">people</span><span class="p">),</span> <span class="n">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="n">people</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="n">people</span>
     <span class="n">hdl_data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">Uniform</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">80</span><span class="p">))</span>
     <span class="n">ldl_data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">Uniform</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">80</span><span class="p">))</span>
 <span class="k">end</span>
@@ -287,10 +287,10 @@
 
 <p><a id='Simulate-normal-response-1'></a></p>
 <h2 id="simulate-normal-response">Simulate normal response</h2>
-<p>The following code snippet simulates a trait ($Y$) with normal response ($\sigma = 1.0$) using the data frame created in <a href="#first_step">the first step</a>.</p>
+<p>The following code simulates a trait ($Y$) with normal response ($\sigma = 1.0$) using the data frame created in <a href="#first_step">step 1</a>.</p>
 <p>
 <script type="math/tex; mode=display">
-\mu = -0.2X_1 + 0.1X_2 \times X_5 + 0.3\log(\text{HDL} + \text{LDL})
+\mu = -0.2X_1 + 0.1X_2 * X_5 + 0.3\log(\text{HDL})
 </script>
 </p>
 <p>
@@ -298,20 +298,20 @@
 Y \sim N(\mu, 1.0)
 </script>
 </p>
-<div class="codehilite"><pre><span class="n">model</span> <span class="o">=</span> <span class="n">FixedEffectModel</span><span class="p">(</span><span class="n">Y</span> <span class="o">~</span> <span class="o">-</span><span class="mf">0.2</span><span class="n">X1</span><span class="o">+</span><span class="mf">0.1</span><span class="n">X2</span><span class="o">*</span><span class="n">X5</span><span class="o">+</span><span class="mf">0.3</span><span class="n">log</span><span class="p">(</span><span class="n">HDL</span><span class="o">+</span><span class="n">LDL</span><span class="p">),</span> <span class="n">IdentityLink</span><span class="p">(),</span> <span class="n">NormalResponse</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span>
+<div class="codehilite"><pre><span class="n">model</span> <span class="o">=</span> <span class="n">FixedEffectModel</span><span class="p">(</span><span class="n">Y</span> <span class="o">~</span> <span class="o">-</span><span class="mf">0.2</span><span class="n">X1</span><span class="o">+</span><span class="mf">0.1</span><span class="n">X2</span><span class="o">*</span><span class="n">X5</span><span class="o">+</span><span class="mf">0.3</span><span class="n">log</span><span class="p">(</span><span class="n">HDL</span><span class="p">),</span> <span class="n">IdentityLink</span><span class="p">(),</span> <span class="n">NormalResponse</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span>
 <span class="n">simulate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data_frame</span><span class="p">)</span>
 </pre></div>
 
 
 <p><a id='Simulate-multiple-traits-1'></a></p>
 <h2 id="simulate-multiple-traits">Simulate multiple traits</h2>
-<p>The following code snippet simulates three traits ($Y_1, Y_2, Y_3$) with normal response ($\sigma = 1.0$) but different mean parameter, using the data frame created in <a href="#first_step">the first step</a>.</p>
-<div class="codehilite"><pre><span class="n">model</span> <span class="o">=</span> <span class="n">FixedEffectModel</span><span class="p">([</span><span class="n">Y1</span> <span class="o">~</span> <span class="mf">0.2</span><span class="n">X1</span><span class="o">+</span><span class="mf">3.0</span><span class="p">,</span> <span class="n">Y2</span> <span class="o">~</span> <span class="mf">0.1</span><span class="n">X3</span><span class="o">+</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">Y3</span> <span class="o">~</span> <span class="mf">0.3</span><span class="n">X4</span><span class="o">+</span><span class="n">HDL</span><span class="p">],</span> <span class="n">IdentityLink</span><span class="p">(),</span> <span class="n">NormalResponse</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span>
+<p>The following code simulates three traits ($Y_1, Y_2, Y_3$) with normal response ($\sigma = 1.0$) but different means, using the data frame created in <a href="#first_step">step 1</a>.</p>
+<div class="codehilite"><pre><span class="n">model</span> <span class="o">=</span> <span class="n">FixedEffectModel</span><span class="p">([</span><span class="n">Y1</span> <span class="o">~</span> <span class="mf">3.0</span><span class="o">+</span><span class="mf">0.2</span><span class="n">X1</span><span class="p">,</span> <span class="n">Y2</span> <span class="o">~</span> <span class="mf">2.0</span><span class="o">+</span><span class="mf">0.1</span><span class="n">X3</span><span class="p">,</span> <span class="n">Y3</span> <span class="o">~</span> <span class="mf">0.3</span><span class="n">X4</span><span class="o">+</span><span class="n">HDL</span><span class="p">],</span> <span class="n">IdentityLink</span><span class="p">(),</span> <span class="n">NormalResponse</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span>
 <span class="n">simulate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data_frame</span><span class="p">)</span>
 </pre></div>
 
 
-<p>The following code snippet simulates three traits ($Y_1, Y_2, Y_3$) with different response distributions, using the data frame created in <a href="#first_step">the first step</a>.</p>
+<p>The following code simulates three traits ($Y_1, Y_2, Y_3$) with different response distributions using the data frame created in <a href="#first_step">step 1</a>.</p>
 <p>
 <script type="math/tex; mode=display">
 \mu_1 = 0.2X_1 + 3.0, Y_1 \sim \text{Bin}(100, \mu_1)
@@ -337,15 +337,15 @@ Y \sim N(\mu, 1.0)
 
 <p><a id='Simulate-random-effects-1'></a></p>
 <h2 id="simulate-random-effects">Simulate random effects</h2>
-<p>The following code snippet simulates a trait with Poisson response with two variance components, using the data frame created in <a href="#first_step">the first step</a>.</p>
+<p>The following code simulates a trait with Poisson response with two variance components, using the data frame created in <a href="#first_step">step 1</a>.</p>
 <p>
 <script type="math/tex; mode=display">
 \mu = (0.2X_1 + 2.0) + X u + \epsilon, u \sim N(0, 0.04K), \epsilon \sim N(0, 0.8I), Y \sim \text{Pois}(\mu)
 </script>
 </p>
 <div class="codehilite"><pre><span class="c"># a fake GRM</span>
-<span class="n">K</span> <span class="o">=</span> <span class="n">cor</span><span class="p">(</span><span class="n">data</span><span class="o">&#39;</span><span class="p">)</span>
-<span class="n">I</span> <span class="o">=</span> <span class="n">eye</span><span class="p">(</span><span class="n">npeople</span><span class="p">)</span>
+<span class="n">K</span> <span class="o">=</span> <span class="n">cor</span><span class="p">(</span><span class="n">snp_data</span><span class="o">&#39;</span><span class="p">)</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">eye</span><span class="p">(</span><span class="n">people</span><span class="p">)</span>
 <span class="n">Σ</span> <span class="o">=</span> <span class="p">[</span><span class="n">VarianceComponent</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="n">VarianceComponent</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">I</span><span class="p">)]</span>
 <span class="n">μ</span> <span class="o">=</span> <span class="n">Y</span> <span class="o">~</span> <span class="mf">0.2</span><span class="n">X1</span><span class="o">+</span><span class="mf">2.0</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">MixedEffectModel</span><span class="p">(</span><span class="n">μ</span><span class="p">,</span> <span class="n">Σ</span><span class="p">,</span> <span class="n">LogLink</span><span class="p">(),</span> <span class="n">PoissonResponse</span><span class="p">())</span>
@@ -366,7 +366,7 @@ Y \sim N(\mu, 1.0)
 <span class="n">I</span> <span class="o">=</span> <span class="n">eye</span><span class="p">(</span><span class="n">npeople</span><span class="p">)</span>
 <span class="n">A</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.2</span> <span class="o">-</span><span class="mf">0.1</span><span class="p">;</span> <span class="o">-</span><span class="mf">0.1</span> <span class="mf">0.3</span><span class="p">]</span>
 <span class="n">B</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.8</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">;</span> <span class="o">-</span><span class="mf">0.2</span> <span class="mf">0.7</span><span class="p">]</span>
-<span class="n">μ</span> <span class="o">=</span> <span class="p">[</span><span class="n">Y1</span> <span class="o">~</span> <span class="n">X1</span><span class="o">+</span><span class="mf">0.2</span><span class="n">X2</span><span class="o">*</span><span class="n">X3</span><span class="o">+</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Y2</span> <span class="o">~</span> <span class="n">X3</span><span class="o">+</span><span class="mf">0.1</span><span class="n">log</span><span class="p">(</span><span class="n">HDL</span><span class="o">+</span><span class="n">LDL</span><span class="p">)</span><span class="o">+</span><span class="mf">0.1</span><span class="p">]</span>
+<span class="n">μ</span> <span class="o">=</span> <span class="p">[</span><span class="n">Y1</span> <span class="o">~</span> <span class="n">X1</span><span class="o">+</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">Y2</span> <span class="o">~</span> <span class="n">X3</span><span class="o">+</span><span class="mf">0.1</span><span class="n">log</span><span class="p">(</span><span class="n">HDL</span><span class="p">)</span><span class="o">+</span><span class="mf">0.1</span><span class="p">]</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">MixedEffectModel</span><span class="p">(</span><span class="n">μ</span><span class="p">,</span> <span class="p">(@</span><span class="n">vc</span> <span class="n">A</span> <span class="n">⊗</span> <span class="n">K</span> <span class="o">+</span> <span class="n">B</span> <span class="n">⊗</span> <span class="n">I</span><span class="p">),</span> <span class="n">IdentityLink</span><span class="p">(),</span> <span class="n">NormalResponse</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span>
 <span class="n">simulate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data_frame</span><span class="p">)</span>
 </pre></div>
