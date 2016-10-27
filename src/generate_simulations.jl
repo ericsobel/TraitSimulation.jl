@@ -108,7 +108,7 @@ function calc_randeff(vc::Vector{VarianceComponent},
     end
 
     # cholesky of the kronecker product
-    L += chol(cross_cov)' ⊗ chol(cov_mat)'
+    L = chol(cross_cov)' ⊗ chol(cov_mat)'
     
     # increment the cholesky
     tmp = rand(dist, npeople*ntraits)
