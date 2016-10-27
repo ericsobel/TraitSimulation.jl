@@ -278,13 +278,13 @@
 <p>Missing pattern specified as <code>Vector{Bool}</code>, <code>BitArray{1}</code> or <code>Vector{Int64}</code> will be interpreted as an index set containing indices of the missing entries. For simulations involving multiple traits, the same missing pattern is applied across all traits.</p>
 <p><a id='Matrix{Bool},-BitArray{2},-or-Vector{Vector{Int64}}-1'></a></p>
 <h3 id="matrixbool-bitarray2-or-vectorvectorint64">Matrix{Bool}, BitArray{2}, or Vector{Vector{Int64}}</h3>
-<p>Missing pattern specified as <code>Matrix{Bool}</code> or <code>BitArray{2}</code>  with dimension $people \times traits$ or <code>Vector{Vector{Int64}}</code>will be interpreted as index sets containing indices of the missing entries. This allows for different traits to have different index set for missing entries.</p>
+<p>Missing pattern specified as <code>Matrix{Bool}</code> or <code>BitArray{2}</code>  with dimension $people \times traits$ or <code>Vector{Vector{Int64}}</code> with length $traits$ will be interpreted as index sets containing indices of the missing entries. This allows for different traits to have different index sets for missing entries.</p>
 <p><a id='UnitRange{Int64}-or-StepRange{Int64,-Int64}-1'></a></p>
 <h3 id="unitrangeint64-or-steprangeint64-int64">UnitRange{Int64} or StepRange{Int64, Int64}</h3>
-<p>Missing pattern spcified as <code>UnitRange{Int64}</code> or <code>StepRange{Int64, Int64}</code> can be used to specify a region of missing entries. For simulations involving multiple traits, the same missing pattern will be applied across all traits.</p>
+<p>Missing pattern spcified as <code>UnitRange{Int64}</code> or <code>StepRange{Int64, Int64}</code> can be used to specify a range of missing entries. For simulations involving multiple traits, the same missing pattern will be applied across all traits.</p>
 <p><a id='Vector{UnitRange{Int64}}-or-Vector{StepRange{Int64,-Int64}}-1'></a></p>
 <h3 id="vectorunitrangeint64-or-vectorsteprangeint64-int64">Vector{UnitRange{Int64}} or Vector{StepRange{Int64, Int64}}</h3>
-<p>Missing pattern specified as <code>Vector{UnitRange{Int64}}</code> or <code>Vector{StepRange{Int64, Int64}}</code> can be used to specify different regions of missing entries for different traits for simulations involing multiple traits.</p>
+<p>Missing pattern specified as <code>Vector{UnitRange{Int64}}</code> or <code>Vector{StepRange{Int64, Int64}}</code> can be used to specify different ranges of missing entries for different traits for simulations involing multiple traits.</p>
           <aside class="copyright" role="note">
             
             Documentation built with
