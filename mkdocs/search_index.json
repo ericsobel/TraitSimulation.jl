@@ -122,7 +122,7 @@
         }, 
         {
             "location": "/generate/generate/", 
-            "text": "Generate Simulations\n\n\nThis section introduces the \nsimulate\n function for simulating traits according to the specified model.\n\n\n\n\nsimulate\n\n\nsimulate\n(\nmodel\n::\nModel\n,\n \ndata_frame\n::\nDataFrame\n;\n \npattern\n::\nMissingPattern\n=\n1.0\n)\n\n\n\n\n\n\nThe \nsimulate\n function simulates traits according to the \nModel\n using data stored in the \nDataFrame\n. One can use the \npattern\n keyword to specify desired missing pattern. See the  section \nMissingPattern\n for details on supported missing patterns.\n\n\n\n\nMissingPattern\n\n\nMissingPattern\n is a type alias for several ways to indexing an array.\n\n\ntypealias\n MissingPattern\n\n  \nUnion\n{\nFloat64\n,\n \nVector\n{\nBool\n},\n \nMatrix\n{\nBool\n},\n \nBitArray\n{\n1\n},\n \nBitArray\n{\n2\n},\n\n        \nVector\n{\nInt64\n},\n \nVector\n{\nVector\n{\nInt64\n}},\n \nUnitRange\n{\nInt64\n},\n\n        \nVector\n{\nUnitRange\n{\nInt64\n}},\n \nStepRange\n{\nInt64\n,\n \nInt64\n},\n\n        \nVector\n{\nStepRange\n{\nInt64\n,\nInt64\n}}}\n\n\n\n\n\n\n\n\nFloat64", 
+            "text": "Generate Simulations\n\n\nThis section introduces the \nsimulate\n function for simulating traits according to the specified model.\n\n\n\n\nsimulate\n\n\nsimulate\n(\nmodel\n::\nModel\n,\n \ndata_frame\n::\nDataFrame\n;\n \npattern\n::\nMissingPattern\n=\n1.0\n)\n\n\n\n\n\n\nThe \nsimulate\n function simulates traits according to the \nModel\n using data stored in the \nDataFrame\n. One can use the \npattern\n keyword to specify desired missing pattern. See the  section \nMissingPattern\n for details on supported missing patterns.\n\n\n\n\nMissingPattern\n\n\nMissingPattern\n is a type alias for different ways to specify missing entries of simulated trait(s). Entries marked as missing have the value \nNA\n.\n\n\ntypealias\n MissingPattern\n\n  \nUnion\n{\nFloat64\n,\n \nVector\n{\nBool\n},\n \nMatrix\n{\nBool\n},\n \nBitArray\n{\n1\n},\n \nBitArray\n{\n2\n},\n\n        \nVector\n{\nInt64\n},\n \nVector\n{\nVector\n{\nInt64\n}},\n \nUnitRange\n{\nInt64\n},\n\n        \nVector\n{\nUnitRange\n{\nInt64\n}},\n \nStepRange\n{\nInt64\n,\n \nInt64\n},\n\n        \nVector\n{\nStepRange\n{\nInt64\n,\nInt64\n}}}\n\n\n\n\n\n\n\n\nFloat64\n\n\nMissing pattern specified as float will be interpreted as missing rate. For simulations involving multiple traits, the same missing rate is applied across all traits.\n\n\n\n\nVector{Bool}, BitArray{1}, or Vector{Int64}\n\n\nMissing pattern specified as \nVector{Bool}\n, \nBitArray{1}\n or \nVector{Int64}\n will be interpreted as an index set containing indices of the missing entries. For simulations involving multiple traits, the same missing pattern is applied across all traits.\n\n\n\n\nMatrix{Bool}, BitArray{2}, or Vector{Vector{Int64}}\n\n\nMissing pattern specified as \nMatrix{Bool}\n or \nBitArray{2}\n  with dimension $people \\times traits$ or \nVector{Vector{Int64}}\nwill be interpreted as index sets containing indices of the missing entries. This allows for different traits to have different index set for missing entries.\n\n\n\n\nUnitRange{Int64} or StepRange{Int64, Int64}\n\n\nMissing pattern spcified as \nUnitRange{Int64}\n or \nStepRange{Int64, Int64}\n can be used to specify a region of missing entries. For simulations involving multiple traits, the same missing pattern will be applied across all traits.\n\n\n\n\nVector{UnitRange{Int64}} or Vector{StepRange{Int64, Int64}}\n\n\nMissing pattern specified as \nVector{UnitRange{Int64}}\n or \nVector{StepRange{Int64, Int64}}\n can be used to specify different regions of missing entries for different traits for simulations involing multiple traits.", 
             "title": "Generate Simulations"
         }, 
         {
@@ -137,13 +137,33 @@
         }, 
         {
             "location": "/generate/generate/#missingpattern", 
-            "text": "MissingPattern  is a type alias for several ways to indexing an array.  typealias  MissingPattern \n   Union { Float64 ,   Vector { Bool },   Matrix { Bool },   BitArray { 1 },   BitArray { 2 }, \n         Vector { Int64 },   Vector { Vector { Int64 }},   UnitRange { Int64 }, \n         Vector { UnitRange { Int64 }},   StepRange { Int64 ,   Int64 }, \n         Vector { StepRange { Int64 , Int64 }}}", 
+            "text": "MissingPattern  is a type alias for different ways to specify missing entries of simulated trait(s). Entries marked as missing have the value  NA .  typealias  MissingPattern \n   Union { Float64 ,   Vector { Bool },   Matrix { Bool },   BitArray { 1 },   BitArray { 2 }, \n         Vector { Int64 },   Vector { Vector { Int64 }},   UnitRange { Int64 }, \n         Vector { UnitRange { Int64 }},   StepRange { Int64 ,   Int64 }, \n         Vector { StepRange { Int64 , Int64 }}}", 
             "title": "MissingPattern"
         }, 
         {
             "location": "/generate/generate/#float64", 
-            "text": "", 
+            "text": "Missing pattern specified as float will be interpreted as missing rate. For simulations involving multiple traits, the same missing rate is applied across all traits.", 
             "title": "Float64"
+        }, 
+        {
+            "location": "/generate/generate/#vectorbool-bitarray1-or-vectorint64", 
+            "text": "Missing pattern specified as  Vector{Bool} ,  BitArray{1}  or  Vector{Int64}  will be interpreted as an index set containing indices of the missing entries. For simulations involving multiple traits, the same missing pattern is applied across all traits.", 
+            "title": "Vector{Bool}, BitArray{1}, or Vector{Int64}"
+        }, 
+        {
+            "location": "/generate/generate/#matrixbool-bitarray2-or-vectorvectorint64", 
+            "text": "Missing pattern specified as  Matrix{Bool}  or  BitArray{2}   with dimension $people \\times traits$ or  Vector{Vector{Int64}} will be interpreted as index sets containing indices of the missing entries. This allows for different traits to have different index set for missing entries.", 
+            "title": "Matrix{Bool}, BitArray{2}, or Vector{Vector{Int64}}"
+        }, 
+        {
+            "location": "/generate/generate/#unitrangeint64-or-steprangeint64-int64", 
+            "text": "Missing pattern spcified as  UnitRange{Int64}  or  StepRange{Int64, Int64}  can be used to specify a region of missing entries. For simulations involving multiple traits, the same missing pattern will be applied across all traits.", 
+            "title": "UnitRange{Int64} or StepRange{Int64, Int64}"
+        }, 
+        {
+            "location": "/generate/generate/#vectorunitrangeint64-or-vectorsteprangeint64-int64", 
+            "text": "Missing pattern specified as  Vector{UnitRange{Int64}}  or  Vector{StepRange{Int64, Int64}}  can be used to specify different regions of missing entries for different traits for simulations involing multiple traits.", 
+            "title": "Vector{UnitRange{Int64}} or Vector{StepRange{Int64, Int64}}"
         }, 
         {
             "location": "/link/link/", 
