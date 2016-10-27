@@ -261,13 +261,17 @@
 <p>The <code>simulate</code> function simulates traits according to the <code>Model</code> using data stored in the <code>DataFrame</code>. One can use the <code>pattern</code> keyword to specify desired missing pattern. See the  section <code>MissingPattern</code> for details on supported missing patterns.</p>
 <p><a id='MissingPattern-1'></a></p>
 <h2 id="missingpattern">MissingPattern</h2>
-<p><code>MissingPattern</code> is a type alias for some ways to indexing an array.</p>
+<p><code>MissingPattern</code> is a type alias for several ways to indexing an array.</p>
 <div class="codehilite"><pre><span class="k">typealias</span><span class="nc"> MissingPattern</span>
   <span class="n">Union</span><span class="p">{</span><span class="kt">Float64</span><span class="p">,</span> <span class="n">Vector</span><span class="p">{</span><span class="kt">Bool</span><span class="p">},</span> <span class="n">Matrix</span><span class="p">{</span><span class="kt">Bool</span><span class="p">},</span> <span class="n">BitArray</span><span class="p">{</span><span class="mi">1</span><span class="p">},</span> <span class="n">BitArray</span><span class="p">{</span><span class="mi">2</span><span class="p">},</span>
         <span class="n">Vector</span><span class="p">{</span><span class="kt">Int64</span><span class="p">},</span> <span class="n">Vector</span><span class="p">{</span><span class="n">Vector</span><span class="p">{</span><span class="kt">Int64</span><span class="p">}},</span> <span class="n">UnitRange</span><span class="p">{</span><span class="kt">Int64</span><span class="p">},</span>
         <span class="n">Vector</span><span class="p">{</span><span class="n">UnitRange</span><span class="p">{</span><span class="kt">Int64</span><span class="p">}},</span> <span class="n">StepRange</span><span class="p">{</span><span class="kt">Int64</span><span class="p">,</span> <span class="kt">Int64</span><span class="p">},</span>
         <span class="n">Vector</span><span class="p">{</span><span class="n">StepRange</span><span class="p">{</span><span class="kt">Int64</span><span class="p">,</span><span class="kt">Int64</span><span class="p">}}}</span>
 </pre></div>
+
+
+<p><a id='Float64-1'></a></p>
+<h3 id="float64"><code>Float64</code></h3>
           <aside class="copyright" role="note">
             
             Documentation built with

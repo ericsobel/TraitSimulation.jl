@@ -122,7 +122,7 @@
         }, 
         {
             "location": "/generate/generate/", 
-            "text": "Generate Simulations\n\n\nThis section introduces the \nsimulate\n function for simulating traits according to the specified model.\n\n\n\n\nsimulate\n\n\nsimulate\n(\nmodel\n::\nModel\n,\n \ndata_frame\n::\nDataFrame\n;\n \npattern\n::\nMissingPattern\n=\n1.0\n)\n\n\n\n\n\n\nThe \nsimulate\n function simulates traits according to the \nModel\n using data stored in the \nDataFrame\n. One can use the \npattern\n keyword to specify desired missing pattern. See the  section \nMissingPattern\n for details on supported missing patterns.\n\n\n\n\nMissingPattern\n\n\nMissingPattern\n is a type alias for some ways to indexing an array.\n\n\ntypealias\n MissingPattern\n\n  \nUnion\n{\nFloat64\n,\n \nVector\n{\nBool\n},\n \nMatrix\n{\nBool\n},\n \nBitArray\n{\n1\n},\n \nBitArray\n{\n2\n},\n\n        \nVector\n{\nInt64\n},\n \nVector\n{\nVector\n{\nInt64\n}},\n \nUnitRange\n{\nInt64\n},\n\n        \nVector\n{\nUnitRange\n{\nInt64\n}},\n \nStepRange\n{\nInt64\n,\n \nInt64\n},\n\n        \nVector\n{\nStepRange\n{\nInt64\n,\nInt64\n}}}", 
+            "text": "Generate Simulations\n\n\nThis section introduces the \nsimulate\n function for simulating traits according to the specified model.\n\n\n\n\nsimulate\n\n\nsimulate\n(\nmodel\n::\nModel\n,\n \ndata_frame\n::\nDataFrame\n;\n \npattern\n::\nMissingPattern\n=\n1.0\n)\n\n\n\n\n\n\nThe \nsimulate\n function simulates traits according to the \nModel\n using data stored in the \nDataFrame\n. One can use the \npattern\n keyword to specify desired missing pattern. See the  section \nMissingPattern\n for details on supported missing patterns.\n\n\n\n\nMissingPattern\n\n\nMissingPattern\n is a type alias for several ways to indexing an array.\n\n\ntypealias\n MissingPattern\n\n  \nUnion\n{\nFloat64\n,\n \nVector\n{\nBool\n},\n \nMatrix\n{\nBool\n},\n \nBitArray\n{\n1\n},\n \nBitArray\n{\n2\n},\n\n        \nVector\n{\nInt64\n},\n \nVector\n{\nVector\n{\nInt64\n}},\n \nUnitRange\n{\nInt64\n},\n\n        \nVector\n{\nUnitRange\n{\nInt64\n}},\n \nStepRange\n{\nInt64\n,\n \nInt64\n},\n\n        \nVector\n{\nStepRange\n{\nInt64\n,\nInt64\n}}}\n\n\n\n\n\n\n\n\nFloat64", 
             "title": "Generate Simulations"
         }, 
         {
@@ -137,8 +137,13 @@
         }, 
         {
             "location": "/generate/generate/#missingpattern", 
-            "text": "MissingPattern  is a type alias for some ways to indexing an array.  typealias  MissingPattern \n   Union { Float64 ,   Vector { Bool },   Matrix { Bool },   BitArray { 1 },   BitArray { 2 }, \n         Vector { Int64 },   Vector { Vector { Int64 }},   UnitRange { Int64 }, \n         Vector { UnitRange { Int64 }},   StepRange { Int64 ,   Int64 }, \n         Vector { StepRange { Int64 , Int64 }}}", 
+            "text": "MissingPattern  is a type alias for several ways to indexing an array.  typealias  MissingPattern \n   Union { Float64 ,   Vector { Bool },   Matrix { Bool },   BitArray { 1 },   BitArray { 2 }, \n         Vector { Int64 },   Vector { Vector { Int64 }},   UnitRange { Int64 }, \n         Vector { UnitRange { Int64 }},   StepRange { Int64 ,   Int64 }, \n         Vector { StepRange { Int64 , Int64 }}}", 
             "title": "MissingPattern"
+        }, 
+        {
+            "location": "/generate/generate/#float64", 
+            "text": "", 
+            "title": "Float64"
         }, 
         {
             "location": "/link/link/", 
