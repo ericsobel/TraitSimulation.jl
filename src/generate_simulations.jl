@@ -87,7 +87,8 @@ function calc_randeff(vc::Vector{VarianceComponent},
   
   # normal distribution with mean 0 and variance 1
   dist = Normal(0.0, 1.0)
-  
+  randeff = zeros(Float64, npeople*ntraits)
+
   # construct the random effect iteratively
   for i=1:ncomponents
 
