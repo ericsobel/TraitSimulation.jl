@@ -11,7 +11,7 @@ typealias MissingPattern
         Vector{StepRange{Int64,Int64}}}
 
 typealias InputDataType
-    Union{DataFrame, SnpArray}
+    Union{DataFrame, SnpArray{2}}
 
 
 """
@@ -174,9 +174,8 @@ function simulate(model::SimulationModel, data::InputDataType;
   pattern::MissingPattern=0.0)
 
   # if data is SnpArray, convert to data frame first
-  if typeof(data) == SnpArray
+  if typeof(data) == SnpArray{2}
     data = convert(DataFrame, convert(Matrix{Float64}, data))
-    head(data)
   end
 
   # get dimensions

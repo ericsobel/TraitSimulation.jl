@@ -78,11 +78,10 @@ simulate(model, df)
 model = RandomEffectModel(:A, Σ, LogLink(), PoissonResponse())
 simulate(model, df; pattern=0.1)
 
-# testing SnpArray
+# testing SnpArrays
 data = SnpArray(Pkg.dir("TraitSimulation") * "/docs/hapmap3")
-sim_model = FixedEffectModel(@formula(T ~ A+2B*C),
+sim_model = FixedEffectModel(@formula(T ~ x1+2x2*x3),
                              IdentityLink(), NormalResponse(1.0))
-y = simulate(sim_model, df)
-
+y = simulate(sim_model, data)
 
 end
