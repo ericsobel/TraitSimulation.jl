@@ -19,42 +19,42 @@ vector of link functions.
 
 ## CauchitLink
 
-Implements the Cauchit link $g(\mu) = \text{arctan}(\mu)/\pi+1/2$,
-which has inverse $g^{-1}(\eta) = \text{tan}[(\eta-1/2)\pi]$.
+Implements the Cauchit link \\(g(\mu) = \text{arctan}(\mu)/\pi+1/2\\),
+which has inverse \\(g^{-1}(\eta) = \text{tan}[(\eta-1/2)\pi]\\).
 
 ## CloglogLink
 
-Implements the complementary log log link, $g(\mu) = \log(-\log(1-\mu))$
-which has invserse $g^{-1}(\eta) = 1 - \exp(-\exp(\eta))$.
+Implements the complementary log log link, \\(g(\mu) = \log(-\log(1-\mu))\\)
+which has invserse \\(g^{-1}(\eta) = 1 - \exp(-\exp(\eta))\\).
 
 ## IdentityLink
 
-Implements the identity link $g(\mu) = \mu$, which has inverse
-$g^{-1}(\eta) = \eta$
+Implements the identity link \\(g(\mu) = \mu\\), which has inverse
+\\(g^{-1}(\eta) = \eta\\)
 
 ## InverseLink
 
-Implements the inverse link $g(\mu) = 1/\mu$, which has inverse
-$g^{-1}(\eta) = 1/\eta$
+Implements the inverse link \\(g(\mu) = 1/\mu\\), which has inverse
+\\(g^{-1}(\eta) = 1/\eta\\)
 
 ## LogitLink
 
-Implements the logit link $g(\mu) = \log(\mu / (1-\mu))$, which has inverse
-$g^{-1}(\eta) = 1 / (1+\exp(-\eta))$.
+Implements the logit link \\(g(\mu) = \log(\mu / (1-\mu))\\), which has inverse
+\\(g^{-1}(\eta) = 1 / (1+\exp(-\eta))\\).
 
 ## ProbitLink
 
-Implements the probit link $g(\mu) = \Phi^{-1}(\mu)$,
-which has inverse $g^{-1}(\eta) = \Phi(\eta)$
+Implements the probit link \\(g(\mu) = \Phi^{-1}(\mu)\\),
+which has inverse \\(g^{-1}(\eta) = \Phi(\eta)\\)
 
 ## SqrtLink
 
-Implements the square root link $g(\mu) = \sqrt{\mu}$, which has inverse
-$g^{-1}(\eta) = \eta^2$.
+Implements the square root link \\(g(\mu) = \sqrt{\mu}\\), which has inverse
+\\(g^{-1}(\eta) = \eta^2\\).
 
 ## LogLink
 
-Implements the log link $g(\mu) = \log(\mu)$, which has inverse
-$g^{-1}(\eta) = \exp(\eta)$.
+Implements the log link \\(g(\mu) = \log(\mu)\\), which has inverse
+\\(g^{-1}(\eta) = \exp(\eta)\\).
 
 
