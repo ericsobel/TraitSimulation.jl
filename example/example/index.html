@@ -404,7 +404,7 @@
 
 <p><a id='Simulate-normal-response-1'></a></p>
 <h2 id="simulate-normal-response">Simulate normal response</h2>
-<p>The following code simulates a trait ($Y$) with normal response (<script type="math/tex">\sigma = 1.0</script>) using the data frame created in <a href="#first_step">step 1</a>.</p>
+<p>The following code simulates a trait (<script type="math/tex">Y</script>) with normal response (<script type="math/tex">\sigma = 1.0</script>) using the data frame created in <a href="#first_step">step 1</a>.</p>
 <p>
 <script type="math/tex; mode=display">
 \mu = -0.2X_1 + 0.1X_2 * X_5 + 0.3\log(\text{HDL})
@@ -422,13 +422,13 @@ Y \sim N(\mu, 1.0)
 
 <p><a id='Simulate-multiple-traits-1'></a></p>
 <h2 id="simulate-multiple-traits">Simulate multiple traits</h2>
-<p>The following code simulates three traits ($Y_1, Y_2, Y_3$) with normal response ($\sigma = 1.0$) but different means, using the data frame created in <a href="#first_step">step 1</a>.</p>
+<p>The following code simulates three traits (<script type="math/tex">Y_1, Y_2, Y_3</script>) with normal response (<script type="math/tex">\sigma = 1.0</script>) but different means, using the data frame created in <a href="#first_step">step 1</a>.</p>
 <div class="codehilite"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">FixedEffectModel</span><span class="p">([</span><span class="n">Y1</span> <span class="o">~</span> <span class="mf">3.0</span><span class="o">+</span><span class="mf">0.2</span><span class="n">X1</span><span class="p">,</span> <span class="n">Y2</span> <span class="o">~</span> <span class="mf">2.0</span><span class="o">+</span><span class="mf">0.1</span><span class="n">X3</span><span class="p">,</span> <span class="n">Y3</span> <span class="o">~</span> <span class="mf">0.3</span><span class="n">X4</span><span class="o">+</span><span class="n">HDL</span><span class="p">],</span> <span class="n">IdentityLink</span><span class="p">(),</span> <span class="n">NormalResponse</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span>
 <span class="n">simulate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data_frame</span><span class="p">)</span>
 </pre></div>
 
 
-<p>The following code simulates three traits ($Y_1, Y_2, Y_3$) with different response distributions using the data frame created in <a href="#first_step">step 1</a>.</p>
+<p>The following code simulates three traits (<script type="math/tex">Y_1, Y_2, Y_3</script>) with different response distributions using the data frame created in <a href="#first_step">step 1</a>.</p>
 <p>
 <script type="math/tex; mode=display">
 \mu_1 = 0.2X_1 + 3.0, Y_1 \sim \text{Bin}(100, \mu_1)
