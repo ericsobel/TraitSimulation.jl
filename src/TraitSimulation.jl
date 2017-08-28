@@ -32,8 +32,8 @@ export SimulationModel,
 
 
 using DataFrames,
-      Distributions
-
+      Distributions,
+      SnpArrays
 
 include("link_functions.jl")
 include("response_distributions.jl")

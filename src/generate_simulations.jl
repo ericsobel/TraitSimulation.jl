@@ -3,12 +3,15 @@ This file contains functions to simulate traits.
 """
 
 
-# define some some type alias for clearer code
+# define some type alias for clearer code
 typealias MissingPattern
   Union{Float64, Vector{Bool}, Matrix{Bool}, BitArray{1}, BitArray{2},
         Vector{Int64}, Vector{Vector{Int64}}, UnitRange{Int64},
         Vector{UnitRange{Int64}}, StepRange{Int64, Int64},
         Vector{StepRange{Int64,Int64}}}
+
+typealias InputDataType
+    Union{DataFrame, SnpArray}
 
 
 """
@@ -165,13 +168,19 @@ end
 
 """
 Simulate traits based on model specified in "model" using data
-stored in "data_frame".
+stored in "data".
 """
-function simulate(model::SimulationModel, data_frame::DataFrame;
+function simulate(model::SimulationModel, data::InputDataType;
   pattern::MissingPattern=0.0)
 
+  # if data is SnpArray, convert to data frame first
+  if typeof(data) == SnpArray
+    data = convert(DataFrame, convert(Matrix{Float64}, data))
+    head(data)
+  end
+
   # get dimensions
-  npeople, ntraits = (size(data_frame, 1), size(model))
+  npeople, ntraits = (size(data, 1), size(model))
 
   # for simulating under fixed and mixed effect model only
   if typeof(model) == FixedEffectModel || typeof(model) == MixedEffectModel
@@ -190,9 +199,9 @@ function simulate(model::SimulationModel, data_frame::DataFrame;
   if typeof(model) == FixedEffectModel || typeof(model) == MixedEffectModel
     for i=1:ntraits
       rhs = formulae[i].rhs
-      expand_rhs!(rhs, Set(names(data_frame)))
+      expand_rhs!(rhs, Set(names(data)))
       try
-        μ[:,i] = (@eval x -> $rhs)(data_frame)
+        μ[:,i] = (@eval x -> $rhs)(data)
       catch
         throw(ErrorException(string("Failed to evaluate: ", rhs)))
       end

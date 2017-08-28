@@ -1,6 +1,6 @@
 module TraitSimulationTest
 
-using DataFrames, TraitSimulation
+using DataFrames, TraitSimulation, SnpArrays
 
 if VERSION >= v"0.5.0-dev+7720"
     using Base.Test
@@ -77,5 +77,12 @@ simulate(model, df)
 
 model = RandomEffectModel(:A, Σ, LogLink(), PoissonResponse())
 simulate(model, df; pattern=0.1)
+
+# testing SnpArray
+data = SnpArray(Pkg.dir("TraitSimulation") * "/docs/hapmap3")
+sim_model = FixedEffectModel(@formula(T ~ A+2B*C),
+                             IdentityLink(), NormalResponse(1.0))
+y = simulate(sim_model, df)
+
 
 end
