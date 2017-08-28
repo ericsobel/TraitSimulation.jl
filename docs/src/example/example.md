@@ -28,7 +28,7 @@ names!(data_frame, [:X1, :X2, :X3, :X4, :X5, :HDL, :LDL])
 ## Simulate normal response
 
 The following code simulates a trait ($Y$) with normal response
-($\sigma = 1.0$) using the data frame created in [step 1](#first_step).
+(\\(\sigma = 1.0\\)) using the data frame created in [step 1](#first_step).
 
 $\mu = -0.2X_1 + 0.1X_2 * X_5 + 0.3\log(\text{HDL})$
 
