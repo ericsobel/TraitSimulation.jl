@@ -229,9 +229,29 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#random-test-data-set" title="Random test data set" class="md-nav__link">
-    Random test data set
+  <a href="#test-data-set" title="Test data set" class="md-nav__link">
+    Test data set
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generate-random-data-set" title="Generate random data set" class="md-nav__link">
+    Generate random data set
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load-data-set-from-plink-files" title="Load data set from PLINK files" class="md-nav__link">
+    Load data set from PLINK files
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -334,9 +354,29 @@
     <ul class="md-nav__list" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#random-test-data-set" title="Random test data set" class="md-nav__link">
-    Random test data set
+  <a href="#test-data-set" title="Test data set" class="md-nav__link">
+    Test data set
   </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generate-random-data-set" title="Generate random data set" class="md-nav__link">
+    Generate random data set
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#load-data-set-from-plink-files" title="Load data set from PLINK files" class="md-nav__link">
+    Load data set from PLINK files
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -381,8 +421,10 @@
                 <p><a id='Getting-Started-1'></a></p>
 <h1 id="getting-started">Getting Started</h1>
 <p>This section provides some examples on how to use the TraitSimulation module.</p>
-<p><a id='a-name"first_step"Random-test-data-set/a-1'></a></p>
-<h2 id="random-test-data-set"><a name="first_step">Random test data set</a></h2>
+<p><a id='a-name"first_step"Test-data-set/a-1'></a></p>
+<h2 id="test-data-set"><a name="first_step">Test data set</a></h2>
+<p><a id='Generate-random-data-set-1'></a></p>
+<h3 id="generate-random-data-set">Generate random data set</h3>
 <p>The following code creates a data frame containing genotype (X1, &hellip;, X5) and phenotype (HDL and LDL) measurements for 10 individuals.</p>
 <div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">TraitSimulation</span>
 <span class="p">(</span><span class="n">people</span><span class="p">,</span> <span class="n">snps</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
@@ -402,6 +444,8 @@
 </pre></div>
 
 
+<p><a id='Load-data-set-from-PLINK-files-1'></a></p>
+<h3 id="load-data-set-from-plink-files">Load data set from PLINK files</h3>
 <p><a id='Simulate-normal-response-1'></a></p>
 <h2 id="simulate-normal-response">Simulate normal response</h2>
 <p>The following code simulates a trait (<script type="math/tex">Y</script>) with normal response (<script type="math/tex">\sigma = 1.0</script>) using the data frame created in <a href="#first_step">step 1</a>.</p>
