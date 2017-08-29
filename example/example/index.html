@@ -453,7 +453,7 @@
 
 <p><a id='Simulate-normal-response-1'></a></p>
 <h2 id="simulate-normal-response">Simulate normal response</h2>
-<p>The following code simulates a trait (<script type="math/tex">Y</script>) with normal response (<script type="math/tex">\sigma = 1.0</script>) using the data frame created in <a href="#first_step">step 1</a>.</p>
+<p>The following code simulates a trait (<script type="math/tex">y</script>) with normal response (<script type="math/tex">\sigma = 1.0</script>) using the data frame created in <a href="#first_step">step 1</a>.</p>
 <p>
 <script type="math/tex; mode=display">
 \mu = -0.2x_1 + 0.1x_2 * x_5 + 0.3\log(\text{HDL})
@@ -461,10 +461,10 @@
 </p>
 <p>
 <script type="math/tex; mode=display">
-Y \sim N(\mu, 1.0)
+y \sim N(\mu, 1.0)
 </script>
 </p>
-<div class="codehilite"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">FixedEffectModel</span><span class="p">(</span><span class="n">Y</span> <span class="o">~</span> <span class="o">-</span><span class="mf">0.2</span><span class="n">X1</span><span class="o">+</span><span class="mf">0.1</span><span class="n">X2</span><span class="o">*</span><span class="n">X5</span><span class="o">+</span><span class="mf">0.3</span><span class="n">log</span><span class="p">(</span><span class="n">HDL</span><span class="p">),</span> <span class="n">IdentityLink</span><span class="p">(),</span> <span class="n">NormalResponse</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span>
+<div class="codehilite"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">FixedEffectModel</span><span class="p">(</span><span class="n">y</span> <span class="o">~</span> <span class="o">-</span><span class="mf">0.2</span><span class="n">x1</span><span class="o">+</span><span class="mf">0.1</span><span class="n">x2</span><span class="o">*</span><span class="n">x5</span><span class="o">+</span><span class="mf">0.3</span><span class="n">log</span><span class="p">(</span><span class="n">HDL</span><span class="p">),</span> <span class="n">IdentityLink</span><span class="p">(),</span> <span class="n">NormalResponse</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span>
 <span class="n">simulate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data_frame</span><span class="p">)</span>
 </pre></div>
 
