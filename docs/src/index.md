@@ -1,4 +1,4 @@
-# TraitSimulation.jl (prototype)
+# TraitSimulation.jl
  
 A Julia module to perform trait simulation.
 
@@ -26,7 +26,9 @@ directory in the .julia folder.
 ## Key Features
  
 1. Simulate trait under Generalized Linear Model (GLM) or Generalized Linear Mixed Model (GLMM)
-2. Provide convenient ways to specify the simulation model
+2. Allow simulation of multiple correlated traits
+3. Support integration with [SnpArrays](https://github.com/openmendel/SnpArrays.jl)
+4. Provide convenient ways to specify the simulation model
 
 When simulating under the GLM, traits are sampled from
 
