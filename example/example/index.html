@@ -244,8 +244,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#load-data-set-from-plink-files" title="Load data set from PLINK files" class="md-nav__link">
-    Load data set from PLINK files
+  <a href="#load-data-from-plink-files" title="Load data from PLINK files" class="md-nav__link">
+    Load data from PLINK files
   </a>
   
 </li>
@@ -369,8 +369,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#load-data-set-from-plink-files" title="Load data set from PLINK files" class="md-nav__link">
-    Load data set from PLINK files
+  <a href="#load-data-from-plink-files" title="Load data from PLINK files" class="md-nav__link">
+    Load data from PLINK files
   </a>
   
 </li>
@@ -425,7 +425,7 @@
 <h2 id="test-data-set"><a name="first_step">Test data set</a></h2>
 <p><a id='Generate-random-data-set-1'></a></p>
 <h3 id="generate-random-data-set">Generate random data set</h3>
-<p>The following code creates a data frame containing genotype (X1, &hellip;, X5) and phenotype (HDL and LDL) measurements for 10 individuals.</p>
+<p>The following code creates a data frame containing genotype (x1, &hellip;, x5) and phenotype (HDL and LDL) measurements for 10 individuals.</p>
 <div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">TraitSimulation</span>
 <span class="p">(</span><span class="n">people</span><span class="p">,</span> <span class="n">snps</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 <span class="n">snp_data</span> <span class="o">=</span> <span class="kt">Matrix</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="n">people</span><span class="p">,</span> <span class="n">snps</span><span class="p">)</span>
@@ -440,12 +440,17 @@
 <span class="k">end</span>
 <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">snp_data</span> <span class="n">hdl_data</span> <span class="n">ldl_data</span><span class="p">]</span>
 <span class="n">data_frame</span> <span class="o">=</span> <span class="n">convert</span><span class="p">(</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-<span class="n">names!</span><span class="p">(</span><span class="n">data_frame</span><span class="p">,</span> <span class="p">[</span><span class="o">:</span><span class="n">X1</span><span class="p">,</span> <span class="o">:</span><span class="n">X2</span><span class="p">,</span> <span class="o">:</span><span class="n">X3</span><span class="p">,</span> <span class="o">:</span><span class="n">X4</span><span class="p">,</span> <span class="o">:</span><span class="n">X5</span><span class="p">,</span> <span class="o">:</span><span class="n">HDL</span><span class="p">,</span> <span class="o">:</span><span class="n">LDL</span><span class="p">])</span>
+<span class="n">names!</span><span class="p">(</span><span class="n">data_frame</span><span class="p">,</span> <span class="p">[</span><span class="o">:</span><span class="n">x1</span><span class="p">,</span> <span class="o">:</span><span class="n">x2</span><span class="p">,</span> <span class="o">:</span><span class="n">x3</span><span class="p">,</span> <span class="o">:</span><span class="n">x4</span><span class="p">,</span> <span class="o">:</span><span class="n">x5</span><span class="p">,</span> <span class="o">:</span><span class="n">HDL</span><span class="p">,</span> <span class="o">:</span><span class="n">LDL</span><span class="p">])</span>
 </pre></div>
 
 
-<p><a id='Load-data-set-from-PLINK-files-1'></a></p>
-<h3 id="load-data-set-from-plink-files">Load data set from PLINK files</h3>
+<p><a id='Load-data-from-PLINK-files-1'></a></p>
+<h3 id="load-data-from-plink-files">Load data from PLINK files</h3>
+<p>TraitSimulation module can also take genotype data in PLINK format through <a href="https://github.com/OpenMendel/SnpArrays.jl">SnpArrays</a>. For example, the following code reads in genotype data from the PLINK files $hapmap3.bed&rdquo;,$hapmap3.bim&rdquo;, $hapmap3.fam&rdquo;, which can then be directly passed to the$simulate&rdquo; function.</p>
+<div class="codehilite"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">SnpArray</span><span class="p">(</span><span class="s">&quot;hapmap3&quot;</span><span class="p">)</span>
+</pre></div>
+
+
 <p><a id='Simulate-normal-response-1'></a></p>
 <h2 id="simulate-normal-response">Simulate normal response</h2>
 <p>The following code simulates a trait (<script type="math/tex">Y</script>) with normal response (<script type="math/tex">\sigma = 1.0</script>) using the data frame created in <a href="#first_step">step 1</a>.</p>
