@@ -258,8 +258,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#appending-principal-components" title="Appending principal components" class="md-nav__link">
-    Appending principal components
+  <a href="#including-principal-components" title="Including principal components" class="md-nav__link">
+    Including principal components
   </a>
   
 </li>
@@ -397,8 +397,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#appending-principal-components" title="Appending principal components" class="md-nav__link">
-    Appending principal components
+  <a href="#including-principal-components" title="Including principal components" class="md-nav__link">
+    Including principal components
   </a>
   
 </li>
@@ -485,8 +485,8 @@
 </pre></div>
 
 
-<p><a id='Appending-principal-components-1'></a></p>
-<h3 id="appending-principal-components">Appending principal components</h3>
+<p><a id='Including-principal-components-1'></a></p>
+<h3 id="including-principal-components">Including principal components</h3>
 <p>To include principal components as a covariate in the simulation procedure, one can apply <code>pca</code> in the <code>SnpArrays</code> module to obtain the PCs and then include them as a column in the input data frame. The following code simulate a trait using the first 3 SNPs and 2 PCs.</p>
 <div class="codehilite"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">SnpArray</span><span class="p">(</span><span class="s">&quot;hapmap3&quot;</span><span class="p">)</span>
 <span class="n">pcscore</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">pca</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -555,7 +555,7 @@ y \sim N(\mu, 1.0)
 <p>The following code simulates a trait with Poisson response with two variance components, using the data frame created in <a href="#first_step">step 1</a>.</p>
 <p>
 <script type="math/tex; mode=display">
-\mu = (0.2x_1 + 2.0) + x u + \epsilon, u \sim N(0, 0.04K), \epsilon \sim N(0, 0.8I), y \sim \text{Pois}(\mu)
+\mu = (0.2x_1 + 2.0) + X u + \epsilon, u \sim N(0, 0.04K), \epsilon \sim N(0, 0.8I), y \sim \text{Pois}(\mu)
 </script>
 </p>
 <div class="codehilite"><pre><span></span><span class="c"># a fake GRM</span>
