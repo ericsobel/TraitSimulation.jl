@@ -14,6 +14,11 @@ The ```simulate``` function simulates traits according to the
 the ```pattern``` keyword to specify desired missing pattern. See the 
 section ```MissingPattern``` for details on supported missing patterns.
 
+## InputDataType
+
+```InputDataType``` is a type alias for different types of input data, which
+can be either a ```DataFrame``` or ```SnpArray{2}```.
+
 ## MissingPattern
 
 ```MissingPattern``` is a type alias for different ways to specify missing

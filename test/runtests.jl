@@ -70,18 +70,30 @@ K = GRM
 I = eye(5)
 Σ = [VarianceComponent(0.8, K), VarianceComponent(0.2, I)]
 model = MixedEffectModel(μ, Σ, LogLink(), PoissonResponse())
-simulate(model, df)
+y = simulate(model, df)
 
 model = RandomEffectModel(:A, Σ, LogLink(), PoissonResponse())
-simulate(model, df)
+y = simulate(model, df)
 
 model = RandomEffectModel(:A, Σ, LogLink(), PoissonResponse())
-simulate(model, df; pattern=0.1)
+y = simulate(model, df; pattern=0.1)
 
 # testing SnpArrays
 data = SnpArray(Pkg.dir("TraitSimulation") * "/docs/hapmap3")
 sim_model = FixedEffectModel(@formula(T ~ x1+2x2*x3),
                              IdentityLink(), NormalResponse(1.0))
 y = simulate(sim_model, data)
+
+# testing pca
+data = SnpArray(Pkg.dir("TraitSimulation") * "/docs/hapmap3")
+pcscore,_,_ = pca(data)
+pcscore = convert(DataFrame, pcscore)
+names!(pcscore, [Symbol("PC$i") for i in 1:size(pcscore,2)])
+data = convert(DataFrame, convert(Matrix{Float64}, data))
+data = hcat(data, pcscore)
+sim_model = FixedEffectModel(@formula(T ~ x1+2x2*x3+PC1+PC2),
+                             IdentityLink(), NormalResponse(1.0))
+y = simulate(sim_model, data)
+
 
 end
