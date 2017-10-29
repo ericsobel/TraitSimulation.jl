@@ -233,32 +233,33 @@
     Overview
   </a>
   
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#simulate-trait-using-genotype-data-in-plink-format" title="Simulate trait using genotype data in PLINK format" class="md-nav__link">
-    Simulate trait using genotype data in PLINK format
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simulate-a-trait-using-genotype-data-in-plink-format" title="Simulate a trait using genotype data in PLINK format" class="md-nav__link">
+    Simulate a trait using genotype data in PLINK format
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#including-principal-components-as-covariates" title="Including principal components as covariates" class="md-nav__link">
-    Including principal components as covariates
+      
+        <li class="md-nav__item">
+  <a href="#simulate-a-trait-with-pcs-as-covariates" title="Simulate a trait with PC's as covariates" class="md-nav__link">
+    Simulate a trait with PC's as covariates
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
+  <a href="#simulate-a-trait-under-the-variance-component-model" title="Simulate a trait under the variance component model" class="md-nav__link">
+    Simulate a trait under the variance component model
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#generate-random-data-set" title="Generate random data set" class="md-nav__link">
     Generate random data set
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -365,32 +366,33 @@
     Overview
   </a>
   
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#simulate-trait-using-genotype-data-in-plink-format" title="Simulate trait using genotype data in PLINK format" class="md-nav__link">
-    Simulate trait using genotype data in PLINK format
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#simulate-a-trait-using-genotype-data-in-plink-format" title="Simulate a trait using genotype data in PLINK format" class="md-nav__link">
+    Simulate a trait using genotype data in PLINK format
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#including-principal-components-as-covariates" title="Including principal components as covariates" class="md-nav__link">
-    Including principal components as covariates
+      
+        <li class="md-nav__item">
+  <a href="#simulate-a-trait-with-pcs-as-covariates" title="Simulate a trait with PC's as covariates" class="md-nav__link">
+    Simulate a trait with PC's as covariates
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
+  <a href="#simulate-a-trait-under-the-variance-component-model" title="Simulate a trait under the variance component model" class="md-nav__link">
+    Simulate a trait under the variance component model
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#generate-random-data-set" title="Generate random data set" class="md-nav__link">
     Generate random data set
   </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -438,10 +440,10 @@
 <p><a id='Overview-1'></a></p>
 <h2 id="overview">Overview</h2>
 <p>The TraitSimulation module allows users to simulate phenotypes under various models, including fixed-effect, random-effect, and mixed-effect models. The simulation procedure takes a two-step approach. In the first step, the user constructs a simulation model using the <code>SimulationModel</code> type. In the second step, the user calls the <code>simulate</code> function along with the data to generate the simulated phenotype, which is appended as a column to the input data frame.</p>
-<p><a id='Simulate-trait-using-genotype-data-in-PLINK-format-1'></a></p>
-<h3 id="simulate-trait-using-genotype-data-in-plink-format">Simulate trait using genotype data in PLINK format</h3>
+<p><a id='Simulate-a-trait-using-genotype-data-in-PLINK-format-1'></a></p>
+<h2 id="simulate-a-trait-using-genotype-data-in-plink-format">Simulate a trait using genotype data in PLINK format</h2>
 <p>TraitSimulation module can take genotype data in PLINK format through <a href="https://github.com/OpenMendel/SnpArrays.jl">SnpArrays</a>. For example, the following code reads in genotype data from the PLINK files &ldquo;hapmap3.bed&rdquo;, &ldquo;hapmap3.bim&rdquo;, &ldquo;hapmap3.fam&rdquo;, and then simulate the trait based on the first 3 SNPs using the <code>simulate</code>(see below for more details).</p>
-<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">TraitSimulation</span>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">SnpArrays</span><span class="p">,</span> <span class="n">TraitSimulation</span>
 
 <span class="c"># Load genotype data in PLINK format</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">SnpArray</span><span class="p">(</span><span class="s">&quot;hapmap3&quot;</span><span class="p">)</span>
@@ -455,10 +457,10 @@
 </pre></div>
 
 
-<p><a id='Including-principal-components-as-covariates-1'></a></p>
-<h3 id="including-principal-components-as-covariates">Including principal components as covariates</h3>
-<p>To include principal components as a covariate in the simulation procedure, one can apply <code>pca</code> in the <code>SnpArrays</code> module to obtain the PCs and then include them as a column in the input data frame. The following code simulate a trait using the first 3 SNPs and 2 PCs.</p>
-<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">TraitSimulation</span>
+<p><a id='Simulate-a-trait-with-PC's-as-covariates-1'></a></p>
+<h2 id="simulate-a-trait-with-pcs-as-covariates">Simulate a trait with PC&rsquo;s as covariates</h2>
+<p>To include principal components as covariates in the simulation procedure, one can apply <code>pca</code> in the <code>SnpArrays</code> module to obtain the PCs and then include them as a column in the input data frame. The following code simulate a trait using the first 3 SNPs and 2 PCs.</p>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">SnpArrays</span><span class="p">,</span> <span class="n">TraitSimulation</span>
 
 <span class="c"># Load Genotype data in PLINK format</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">SnpArray</span><span class="p">(</span><span class="s">&quot;hapmap3&quot;</span><span class="p">)</span>
@@ -481,8 +483,36 @@
 </pre></div>
 
 
+<p><a id='Simulate-a-trait-under-the-variance-component-model-1'></a></p>
+<h2 id="simulate-a-trait-under-the-variance-component-model">Simulate a trait under the variance component model</h2>
+<p>The following code simulates a trait with two variance components.</p>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">SnpArrays</span><span class="p">,</span> <span class="n">TraitSimulation</span>
+
+<span class="c"># Load Genotype data in PLINK format</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">SnpArray</span><span class="p">(</span><span class="s">&quot;hapmap3&quot;</span><span class="p">)</span>
+<span class="n">npeople</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c"># Compute GRM using the grm function in SnpArrays</span>
+<span class="n">K</span> <span class="o">=</span> <span class="n">grm</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="nb">I</span> <span class="o">=</span> <span class="n">eye</span><span class="p">(</span><span class="n">npeople</span><span class="p">)</span>
+<span class="n">Σ</span> <span class="o">=</span> <span class="p">[</span><span class="n">VarianceComponent</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="n">VarianceComponent</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="nb">I</span><span class="p">)]</span>
+
+<span class="c"># Create the simulation model (:T is the name of the simulated trait)</span>
+<span class="n">sim_model</span> <span class="o">=</span> <span class="n">RandomEffectModel</span><span class="p">(</span><span class="o">:</span><span class="n">T</span><span class="p">,</span> <span class="n">Σ</span><span class="p">,</span> <span class="n">IdentityLink</span><span class="p">(),</span> <span class="n">NormalResponse</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span>
+
+<span class="c"># Generate the simulations</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">sim_model</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+</pre></div>
+
+
+<p>We also provide the <code>@vc</code> macro to simplify the specification of the covariances. Note, the variables K and I must be defined before calling the <code>@vc</code> macro. For example, the following two lines of code are equivalent.</p>
+<div class="codehilite"><pre><span></span><span class="n">Σ</span> <span class="o">=</span> <span class="nd">@vc</span> <span class="mf">0.8</span><span class="n">K</span> <span class="o">+</span> <span class="mf">0.2</span><span class="nb">I</span>
+<span class="n">Σ</span> <span class="o">=</span> <span class="p">[</span><span class="n">VarianceComponent</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="n">VarianceComponent</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="nb">I</span><span class="p">)]</span>
+</pre></div>
+
+
 <p><a id='Generate-random-data-set-1'></a></p>
-<h3 id="generate-random-data-set">Generate random data set</h3>
+<h2 id="generate-random-data-set">Generate random data set</h2>
 <p>The following code creates a data frame containing genotype (x1, &hellip;, x5) and phenotype (HDL and LDL) measurements for 10 individuals.</p>
 <div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">TraitSimulation</span>
 
