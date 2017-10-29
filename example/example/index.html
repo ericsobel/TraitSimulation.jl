@@ -271,6 +271,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#simulate-a-trait-with-non-normal-distributions" title="Simulate a trait with non-normal distributions" class="md-nav__link">
+    Simulate a trait with non-normal distributions
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -424,6 +431,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#simulate-a-trait-with-non-normal-distributions" title="Simulate a trait with non-normal distributions" class="md-nav__link">
+    Simulate a trait with non-normal distributions
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -555,7 +569,7 @@ y \sim N(\mu, 1.0)
 y \sim N(0, 0.8 K + 0.2I),
 </script>
 </p>
-<p>where, <script type="math/tex">K</script> is the GRM estimates from genotype data using the <code>grm</code> function in <code>SnpArrays</code>.</p>
+<p>where, <script type="math/tex">K</script> is the GRM estimated from genotype data using the <code>grm</code> function in <code>SnpArrays</code>.</p>
 <div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">SnpArrays</span><span class="p">,</span> <span class="n">TraitSimulation</span>
 
 <span class="c"># Load Genotype data in PLINK format</span>
@@ -603,16 +617,27 @@ y \sim N(\mu, 0.8 K + 0.2I),
 <span class="n">μ</span> <span class="o">=</span> <span class="nd">@formula</span><span class="p">(</span><span class="n">T</span> <span class="o">~</span> <span class="n">x1</span><span class="o">+</span><span class="mi">2</span><span class="n">x2</span><span class="o">*</span><span class="n">x3</span><span class="p">)</span>
 
 <span class="c"># Create the simulation model (:T is the name of the simulated trait)</span>
-<span class="n">sim_model</span> <span class="o">=</span> <span class="n">MixedEffectModel</span><span class="p">(</span><span class="o">:</span><span class="n">T</span><span class="p">,</span> <span class="n">Σ</span><span class="p">,</span> <span class="n">IdentityLink</span><span class="p">(),</span> <span class="n">NormalResponse</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span>
+<span class="n">sim_model</span> <span class="o">=</span> <span class="n">MixedEffectModel</span><span class="p">(</span><span class="n">μ</span><span class="p">,</span> <span class="n">Σ</span><span class="p">,</span> <span class="n">IdentityLink</span><span class="p">(),</span> <span class="n">NormalResponse</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span>
 
 <span class="c"># Generate the simulations</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">sim_model</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 </pre></div>
 
 
-<p>We also provide the <code>@vc</code> macro to simplify the specification of the covariances. Note, the variables K and I must be defined before calling the <code>@vc</code> macro. For example, the following two lines of code are equivalent.</p>
-<div class="codehilite"><pre><span></span><span class="n">Σ</span> <span class="o">=</span> <span class="nd">@vc</span> <span class="mf">0.8</span><span class="n">K</span> <span class="o">+</span> <span class="mf">0.2</span><span class="nb">I</span>
-<span class="n">Σ</span> <span class="o">=</span> <span class="p">[</span><span class="n">VarianceComponent</span><span class="p">(</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">K</span><span class="p">),</span> <span class="n">VarianceComponent</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="nb">I</span><span class="p">)]</span>
+<p><a id='Simulate-a-trait-with-non-normal-distributions-1'></a></p>
+<h3 id="simulate-a-trait-with-non-normal-distributions">Simulate a trait with non-normal distributions</h3>
+<p>In the previous examples, all trait values are sampled from the normal distribution. However, users can also simulate traits with non-normal distributions, by specifying the type of distribution and the corresponding link function. For example, the following code simulate a trait under the Poisson distribution.</p>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">SnpArrays</span><span class="p">,</span> <span class="n">TraitSimulation</span>
+
+<span class="c"># Load genotype data in PLINK format</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">SnpArray</span><span class="p">(</span><span class="s">&quot;hapmap3&quot;</span><span class="p">)</span>
+
+<span class="c"># Create the fixed-effect simulation model</span>
+<span class="n">sim_model</span> <span class="o">=</span> <span class="n">FixedEffectModel</span><span class="p">(</span><span class="nd">@formula</span><span class="p">(</span><span class="n">T</span> <span class="o">~</span> <span class="n">x1</span><span class="o">+</span><span class="mi">2</span><span class="n">x2</span><span class="o">*</span><span class="n">x3</span><span class="p">),</span>
+                             <span class="n">LogLink</span><span class="p">(),</span> <span class="n">PoissonResponse</span><span class="p">())</span>
+
+<span class="c"># Generate the simulation</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">sim_model</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 </pre></div>
 
 
