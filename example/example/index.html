@@ -284,30 +284,43 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#simulate-multiple-traits" title="Simulate multiple traits" class="md-nav__link">
+    Simulate multiple traits
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#generate-random-data-set" title="Generate random data set" class="md-nav__link">
     Generate random data set
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#simulate-normal-response" title="Simulate normal response" class="md-nav__link">
     Simulate normal response
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#simulate-multiple-traits" title="Simulate multiple traits" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#simulate-multiple-traits_1" title="Simulate multiple traits" class="md-nav__link">
     Simulate multiple traits
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#simulate-random-effects" title="Simulate random effects" class="md-nav__link">
     Simulate random effects
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -444,30 +457,43 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#simulate-multiple-traits" title="Simulate multiple traits" class="md-nav__link">
+    Simulate multiple traits
+  </a>
+  
+    <nav class="md-nav">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#generate-random-data-set" title="Generate random data set" class="md-nav__link">
     Generate random data set
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#simulate-normal-response" title="Simulate normal response" class="md-nav__link">
     Simulate normal response
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#simulate-multiple-traits" title="Simulate multiple traits" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#simulate-multiple-traits_1" title="Simulate multiple traits" class="md-nav__link">
     Simulate multiple traits
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#simulate-random-effects" title="Simulate random effects" class="md-nav__link">
     Simulate random effects
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -626,7 +652,18 @@ y \sim N(\mu, 0.8 K + 0.2I),
 
 <p><a id='Simulate-a-trait-with-non-normal-distributions-1'></a></p>
 <h3 id="simulate-a-trait-with-non-normal-distributions">Simulate a trait with non-normal distributions</h3>
-<p>In the previous examples, all trait values are sampled from the normal distribution. However, users can also simulate traits with non-normal distributions, by specifying the type of distribution and the corresponding link function. For example, the following code simulate a trait under the Poisson distribution.</p>
+<p>In the previous examples, all trait values are sampled from the normal distribution. However, users can also simulate traits with non-normal distributions, by specifying the type of distribution and the corresponding link function. For example, the following code simulate a trait under the Poisson distribution. More specifically, the following code samples phenotype from</p>
+<p>
+<script type="math/tex; mode=display">
+y \sim Pois(\lambda)
+</script>
+</p>
+<p>where</p>
+<p>
+<script type="math/tex; mode=display">
+\lambda = \exp(x_1+2x_2x_3).
+</script>
+</p>
 <div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">SnpArrays</span><span class="p">,</span> <span class="n">TraitSimulation</span>
 
 <span class="c"># Load genotype data in PLINK format</span>
@@ -641,8 +678,10 @@ y \sim N(\mu, 0.8 K + 0.2I),
 </pre></div>
 
 
+<p><a id='Simulate-multiple-traits-1'></a></p>
+<h2 id="simulate-multiple-traits">Simulate multiple traits</h2>
 <p><a id='Generate-random-data-set-1'></a></p>
-<h2 id="generate-random-data-set">Generate random data set</h2>
+<h3 id="generate-random-data-set">Generate random data set</h3>
 <p>The following code creates a data frame containing genotype (x1, &hellip;, x5) and phenotype (HDL and LDL) measurements for 10 individuals.</p>
 <div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">TraitSimulation</span>
 
@@ -667,7 +706,7 @@ y \sim N(\mu, 0.8 K + 0.2I),
 
 
 <p><a id='Simulate-normal-response-1'></a></p>
-<h2 id="simulate-normal-response">Simulate normal response</h2>
+<h3 id="simulate-normal-response">Simulate normal response</h3>
 <p>The following code simulates a trait (<script type="math/tex">y</script>) with normal response (<script type="math/tex">\sigma = 1.0</script>) using the data frame created in <a href="#first_step">step 1</a>.</p>
 <p>
 <script type="math/tex; mode=display">
@@ -684,8 +723,8 @@ y \sim N(\mu, 1.0)
 </pre></div>
 
 
-<p><a id='Simulate-multiple-traits-1'></a></p>
-<h2 id="simulate-multiple-traits">Simulate multiple traits</h2>
+<p><a id='Simulate-multiple-traits-2'></a></p>
+<h3 id="simulate-multiple-traits_1">Simulate multiple traits</h3>
 <p>The following code simulates three traits (<script type="math/tex">y_1, y_2, y_3</script>) with normal response (<script type="math/tex">\sigma = 1.0</script>) but different means, using the data frame created in <a href="#first_step">step 1</a>.</p>
 <div class="codehilite"><pre><span></span><span class="n">model</span> <span class="o">=</span> <span class="n">FixedEffectModel</span><span class="p">([</span><span class="n">y1</span> <span class="o">~</span> <span class="mf">3.0</span><span class="o">+</span><span class="mf">0.2</span><span class="n">x1</span><span class="p">,</span> <span class="n">y2</span> <span class="o">~</span> <span class="mf">2.0</span><span class="o">+</span><span class="mf">0.1</span><span class="n">x3</span><span class="p">,</span> <span class="n">y3</span> <span class="o">~</span> <span class="mf">0.3</span><span class="n">x4</span><span class="o">+</span><span class="n">HDL</span><span class="p">],</span> <span class="n">IdentityLink</span><span class="p">(),</span> <span class="n">NormalResponse</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span>
 <span class="n">simulate</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
@@ -717,7 +756,7 @@ y \sim N(\mu, 1.0)
 
 
 <p><a id='Simulate-random-effects-1'></a></p>
-<h2 id="simulate-random-effects">Simulate random effects</h2>
+<h3 id="simulate-random-effects">Simulate random effects</h3>
 <p>The following code simulates a trait with Poisson response with two variance components, using the data frame created in <a href="#first_step">step 1</a>.</p>
 <p>
 <script type="math/tex; mode=display">
