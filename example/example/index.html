@@ -233,33 +233,26 @@
     Overview
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#input-data" title="Input data" class="md-nav__link">
-    Input data
-  </a>
-  
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#simulate-trait-using-genotype-data-in-plink-format" title="Simulate trait using genotype data in PLINK format" class="md-nav__link">
+    Simulate trait using genotype data in PLINK format
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#including-principal-components-as-covariates" title="Including principal components as covariates" class="md-nav__link">
+    Including principal components as covariates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#generate-random-data-set" title="Generate random data set" class="md-nav__link">
     Generate random data set
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#load-genotype-data-from-plink-files" title="Load genotype data from PLINK files" class="md-nav__link">
-    Load genotype data from PLINK files
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#including-principal-components" title="Including principal components" class="md-nav__link">
-    Including principal components
   </a>
   
 </li>
@@ -372,33 +365,26 @@
     Overview
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#input-data" title="Input data" class="md-nav__link">
-    Input data
-  </a>
-  
     <nav class="md-nav">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#simulate-trait-using-genotype-data-in-plink-format" title="Simulate trait using genotype data in PLINK format" class="md-nav__link">
+    Simulate trait using genotype data in PLINK format
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#including-principal-components-as-covariates" title="Including principal components as covariates" class="md-nav__link">
+    Including principal components as covariates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#generate-random-data-set" title="Generate random data set" class="md-nav__link">
     Generate random data set
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#load-genotype-data-from-plink-files" title="Load genotype data from PLINK files" class="md-nav__link">
-    Load genotype data from PLINK files
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#including-principal-components" title="Including principal components" class="md-nav__link">
-    Including principal components
   </a>
   
 </li>
@@ -452,51 +438,71 @@
 <p><a id='Overview-1'></a></p>
 <h2 id="overview">Overview</h2>
 <p>The TraitSimulation module allows users to simulate phenotypes under various models, including fixed-effect, random-effect, and mixed-effect models. The simulation procedure takes a two-step approach. In the first step, the user constructs a simulation model using the <code>SimulationModel</code> type. In the second step, the user calls the <code>simulate</code> function along with the data to generate the simulated phenotype, which is appended as a column to the input data frame.</p>
-<p><a id='a-name"first_step"Input-data/a-1'></a></p>
-<h2 id="input-data"><a name="first_step">Input data</a></h2>
+<p><a id='Simulate-trait-using-genotype-data-in-PLINK-format-1'></a></p>
+<h3 id="simulate-trait-using-genotype-data-in-plink-format">Simulate trait using genotype data in PLINK format</h3>
+<p>TraitSimulation module can take genotype data in PLINK format through <a href="https://github.com/OpenMendel/SnpArrays.jl">SnpArrays</a>. For example, the following code reads in genotype data from the PLINK files &ldquo;hapmap3.bed&rdquo;, &ldquo;hapmap3.bim&rdquo;, &ldquo;hapmap3.fam&rdquo;, and then simulate the trait based on the first 3 SNPs using the <code>simulate</code>(see below for more details).</p>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">TraitSimulation</span>
+
+<span class="c"># Load genotype data in PLINK format</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">SnpArray</span><span class="p">(</span><span class="s">&quot;hapmap3&quot;</span><span class="p">)</span>
+
+<span class="c"># Create the fixed-effect simulation model</span>
+<span class="n">sim_model</span> <span class="o">=</span> <span class="n">FixedEffectModel</span><span class="p">(</span><span class="nd">@formula</span><span class="p">(</span><span class="n">T</span> <span class="o">~</span> <span class="n">x1</span><span class="o">+</span><span class="mi">2</span><span class="n">x2</span><span class="o">*</span><span class="n">x3</span><span class="p">),</span>
+                             <span class="n">IdentityLink</span><span class="p">(),</span> <span class="n">NormalResponse</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span>
+
+<span class="c"># Generate the simulation</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">sim_model</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+</pre></div>
+
+
+<p><a id='Including-principal-components-as-covariates-1'></a></p>
+<h3 id="including-principal-components-as-covariates">Including principal components as covariates</h3>
+<p>To include principal components as a covariate in the simulation procedure, one can apply <code>pca</code> in the <code>SnpArrays</code> module to obtain the PCs and then include them as a column in the input data frame. The following code simulate a trait using the first 3 SNPs and 2 PCs.</p>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">TraitSimulation</span>
+
+<span class="c"># Load Genotype data in PLINK format</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">SnpArray</span><span class="p">(</span><span class="s">&quot;hapmap3&quot;</span><span class="p">)</span>
+
+<span class="c"># Compute the PC of each SNP</span>
+<span class="n">pcscore</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">pca</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">pcscore</span> <span class="o">=</span> <span class="n">convert</span><span class="p">(</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pcscore</span><span class="p">)</span>
+<span class="n">names!</span><span class="p">(</span><span class="n">pcscore</span><span class="p">,</span> <span class="p">[</span><span class="kt">Symbol</span><span class="p">(</span><span class="s">&quot;PC</span><span class="si">$i</span><span class="s">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">size</span><span class="p">(</span><span class="n">pcscore</span><span class="p">,</span><span class="mi">2</span><span class="p">)])</span>
+
+<span class="c"># Combine genotype data with PC results</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">convert</span><span class="p">(</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">convert</span><span class="p">(</span><span class="kt">Matrix</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span> <span class="n">data</span><span class="p">))</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">hcat</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pcscore</span><span class="p">)</span>
+
+<span class="c"># Create the simulation model</span>
+<span class="n">sim_model</span> <span class="o">=</span> <span class="n">FixedEffectModel</span><span class="p">(</span><span class="nd">@formula</span><span class="p">(</span><span class="n">T</span> <span class="o">~</span> <span class="n">x1</span><span class="o">+</span><span class="mi">2</span><span class="n">x2</span><span class="o">*</span><span class="n">x3</span><span class="o">+</span><span class="n">PC1</span><span class="o">+</span><span class="n">PC2</span><span class="p">),</span>
+                             <span class="n">IdentityLink</span><span class="p">(),</span> <span class="n">NormalResponse</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span>
+
+<span class="c"># Generate the simulations</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">sim_model</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+</pre></div>
+
+
 <p><a id='Generate-random-data-set-1'></a></p>
 <h3 id="generate-random-data-set">Generate random data set</h3>
 <p>The following code creates a data frame containing genotype (x1, &hellip;, x5) and phenotype (HDL and LDL) measurements for 10 individuals.</p>
 <div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">TraitSimulation</span>
+
 <span class="p">(</span><span class="n">people</span><span class="p">,</span> <span class="n">snps</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 <span class="n">snp_data</span> <span class="o">=</span> <span class="kt">Matrix</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="n">people</span><span class="p">,</span> <span class="n">snps</span><span class="p">)</span>
 <span class="n">freq</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">snps</span>
     <span class="n">snp_data</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">Binomial</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="n">freq</span><span class="p">[</span><span class="n">i</span><span class="p">]),</span> <span class="n">people</span><span class="p">)</span>
 <span class="k">end</span>
+
 <span class="p">(</span><span class="n">hdl_data</span><span class="p">,</span> <span class="n">ldl_data</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="n">people</span><span class="p">),</span> <span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">}(</span><span class="n">people</span><span class="p">))</span>
 <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">people</span>
     <span class="n">hdl_data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">Uniform</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">80</span><span class="p">))</span>
     <span class="n">ldl_data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">Uniform</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span><span class="mi">80</span><span class="p">))</span>
 <span class="k">end</span>
+
 <span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">snp_data</span> <span class="n">hdl_data</span> <span class="n">ldl_data</span><span class="p">]</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">convert</span><span class="p">(</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+
 <span class="n">names!</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="p">[</span><span class="o">:</span><span class="n">x1</span><span class="p">,</span> <span class="o">:</span><span class="n">x2</span><span class="p">,</span> <span class="o">:</span><span class="n">x3</span><span class="p">,</span> <span class="o">:</span><span class="n">x4</span><span class="p">,</span> <span class="o">:</span><span class="n">x5</span><span class="p">,</span> <span class="o">:</span><span class="n">HDL</span><span class="p">,</span> <span class="o">:</span><span class="n">LDL</span><span class="p">])</span>
-</pre></div>
-
-
-<p><a id='Load-genotype-data-from-PLINK-files-1'></a></p>
-<h3 id="load-genotype-data-from-plink-files">Load genotype data from PLINK files</h3>
-<p>TraitSimulation module can also take genotype data in PLINK format through <a href="https://github.com/OpenMendel/SnpArrays.jl">SnpArrays</a>. For example, the following code reads in genotype data from the PLINK files &ldquo;hapmap3.bed&rdquo;, &ldquo;hapmap3.bim&rdquo;, &ldquo;hapmap3.fam&rdquo;, and then simulate the trait based on the first 3 SNPs using the <code>simulate</code>(see below for more details).</p>
-<div class="codehilite"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">SnpArray</span><span class="p">(</span><span class="n">Pkg</span><span class="o">.</span><span class="n">dir</span><span class="p">(</span><span class="s">&quot;hapmap3&quot;</span><span class="p">)</span>
-<span class="n">sim_model</span> <span class="o">=</span> <span class="n">FixedEffectModel</span><span class="p">(</span><span class="nd">@formula</span><span class="p">(</span><span class="n">T</span> <span class="o">~</span> <span class="n">x1</span><span class="o">+</span><span class="mi">2</span><span class="n">x2</span><span class="o">*</span><span class="n">x3</span><span class="p">),</span>
-                             <span class="n">IdentityLink</span><span class="p">(),</span> <span class="n">NormalResponse</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">sim_model</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-</pre></div>
-
-
-<p><a id='Including-principal-components-1'></a></p>
-<h3 id="including-principal-components">Including principal components</h3>
-<p>To include principal components as a covariate in the simulation procedure, one can apply <code>pca</code> in the <code>SnpArrays</code> module to obtain the PCs and then include them as a column in the input data frame. The following code simulate a trait using the first 3 SNPs and 2 PCs.</p>
-<div class="codehilite"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">SnpArray</span><span class="p">(</span><span class="s">&quot;hapmap3&quot;</span><span class="p">)</span>
-<span class="n">pcscore</span><span class="p">,</span><span class="n">_</span><span class="p">,</span><span class="n">_</span> <span class="o">=</span> <span class="n">pca</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">pcscore</span> <span class="o">=</span> <span class="n">convert</span><span class="p">(</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">pcscore</span><span class="p">)</span>
-<span class="n">names!</span><span class="p">(</span><span class="n">pcscore</span><span class="p">,</span> <span class="p">[</span><span class="kt">Symbol</span><span class="p">(</span><span class="s">&quot;PC</span><span class="si">$i</span><span class="s">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="kp">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">size</span><span class="p">(</span><span class="n">pcscore</span><span class="p">,</span><span class="mi">2</span><span class="p">)])</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">convert</span><span class="p">(</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">convert</span><span class="p">(</span><span class="kt">Matrix</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span> <span class="n">data</span><span class="p">))</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">hcat</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">pcscore</span><span class="p">)</span>
-<span class="n">sim_model</span> <span class="o">=</span> <span class="n">FixedEffectModel</span><span class="p">(</span><span class="nd">@formula</span><span class="p">(</span><span class="n">T</span> <span class="o">~</span> <span class="n">x1</span><span class="o">+</span><span class="mi">2</span><span class="n">x2</span><span class="o">*</span><span class="n">x3</span><span class="o">+</span><span class="n">PC1</span><span class="o">+</span><span class="n">PC2</span><span class="p">),</span>
-                             <span class="n">IdentityLink</span><span class="p">(),</span> <span class="n">NormalResponse</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">sim_model</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 </pre></div>
 
 
@@ -555,7 +561,7 @@ y \sim N(\mu, 1.0)
 <p>The following code simulates a trait with Poisson response with two variance components, using the data frame created in <a href="#first_step">step 1</a>.</p>
 <p>
 <script type="math/tex; mode=display">
-\mu = (0.2x_1 + 2.0) + X u + \epsilon, u \sim N(0, 0.04K), \epsilon \sim N(0, 0.8I), y \sim \text{Pois}(\mu)
+\mu = (0.2x_1 + 2.0) + x u + \epsilon, u \sim N(0, 0.04K), \epsilon \sim N(0, 0.8I), y \sim \text{Pois}(\mu)
 </script>
 </p>
 <div class="codehilite"><pre><span></span><span class="c"># a fake GRM</span>
