@@ -13,63 +13,118 @@ second step, the user calls the ```simulate``` function along with the data to
 generate the simulated phenotype, which is appended as a column to the input
 data frame.
 
-## <a name="first_step">Input data</a> 
+## Simulate a trait using genotype data in PLINK format
 
-### Generate random data set
+TraitSimulation module can take genotype data in PLINK format through
+[SnpArrays](https://github.com/OpenMendel/SnpArrays.jl). For example, the
+following code reads in genotype data from the PLINK files "hapmap3.bed",
+"hapmap3.bim", "hapmap3.fam", and then simulate the trait based on the first
+3 SNPs using the ```simulate```(see below for more details).
+
+```julia
+using DataFrames, Distributions, SnpArrays, TraitSimulation
+
+# Load genotype data in PLINK format
+data = SnpArray("hapmap3")
+
+# Create the fixed-effect simulation model
+sim_model = FixedEffectModel(@formula(T ~ x1+2x2*x3),
+                             IdentityLink(), NormalResponse(1.0))
+
+# Generate the simulation
+y = simulate(sim_model, data)
+```
+
+## Simulate a trait with PC's as covariates
+
+To include principal components as covariates in the simulation procedure,
+one can apply ```pca``` in the ```SnpArrays``` module to obtain the PCs
+and then include them as a column in the input data frame. The following
+code simulate a trait using the first 3 SNPs and 2 PCs.
+
+```julia
+using DataFrames, Distributions, SnpArrays, TraitSimulation
+
+# Load Genotype data in PLINK format
+data = SnpArray("hapmap3")
+
+# Compute the PC of each SNP
+pcscore,_,_ = pca(data)
+pcscore = convert(DataFrame, pcscore)
+names!(pcscore, [Symbol("PC$i") for i in 1:size(pcscore,2)])
+
+# Combine genotype data with PC results
+data = convert(DataFrame, convert(Matrix{Float64}, data))
+data = hcat(data, pcscore)
+
+# Create the simulation model
+sim_model = FixedEffectModel(@formula(T ~ x1+2x2*x3+PC1+PC2),
+                             IdentityLink(), NormalResponse(1.0))
+
+# Generate the simulations
+y = simulate(sim_model, data)
+```
+
+## Simulate a trait under the variance component model
+
+The following code simulates a trait with two variance components.
+
+```julia
+using DataFrames, Distributions, SnpArrays, TraitSimulation
+
+# Load Genotype data in PLINK format
+data = SnpArray("hapmap3")
+npeople = size(data,1)
+
+# Compute GRM using the grm function in SnpArrays
+K = grm(data)
+I = eye(npeople)
+Σ = [VarianceComponent(0.8, K), VarianceComponent(0.2, I)]
+
+# Create the simulation model (:T is the name of the simulated trait)
+sim_model = RandomEffectModel(:T, Σ, IdentityLink(), NormalResponse(1.0))
+
+# Generate the simulations
+y = simulate(sim_model, data)
+```
+
+We also provide the ```@vc``` macro to simplify the specification of the
+covariances. Note, the variables K and I must be defined before calling
+the ```@vc``` macro. For example, the following two lines of code are
+equivalent.
+
+```julia
+Σ = @vc 0.8K + 0.2I
+Σ = [VarianceComponent(0.8, K), VarianceComponent(0.2, I)]
+```
+
+## Generate random data set
 
 The following code creates a data frame containing genotype
 (x1, ..., x5) and phenotype (HDL and LDL) measurements for 10 individuals.
 
 ```julia
 using DataFrames, Distributions, TraitSimulation
+
 (people, snps) = (10, 5)
 snp_data = Matrix{Float64}(people, snps)
 freq = [0.2, 0.3, 0.4, 0.7, 0.5]
 for i=1:snps
     snp_data[:,i] = rand(Binomial(2,freq[i]), people)
 end
+
 (hdl_data, ldl_data) = (Vector{Float64}(people), Vector{Float64}(people))
 for i=1:people
     hdl_data[i] = rand(Uniform(20,80))
     ldl_data[i] = rand(Uniform(20,80))
 end
+
 data = [snp_data hdl_data ldl_data]
 data = convert(DataFrame, data)
+
 names!(data, [:x1, :x2, :x3, :x4, :x5, :HDL, :LDL])
 ```
 
-### Load genotype data from PLINK files
-
-TraitSimulation module can also take genotype data in PLINK format through
-[SnpArrays](https://github.com/OpenMendel/SnpArrays.jl). For example, the
-following code reads in genotype data from the PLINK files "hapmap3.bed",
-"hapmap3.bim", "hapmap3.fam", and then simulate the trait based on the first
-3 SNPs using the ```simulate```(see below for more details).
-```julia
-data = SnpArray(Pkg.dir("hapmap3")
-sim_model = FixedEffectModel(@formula(T ~ x1+2x2*x3),
-                             IdentityLink(), NormalResponse(1.0))
-y = simulate(sim_model, data)
-```
-
-### Appending principal components
-
-To include principal components as a covariate in the simulation procedure,
-one can apply ```pca``` in the ```SnpArrays``` module to obtain the PCs
-and then include them as a column in the input data frame. The following
-code simulate a trait using the first 3 SNPs and 2 PCs.
-
-```julia
-data = SnpArray("hapmap3")
-pcscore,_,_ = pca(data)
-pcscore = convert(DataFrame, pcscore)
-names!(pcscore, [Symbol("PC$i") for i in 1:size(pcscore,2)])
-data = convert(DataFrame, convert(Matrix{Float64}, data))
-data = hcat(data, pcscore)
-sim_model = FixedEffectModel(@formula(T ~ x1+2x2*x3+PC1+PC2),
-                             IdentityLink(), NormalResponse(1.0))
-y = simulate(sim_model, data)
-```
 
 ## Simulate normal response
 

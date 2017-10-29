@@ -1,8 +1,8 @@
 module TraitSimulationTest
 
-#include("../src/TraitSimulation.jl")
+include("../src/TraitSimulation.jl")
 
-using DataFrames, TraitSimulation, SnpArrays
+using DataFrames, .TraitSimulation, SnpArrays
 
 if VERSION >= v"0.5.0-dev+7720"
     using Base.Test

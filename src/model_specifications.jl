@@ -4,7 +4,7 @@ The Model abstract type, super type for each specific simulation model
 abstract SimulationModel
 
 # Define some aliases for clarity
-typealias FormulaType
+typealias FormulaLike
   Union{Formula, Vector{Formula}}
 
 typealias VarianceComponentType
@@ -19,8 +19,8 @@ A type to store fixed effect simulation model
 type FixedEffectModel <: SimulationModel
 
   # specify the formula of the simulation
-  formula::FormulaType
-  
+  formula::FormulaLike
+
   # specify the link function
   link::LinkFunctionType
 
@@ -31,7 +31,7 @@ end
 
 
 # return the number of traits being simulated
-Base.size(model::FixedEffectModel) = 
+Base.size(model::FixedEffectModel) =
 typeof(model.formula) == Formula ? 1 : size(model.formula, 1)
 
 
@@ -61,7 +61,7 @@ type RandomEffectModel <: SimulationModel
 
   # specify the variance components for GLMM
   vc::Vector{VarianceComponent}
-  
+
   # specify the link function
   link::LinkFunctionType
 
@@ -82,11 +82,11 @@ A type to store fixed effect simulation model
 type MixedEffectModel <: SimulationModel
 
   # specify the formula of the simulation
-  formula::FormulaType
+  formula::FormulaLike
 
   # specify the variance components for GLMM
   vc::Vector{VarianceComponent}
-  
+
   # specify the link function
   link::LinkFunctionType
 
@@ -97,7 +97,7 @@ end
 
 
 # return the number of traits being simulated
-Base.size(model::MixedEffectModel) = 
+Base.size(model::MixedEffectModel) =
 typeof(model.formula) == Formula ? 1 : size(model.formula, 1)
 
 
@@ -106,12 +106,12 @@ Parse an expression specifying the covariance matrix of the random effects
 Returns code for constructing the array of VarianceComponent
 """
 macro vc(expr::Expr)
-  
+
   # TODO: add code to check validity of expr before parseing it
   # throw an exception if the expr doesn't follow the syntax
 
   expr_str = string(expr)
-  
+
   ret_expr = quote
     [VarianceComponent(eval(parse($expr_str).args[i].args[2]),
                        eval(parse($expr_str).args[i].args[3]))
