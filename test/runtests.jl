@@ -1,5 +1,7 @@
 module TraitSimulationTest
 
+#include("../src/TraitSimulation.jl")
+
 using DataFrames, TraitSimulation, SnpArrays
 
 if VERSION >= v"0.5.0-dev+7720"
@@ -84,8 +86,15 @@ sim_model = FixedEffectModel(@formula(T ~ x1+2x2*x3),
                              IdentityLink(), NormalResponse(1.0))
 y = simulate(sim_model, data)
 
+# testing SnpArrays GRM
+K = grm(data)
+I = eye(size(data,1))
+Σ = [VarianceComponent(0.8, K), VarianceComponent(0.2, I)]
+sim_model = RandomEffectModel(:T, Σ, IdentityLink(), NormalResponse(1.0))
+y = simulate(sim_model, data)
+
+
 # testing pca
-data = SnpArray(Pkg.dir("TraitSimulation") * "/docs/hapmap3")
 pcscore,_,_ = pca(data)
 pcscore = convert(DataFrame, pcscore)
 names!(pcscore, [Symbol("PC$i") for i in 1:size(pcscore,2)])

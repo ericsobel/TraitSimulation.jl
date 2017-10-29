@@ -87,7 +87,7 @@ function calc_randeff(vc::Vector{VarianceComponent},
 
   # get number of components
   ncomponents = length(vc)
-  
+
   # normal distribution with mean 0 and variance 1
   dist = Normal(0.0, 1.0)
   randeff = zeros(Float64, npeople*ntraits)
@@ -98,13 +98,13 @@ function calc_randeff(vc::Vector{VarianceComponent},
     # in case of float or vector, make them diagonal
     if typeof(vc[i].var_comp) == Float64 ||
        typeof(vc[i].var_comp) == Vector{Float64}
-      
+
       cross_cov = diagm(vc[i].var_comp)
       cov_mat = vc[i].cov_mat
-  
+
     # input is a matrix, no change
     else typeof(vc[i].var_comp) == Matrix{Float64}
-      
+
       cross_cov = vc[i].var_comp
       cov_mat = vc[i].cov_mat
 
@@ -112,11 +112,11 @@ function calc_randeff(vc::Vector{VarianceComponent},
 
     # cholesky of the kronecker product
     L = chol(cross_cov)' ⊗ chol(cov_mat)'
-    
+
     # increment the cholesky
     tmp = rand(dist, npeople*ntraits)
     randeff += L * tmp
-  
+
   end
 
   return randeff
@@ -128,7 +128,7 @@ end
 Create some missingness in the simulated data
 """
 function missing!(df::DataFrame, pattern::MissingPattern)
-  
+
   # get dimensions
   ntraits = size(df, 2)
   npeople = size(df, 1)
@@ -138,9 +138,9 @@ function missing!(df::DataFrame, pattern::MissingPattern)
 
     # sample some missing entries
     num_missing = convert(Int64, floor(pattern*npeople))
-    
+
     for i=1:ntraits
-      missing_idx = randperm(npeople)[1:npeople]
+      missing_idx = randperm(npeople)[1:num_missing]
       df[missing_idx,i] = NA
     end
 
@@ -151,18 +151,18 @@ function missing!(df::DataFrame, pattern::MissingPattern)
     for i=1:ntraits
       df[pattern,i] = NA
     end
-  
+
   # if missing pattern is a matrix of bool or bit array
   elseif typeof(pattern) == Matrix{Bool} || typeof(pattern) == BitArray{2}
     df[pattern] = NA
-  
+
   # if missing pattern is a vector of vector of int 64 or vector of ranges
   else
     for i=1:ntraits
       df[pattern[i],i] = NA
     end
   end
-   
+
 end
 
 
