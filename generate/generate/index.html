@@ -455,7 +455,7 @@
 </pre></div>
 
 
-<p>The <code>simulate</code> function simulates traits according to the <code>Model</code> using data stored in the <code>DataFrame</code>. One can use the <code>pattern</code> keyword to specify desired missing pattern. See the  section <code>MissingPattern</code> for details on supported missing patterns.</p>
+<p>The <code>simulate</code> function simulates traits according to the <code>Model</code> using data stored in the <code>DataFrame</code>. One can use the <code>pattern</code> keyword to specify desired missing pattern. See the section <code>MissingPattern</code> for details on supported missing patterns.</p>
 <p><a id='InputDataType-1'></a></p>
 <h2 id="inputdatatype">InputDataType</h2>
 <p><code>InputDataType</code> is a type alias for different types of input data, which can be either a <code>DataFrame</code> or <code>SnpArray{2}</code>.</p>
@@ -478,7 +478,7 @@
 <p>Missing pattern specified as <code>Vector{Bool}</code>, <code>BitArray{1}</code> or <code>Vector{Int64}</code> will be interpreted as an index set containing indices of the missing entries. For simulations involving multiple traits, the same missing pattern is applied across all traits.</p>
 <p><a id='Matrix{Bool},-BitArray{2},-or-Vector{Vector{Int64}}-1'></a></p>
 <h3 id="matrixbool-bitarray2-or-vectorvectorint64">Matrix{Bool}, BitArray{2}, or Vector{Vector{Int64}}</h3>
-<p>Missing pattern specified as <code>Matrix{Bool}</code> or <code>BitArray{2}</code>  with dimension $people \times traits$ or <code>Vector{Vector{Int64}}</code> with length $traits$ will be interpreted as index sets containing indices of the missing entries. This allows for different traits to have different index sets for missing entries.</p>
+<p>Missing pattern specified as <code>Matrix{Bool}</code> or <code>BitArray{2}</code>  with dimension <script type="math/tex">people \times traits</script> or <code>Vector{Vector{Int64}}</code> with length <script type="math/tex">traits</script> will be interpreted as index sets containing indices of the missing entries. This allows for different traits to have different index sets for missing entries.</p>
 <p><a id='UnitRange{Int64}-or-StepRange{Int64,-Int64}-1'></a></p>
 <h3 id="unitrangeint64-or-steprangeint64-int64">UnitRange{Int64} or StepRange{Int64, Int64}</h3>
 <p>Missing pattern spcified as <code>UnitRange{Int64}</code> or <code>StepRange{Int64, Int64}</code> can be used to specify a range of missing entries. For simulations involving multiple traits, the same missing pattern will be applied across all traits.</p>
