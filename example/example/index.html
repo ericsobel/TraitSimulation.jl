@@ -250,8 +250,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#simulate-a-trait-under-the-variance-component-model" title="Simulate a trait under the variance component model" class="md-nav__link">
-    Simulate a trait under the variance component model
+  <a href="#simulate-a-trait-under-the-random-effect-model" title="Simulate a trait under the random effect model" class="md-nav__link">
+    Simulate a trait under the random effect model
   </a>
   
 </li>
@@ -383,8 +383,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#simulate-a-trait-under-the-variance-component-model" title="Simulate a trait under the variance component model" class="md-nav__link">
-    Simulate a trait under the variance component model
+  <a href="#simulate-a-trait-under-the-random-effect-model" title="Simulate a trait under the random effect model" class="md-nav__link">
+    Simulate a trait under the random effect model
   </a>
   
 </li>
@@ -451,10 +451,9 @@ y \sim N(\mu, 1.0)
 <p>where</p>
 <p>
 <script type="math/tex; mode=display">
-\mu = x_1+0.1x_2x_3
+\mu = x_1+0.1x_2x_3.
 </script>
 </p>
-<p>.</p>
 <div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">SnpArrays</span><span class="p">,</span> <span class="n">TraitSimulation</span>
 
 <span class="c"># Load genotype data in PLINK format</span>
@@ -480,10 +479,9 @@ y \sim N(\mu, 1.0)
 <p>where</p>
 <p>
 <script type="math/tex; mode=display">
-\mu = x_1+0.1x_2x_3 + PC1 + PC2
+\mu = x_1+0.1x_2x_3 + PC1 + PC2.
 </script>
 </p>
-<p>.</p>
 <div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">SnpArrays</span><span class="p">,</span> <span class="n">TraitSimulation</span>
 
 <span class="c"># Load Genotype data in PLINK format</span>
@@ -507,9 +505,15 @@ y \sim N(\mu, 1.0)
 </pre></div>
 
 
-<p><a id='Simulate-a-trait-under-the-variance-component-model-1'></a></p>
-<h2 id="simulate-a-trait-under-the-variance-component-model">Simulate a trait under the variance component model</h2>
-<p>The following code simulates a trait with two variance components.</p>
+<p><a id='Simulate-a-trait-under-the-random-effect-model-1'></a></p>
+<h2 id="simulate-a-trait-under-the-random-effect-model">Simulate a trait under the random effect model</h2>
+<p>The following code simulates a trait under the random effect model with two variance components, where one of the covariance matrix is the genetic relationship matrix (GRM) and the other the identity matrix. More specifically, the code below samples phenotype from</p>
+<p>
+<script type="math/tex; mode=display">
+y \sim N(0, 0.8 K + 0.2I),
+</script>
+</p>
+<p>where, <script type="math/tex">K</script> is the GRM estimates from genotype data using the <code>grm</code> function in <code>SnpArrays</code>.</p>
 <div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">SnpArrays</span><span class="p">,</span> <span class="n">TraitSimulation</span>
 
 <span class="c"># Load Genotype data in PLINK format</span>
