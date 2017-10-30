@@ -1,3 +1,3 @@
-sudo julia make.jl
-sudo mkdocs build
-sudo mkdocs gh-deploy
+julia make.jl
+mkdocs build
+mkdocs gh-deploy

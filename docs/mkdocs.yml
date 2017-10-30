@@ -29,7 +29,7 @@ docs_dir: 'build'
 
 pages:
 - Introduction: index.md
-- Getting Started: example/example.md
+- Examples: example/example.md
 - Model Specifications: model/model.md
 - Generate Simulations: generate/generate.md
 - Link Functions: link/link.md

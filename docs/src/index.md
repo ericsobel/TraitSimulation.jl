@@ -1,5 +1,5 @@
 # TraitSimulation.jl
- 
+
 A Julia module to perform trait simulation.
 
 ## Installation
@@ -20,11 +20,8 @@ a Julia REPL:
 Pkg.rm("TraitSimulation")
 ```
 
-For a complete uninstallation, please also remove the TraitSimulation
-directory in the .julia folder.
-
 ## Key Features
- 
+
 1. Simulate trait under Generalized Linear Model (GLM) or Generalized Linear Mixed Model (GLMM)
 2. Allow simulation of multiple correlated traits
 3. Support integration with [SnpArrays](https://github.com/openmendel/SnpArrays.jl)

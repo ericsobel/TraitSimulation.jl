@@ -13,13 +13,23 @@ second step, the user calls the ```simulate``` function along with the data to
 generate the simulated phenotype, which is appended as a column to the input
 data frame.
 
-## Simulate a trait using genotype data in PLINK format
+## Simulate a single trait
+
+### Simulate a trait using genotype data in PLINK format
 
 TraitSimulation module can take genotype data in PLINK format through
 [SnpArrays](https://github.com/OpenMendel/SnpArrays.jl). For example, the
 following code reads in genotype data from the PLINK files "hapmap3.bed",
 "hapmap3.bim", "hapmap3.fam", and then simulate the trait based on the first
-3 SNPs using the ```simulate```(see below for more details).
+3 SNPs using the ```simulate```(see below for more details). More specifically,
+the code below samples phenotypes from
+
+$y \sim N(\mu, 1.0)$
+
+where
+
+$\mu = x_1+0.1x_2x_3.$
+
 
 ```julia
 using DataFrames, Distributions, SnpArrays, TraitSimulation
@@ -35,12 +45,19 @@ sim_model = FixedEffectModel(@formula(T ~ x1+2x2*x3),
 y = simulate(sim_model, data)
 ```
 
-## Simulate a trait with PC's as covariates
+### Simulate a trait with PC's as covariates
 
 To include principal components as covariates in the simulation procedure,
 one can apply ```pca``` in the ```SnpArrays``` module to obtain the PCs
 and then include them as a column in the input data frame. The following
-code simulate a trait using the first 3 SNPs and 2 PCs.
+code simulate a trait using the first 3 SNPs and 2 PCs. More specifically,
+the code below samples phenotypes from
+
+$y \sim N(\mu, 1.0)$
+
+where
+
+$\mu = x_1+0.1x_2x_3 + PC1 + PC2.$
 
 ```julia
 using DataFrames, Distributions, SnpArrays, TraitSimulation
@@ -65,9 +82,17 @@ sim_model = FixedEffectModel(@formula(T ~ x1+2x2*x3+PC1+PC2),
 y = simulate(sim_model, data)
 ```
 
-## Simulate a trait under the variance component model
+### Simulate a trait under random effect model
 
-The following code simulates a trait with two variance components.
+The following code simulates a trait under the random effect model with
+two variance components, where one of the covariance matrix is the genetic
+relationship matrix (GRM) and the other the identity matrix. More specifically,
+the code below samples phenotype from
+
+$y \sim N(0, 0.8 K + 0.2I),$
+
+where, \\(K\\) is the GRM estimated from genotype data using the ```grm```
+function in ```SnpArrays```.
 
 ```julia
 using DataFrames, Distributions, SnpArrays, TraitSimulation
@@ -98,110 +123,138 @@ equivalent.
 Σ = [VarianceComponent(0.8, K), VarianceComponent(0.2, I)]
 ```
 
-## Generate random data set
+### Simulate a trait under mixed effect model
 
-The following code creates a data frame containing genotype
-(x1, ..., x5) and phenotype (HDL and LDL) measurements for 10 individuals.
+The following code simulates a trait under the mixed effect model with
+two variance components as well as a fixed effect \\(\mu\\). More specifically,
+the code below samples phenotype from
+
+$y \sim N(\mu, 0.8 K + 0.2I),$
+
+where, \\(\mu = x_1 + 2x_2x_3\\) the fixed effect vector \\(K\\) the GRM
+estimated from genotype data using the ```grm``` function in ```SnpArrays```.
 
 ```julia
-using DataFrames, Distributions, TraitSimulation
+using DataFrames, Distributions, SnpArrays, TraitSimulation
 
-(people, snps) = (10, 5)
-snp_data = Matrix{Float64}(people, snps)
-freq = [0.2, 0.3, 0.4, 0.7, 0.5]
-for i=1:snps
-    snp_data[:,i] = rand(Binomial(2,freq[i]), people)
-end
+# Load Genotype data in PLINK format
+data = SnpArray("hapmap3")
+npeople = size(data,1)
 
-(hdl_data, ldl_data) = (Vector{Float64}(people), Vector{Float64}(people))
-for i=1:people
-    hdl_data[i] = rand(Uniform(20,80))
-    ldl_data[i] = rand(Uniform(20,80))
-end
+# Compute GRM using the grm function in SnpArrays
+K = grm(data)
+I = eye(npeople)
+Σ = [VarianceComponent(0.8, K), VarianceComponent(0.2, I)]
+μ = @formula(T ~ x1+2x2*x3)
 
-data = [snp_data hdl_data ldl_data]
-data = convert(DataFrame, data)
+# Create the simulation model (:T is the name of the simulated trait)
+sim_model = MixedEffectModel(μ, Σ, IdentityLink(), NormalResponse(1.0))
 
-names!(data, [:x1, :x2, :x3, :x4, :x5, :HDL, :LDL])
+# Generate the simulations
+y = simulate(sim_model, data)
 ```
 
+### Simulate a trait with non-normal distributions
 
-## Simulate normal response
+In the previous examples, all trait values are sampled from the normal
+distribution. However, users can also simulate traits with non-normal
+distributions, by specifying the type of distribution and the corresponding
+link function. For example, the following code simulate a trait under
+the Poisson distribution. More specifically, the following code samples
+phenotype from
 
-The following code simulates a trait (\\(y\\)) with normal response
-(\\(\sigma = 1.0\\)) using the data frame created in [step 1](#first_step).
+$y \sim Pois(\lambda)$
 
-$\mu = -0.2x_1 + 0.1x_2 * x_5 + 0.3\log(\text{HDL})$
+where
 
-$y \sim N(\mu, 1.0)$
+$\lambda = \exp(x_1+2x_2x_3).$
 
 ```julia
-model = FixedEffectModel(y ~ -0.2x1+0.1x2*x5+0.3log(HDL), IdentityLink(), NormalResponse(1.0))
-simulate(model, data)
+using DataFrames, Distributions, SnpArrays, TraitSimulation
+
+# Load genotype data in PLINK format
+data = SnpArray("hapmap3")
+
+# Create the fixed-effect simulation model
+sim_model = FixedEffectModel(@formula(T ~ x1+2x2*x3),
+                             LogLink(), PoissonResponse())
+
+# Generate the simulation
+y = simulate(sim_model, data)
 ```
 
 ## Simulate multiple traits
 
-The following code simulates three traits (\\(y_1, y_2, y_3\\)) with
-normal response (\\(\sigma = 1.0\\)) but different means, using the data
-frame created in [step 1](#first_step).
+### Simulate three independent traits with different response distributions
 
-```julia
-model = FixedEffectModel([y1 ~ 3.0+0.2x1, y2 ~ 2.0+0.1x3, y3 ~ 0.3x4+HDL], IdentityLink(), NormalResponse(1.0))
-simulate(model, data)
-```
-
-The following code simulates three traits (\\(y_1, y_2, y_3\\)) with different
-response distributions using the data frame created in [step 1](#first_step).
+The following code simulates three independent traits (\\(y_1, y_2, y_3\\))
+with different response distributions.
 
 $\mu_1 = 0.2x_1 + 3.0, y_1 \sim \text{Bin}(100, \mu_1)$
 
 $\mu_2 = 0.1x_3 + 2.0, y_2 \sim \text{Pois}(\mu_2)$
 
-$\mu_3 = 0.3x_4 + \text{HDL}, y_3 \sim N(\mu_3, 2.0)$
+$\mu_3 = 0.3x_4, y_3 \sim N(\mu_3, 2.0)$
 
 ```julia
-μ = [y1 ~ 0.2x1+3.0, y2 ~ 0.1x3+2.0, y3 ~ 0.3x4+HDL]
+using DataFrames, Distributions, SnpArrays, TraitSimulation
+
+# Load genotype data in PLINK format
+data = SnpArray("hapmap3")
+
+# Create the simulation model
+μ = [y1 ~ 0.2x1+3.0, y2 ~ 0.1x3+2.0, y3 ~ 0.3x4]
 link = [LogitLink(), LogLink(), IdentityLink()]
 dist = [BinomialResponse(100), PoissonResponse(), NormalResponse(2.0)]
-model = FixedEffectModel(μ, link, dist)
-simulate(model, data)
+sim_model = FixedEffectModel(μ, link, dist)
+
+# Generate the simulations
+y = simulate(sim_model, data)
 ```
-## Simulate random effects
+### Simulate two correlated traits
 
-The following code simulates a trait with Poisson response with
-two variance components, using the data frame created in [step 1](#first_step).
+Users can also simulate two correlated traits. For example, the following
+code simulates two traits from
 
-$\mu = (0.2x_1 + 2.0) + x u + \epsilon, u \sim N(0, 0.04K), \epsilon \sim N(0, 0.8I), y \sim \text{Pois}(\mu)$
+$\begin{equation}
+\left(
+\begin{array}{c}
+y_1 \\
+y_2
+\end{array}
+\right)
+\sim
+N \left(
+\left(            
+\begin{array}{c}
+x_1 + 0.2 \\
+x_3 + 0.1
+\end{array}
+\right),
+A \otimes K + B \otimes I       
+\right)
+\end{equation}$
+
+where \\(A\\) and \\(B\\) are the cross covariances.
 
 ```julia
-# a fake GRM
-K = cor(snp_data')
-I = eye(people)
-Σ = [VarianceComponent(0.2, K), VarianceComponent(0.8, I)]
-μ = y ~ 0.2x1+2.0
-model = MixedEffectModel(μ, Σ, LogLink(), PoissonResponse())
-simulate(model, data)
-```
+using DataFrames, Distributions, SnpArrays, TraitSimulation
 
-We also provide the ```@vc``` macro to simplify the specification of the covariances.
-Note, the variables K and I must be defined before calling the ```@vc``` macro.
+# Load Genotype data in PLINK format
+data = SnpArray("hapmap3")
+npeople = size(data,1)
 
-```julia
-Σ = @vc 0.2K + 0.8I
-model = MixedEffectModel(μ, Σ, LogLink(), PoissonResponse())
-simulate(model, data)
-```
-
-The following code snippet simulates two traits where the random effects have cross covariances.
-
-```julia
-# a fake GRM
-K = cor(data')
+# Compute GRM using the grm function in SnpArrays
+K = grm(data)
 I = eye(npeople)
 A = [0.2 -0.1; -0.1 0.3]
 B = [0.8 -0.2; -0.2 0.7]
-μ = [y1 ~ x1+0.2, y2 ~ x3+0.1log(HDL)+0.1]
-model = MixedEffectModel(μ, (@vc A ⊗ K + B ⊗ I), IdentityLink(), NormalResponse(1.0))
-simulate(model, data)
+μ = [y1 ~ x1+0.2, y2 ~ x3+0.1]
+
+# Create the simulation model
+sim_model = MixedEffectModel(μ, (@vc A ⊗ K + B ⊗ I),
+                             IdentityLink(), NormalResponse(1.0))
+
+# Generate the simulations
+y = simulate(sim_model, data)
 ```

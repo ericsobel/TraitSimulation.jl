@@ -11,7 +11,7 @@ simulate(model::Model, data_frame::DataFrame; pattern::MissingPattern=1.0)
 
 The ```simulate``` function simulates traits according to the
 ```Model``` using data stored in the ```DataFrame```. One can use
-the ```pattern``` keyword to specify desired missing pattern. See the 
+the ```pattern``` keyword to specify desired missing pattern. See the
 section ```MissingPattern``` for details on supported missing patterns.
 
 ## InputDataType
@@ -49,8 +49,8 @@ missing pattern is applied across all traits.
 ### Matrix{Bool}, BitArray{2}, or Vector{Vector{Int64}}
 
 Missing pattern specified as ```Matrix{Bool}``` or ```BitArray{2}```  with
-dimension $people \times traits$ or ```Vector{Vector{Int64}}``` with length
-$traits$ will be interpreted as index sets containing indices of the missing
+dimension \\(people \times traits\\) or ```Vector{Vector{Int64}}``` with length
+\\(traits\\) will be interpreted as index sets containing indices of the missing
 entries. This allows for different traits to have different index sets for
 missing entries.
 
@@ -67,4 +67,3 @@ Missing pattern specified as ```Vector{UnitRange{Int64}}``` or
 ```Vector{StepRange{Int64, Int64}}``` can be used to specify different
 ranges of missing entries for different traits for simulations involing
 multiple traits.
-

@@ -16,7 +16,7 @@ fixed-effect model. It's a subtype of ```SimulationModel```.
 
 ```julia
 
-FixedEffectModel(frml::FormulaType,
+FixedEffectModel(frml::FormulaLike,
                  link::LinkFunctionType
                  dist::ResponseDistributionType)
 ```
@@ -62,7 +62,7 @@ corresponding covariance matrices. See the section on the
 fixed-effect model. It's a subtype of ```SimulationModel```.
 
 ```julia
-MixedEffectModel(formula::FormulaType,
+MixedEffectModel(formula::FormulaLike,
                  vc::Vector{VarianceComponent},
                  link::LinkFunctionType,
                  resp_dist::ResponseDistributionType)
@@ -104,7 +104,7 @@ I = eye(people)
 A = [0.2 -0.1; -0.1 0.3]
 B = [0.8 -0.2; -0.2 0.7]
 
-Σ = @vc 0.2K + 0.8I 
+Σ = @vc 0.2K + 0.8I
 Σ = @vc A ⊗ K + B ⊗ I
 ```
 
@@ -118,9 +118,9 @@ typealias VarianceComponentType
   Union{Float64, Vector{Float64}, Matrix{Float64}}
 ```
 
-## FormulaType
+## FormulaLike
 
-```FormulaType``` is a type alias to specify a single formula or a
+```FormulaLike``` is a type alias to specify a single formula or a
 vector of formulae.
 
 ## TraitType
