@@ -28,7 +28,7 @@ $y \sim N(\mu, 1.0)$
 
 where
 
-$\mu = x_1+0.1x_2x_3.$
+$\mu = x_1+2x_2x_3.$
 
 
 ```julia
@@ -57,7 +57,7 @@ $y \sim N(\mu, 1.0)$
 
 where
 
-$\mu = x_1+0.1x_2x_3 + PC1 + PC2.$
+$\mu = x_1+2x_2x_3 + PC1 + PC2.$
 
 ```julia
 using DataFrames, Distributions, SnpArrays, TraitSimulation
