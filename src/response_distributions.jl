@@ -4,12 +4,12 @@ A list of types to store distribution parameters in simulations
 
 
 # super type of all response distribution types
-abstract ResponseDistribution
+abstract type ResponseDistribution end
 
 
 # a type alias for a single distribution and a vector of distributions
-typealias ResponseDistributionType
-  Union{ResponseDistribution, Vector{ResponseDistribution}}
+const ResponseDistributionType = Union{ResponseDistribution,
+  Vector{ResponseDistribution}}
 
 
 # normal response with standard deviation σ

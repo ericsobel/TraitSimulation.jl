@@ -4,12 +4,11 @@ A list of types to store inverse link functions
 
 
 # super type for all link function types
-abstract LinkFunction
+abstract type LinkFunction end
 
 
 # a type alias for a single link function or a vector of link functions
-typealias LinkFunctionType
-  Union{LinkFunction, Vector{LinkFunction}}
+const LinkFunctionType = Union{LinkFunction, Vector{LinkFunction}}
 
 
 # Cauchit link function

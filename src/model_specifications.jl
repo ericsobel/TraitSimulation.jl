@@ -1,17 +1,14 @@
 """
 The Model abstract type, super type for each specific simulation model
 """
-abstract SimulationModel
+abstract type SimulationModel end
 
 # Define some aliases for clarity
-typealias FormulaLike
-  Union{Formula, Vector{Formula}}
+const FormulaLike = Union{Formula, Vector{Formula}}
 
-typealias VarianceComponentType
-  Union{Float64, Vector{Float64}, Matrix{Float64}}
+const VarianceComponentType = Union{Float64, Vector{Float64}, Matrix{Float64}}
 
-typealias TraitType
-  Union{Symbol, Vector{Symbol}}
+const TraitType = Union{Symbol, Vector{Symbol}}
 
 """
 A type to store fixed effect simulation model

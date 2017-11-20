@@ -4,14 +4,13 @@ This file contains functions to simulate traits.
 
 
 # define some type alias for clearer code
-typealias MissingPattern
+const MissingPattern =
   Union{Float64, Vector{Bool}, Matrix{Bool}, BitArray{1}, BitArray{2},
         Vector{Int64}, Vector{Vector{Int64}}, UnitRange{Int64},
         Vector{UnitRange{Int64}}, StepRange{Int64, Int64},
         Vector{StepRange{Int64,Int64}}}
 
-typealias InputDataType
-    Union{DataFrame, SnpArray{2}}
+const InputDataType = Union{DataFrame, SnpArray{2}}
 
 
 """
