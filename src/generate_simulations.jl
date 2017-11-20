@@ -171,7 +171,7 @@ Simulate traits based on model specified in "model" using data
 stored in "data".
 """
 function simulate(model::SimulationModel, data::InputDataType;
-  pattern::MissingPattern=0.0)
+  pattern::MissingPattern=0.0, out::String="")
 
   # if data is SnpArray, convert to data frame first
   if typeof(data) == SnpArray{2}
@@ -240,6 +240,10 @@ function simulate(model::SimulationModel, data::InputDataType;
     missing!(y, pattern)
   catch
     throw(ErrorException("An error occured while imposing missingness."))
+  end
+
+  if out != ""
+    writetable(out, y)
   end
 
   return y

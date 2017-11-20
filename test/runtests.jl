@@ -1,8 +1,8 @@
 module TraitSimulationTest
 
-#include("../src/TraitSimulation.jl")
+include("../src/TraitSimulation.jl")
 
-using DataFrames, TraitSimulation, SnpArrays
+using DataFrames, .TraitSimulation, SnpArrays
 
 if VERSION >= v"0.5.0-dev+7720"
     using Base.Test
@@ -95,14 +95,22 @@ y = simulate(sim_model, data)
 
 
 # testing pca
+data = SnpArray(Pkg.dir("TraitSimulation") * "/docs/hapmap3")
 pcscore,_,_ = pca(data)
 pcscore = convert(DataFrame, pcscore)
 names!(pcscore, [Symbol("PC$i") for i in 1:size(pcscore,2)])
-data = convert(DataFrame, convert(Matrix{Float64}, data))
+data = convert(DataFrame, convert(Matrix{Float64}, data, impute=true))
 data = hcat(data, pcscore)
 sim_model = FixedEffectModel(@formula(T ~ x1+2x2*x3+PC1+PC2),
                              IdentityLink(), NormalResponse(1.0))
-y = simulate(sim_model, data)
+y = simulate(sim_model, data, out="./output.txt")
+
+# testing output
+data = SnpArray(Pkg.dir("TraitSimulation") * "/docs/hapmap3")
+data = convert(DataFrame, convert(Matrix{Float64}, data, impute=true))
+sim_model = FixedEffectModel(@formula(T ~ x1+2x2*x3),
+                             IdentityLink(), NormalResponse(1.0))
+y = simulate(sim_model, data, out="./output.txt")
 
 
 end
