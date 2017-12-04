@@ -4,6 +4,9 @@ generalized linear mixed model (GLMM).
 """
 module TraitSimulation
 
+using DataFrames,
+      Distributions,
+      SnpArrays
 
 export SimulationModel,
        FixedEffectModel,
@@ -30,15 +33,9 @@ export SimulationModel,
        simulate,
        @vc, ⊗
 
-
-using DataFrames,
-      Distributions,
-      SnpArrays
-
 include("link_functions.jl")
 include("response_distributions.jl")
 include("model_specifications.jl")
 include("generate_simulations.jl")
-
 
 end

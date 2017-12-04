@@ -2,7 +2,6 @@
 This file contains functions to simulate traits.
 """
 
-
 # define some type alias for clearer code
 const MissingPattern =
   Union{Float64, Vector{Bool}, Matrix{Bool}, BitArray{1}, BitArray{2},
@@ -29,7 +28,8 @@ function expand_rhs!(rhs::Expr, df_nameset::Set{Symbol})
       expand_rhs!(rhs.args[i], df_nameset)
 
     elseif typeof(rhs.args[i]) == Symbol && in(rhs.args[i], df_nameset)
-      rhs.args[i] = parse(string(:x, "[", ":", rhs.args[i], "]"))
+      rhs.args[i] = parse(string(:input_data_from_user_qJvsFLOpUt,
+        "[", ":", rhs.args[i], "]"))
 
     elseif typeof(rhs.args[i]) == Symbol && in(rhs.args[i], operands)
       rhs.args[i] = parse(string(".", rhs.args[i]))
@@ -174,8 +174,10 @@ function simulate(model::SimulationModel, data::InputDataType;
 
   # if data is SnpArray, convert to data frame first
   if typeof(data) == SnpArray{2}
-    data = convert(DataFrame, convert(Matrix{Float64}, data))
+    data = convert(DataFrame, convert(Matrix{Float64}, data, impute=true))
   end
+
+  global input_data_from_user_qJvsFLOpUt = data
 
   # get dimensions
   npeople, ntraits = (size(data, 1), size(model))
@@ -197,9 +199,9 @@ function simulate(model::SimulationModel, data::InputDataType;
   if typeof(model) == FixedEffectModel || typeof(model) == MixedEffectModel
     for i=1:ntraits
       rhs = formulae[i].rhs
-      expand_rhs!(rhs, Set(names(data)))
       try
-        μ[:,i] = (@eval x -> $rhs)(data)
+        expand_rhs!(rhs, Set(names(data)))
+        μ[:,i] = eval(rhs)
       catch
         throw(ErrorException(string("Failed to evaluate: ", rhs)))
       end
