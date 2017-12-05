@@ -114,7 +114,7 @@ B = [0.8 -0.2; -0.2 0.7]
 variance component or covariance matrices.
 
 ```julia
-typealias VarianceComponentType
+const VarianceComponentType =
   Union{Float64, Vector{Float64}, Matrix{Float64}}
 ```
 

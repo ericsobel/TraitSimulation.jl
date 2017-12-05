@@ -32,7 +32,7 @@ $\mu = x_1+2x_2x_3.$
 
 
 ```julia
-using DataFrames, Distributions, SnpArrays, TraitSimulation
+using DataFrames, Distributions, SnpArrays, TraitSimulation, StatsModels
 
 # Load genotype data in PLINK format
 data = SnpArray("hapmap3")
@@ -60,7 +60,7 @@ where
 $\mu = x_1+2x_2x_3 + PC1 + PC2.$
 
 ```julia
-using DataFrames, Distributions, SnpArrays, TraitSimulation
+using DataFrames, Distributions, SnpArrays, TraitSimulation, StatsModels
 
 # Load Genotype data in PLINK format
 data = SnpArray("hapmap3")
@@ -95,7 +95,7 @@ where, \\(K\\) is the GRM estimated from genotype data using the ```grm```
 function in ```SnpArrays```.
 
 ```julia
-using DataFrames, Distributions, SnpArrays, TraitSimulation
+using DataFrames, Distributions, SnpArrays, TraitSimulation, StatsModels
 
 # Load Genotype data in PLINK format
 data = SnpArray("hapmap3")
@@ -135,7 +135,7 @@ where, \\(\mu = x_1 + 2x_2x_3\\) the fixed effect vector \\(K\\) the GRM
 estimated from genotype data using the ```grm``` function in ```SnpArrays```.
 
 ```julia
-using DataFrames, Distributions, SnpArrays, TraitSimulation
+using DataFrames, Distributions, SnpArrays, TraitSimulation, StatsModels
 
 # Load Genotype data in PLINK format
 data = SnpArray("hapmap3")
@@ -170,7 +170,7 @@ where
 $\lambda = \exp(x_1+2x_2x_3).$
 
 ```julia
-using DataFrames, Distributions, SnpArrays, TraitSimulation
+using DataFrames, Distributions, SnpArrays, TraitSimulation, StatsModels
 
 # Load genotype data in PLINK format
 data = SnpArray("hapmap3")
@@ -197,7 +197,7 @@ $\mu_2 = 0.1x_3 + 2.0, y_2 \sim \text{Pois}(\mu_2)$
 $\mu_3 = 0.3x_4, y_3 \sim N(\mu_3, 2.0)$
 
 ```julia
-using DataFrames, Distributions, SnpArrays, TraitSimulation
+using DataFrames, Distributions, SnpArrays, TraitSimulation, StatsModels
 
 # Load genotype data in PLINK format
 data = SnpArray("hapmap3")
@@ -238,7 +238,7 @@ A \otimes K + B \otimes I
 where \\(A\\) and \\(B\\) are the cross covariances.
 
 ```julia
-using DataFrames, Distributions, SnpArrays, TraitSimulation
+using DataFrames, Distributions, SnpArrays, TraitSimulation, StatsModels
 
 # Load Genotype data in PLINK format
 data = SnpArray("hapmap3")
@@ -257,4 +257,23 @@ sim_model = MixedEffectModel(μ, (@vc A ⊗ K + B ⊗ I),
 
 # Generate the simulations
 y = simulate(sim_model, data)
+```
+
+## Write simulations to file
+
+```TraitSimulation.jl``` allows users to write simulated traits directly
+into a file by specifying the ```out``` parameter in the ```simulate```
+funciton. If the ```out``` parameter is not specified, then simulated traits
+will be stored only in memory.
+
+The following code simulates a trait and stores the output in
+```output.txt``` .
+```julia
+using DataFrames, Distributions, SnpArrays, TraitSimulation, StatsModels
+
+data = SnpArray("hapmap3")
+data = convert(DataFrame, convert(Matrix{Float64}, data, impute=true))
+sim_model = FixedEffectModel(@formula(T ~ x1+2x2*x3),
+                             IdentityLink(), NormalResponse(1.0))
+simulate(sim_model, data, out="output.txt")
 ```

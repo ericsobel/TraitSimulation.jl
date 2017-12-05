@@ -4,7 +4,7 @@ A Julia module to perform trait simulation.
 
 ## Installation
 
-TraitSimulation requires Julia 0.5. To install TraitSimulation please type
+TraitSimulation requires Julia 0.6. To install TraitSimulation please type
 the following code in a Julia REPL:
 
 ```
