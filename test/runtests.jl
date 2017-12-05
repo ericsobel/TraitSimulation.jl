@@ -6,7 +6,7 @@ else
     using BaseTestNext
 end
 
-using DataFrames, TraitSimulation, SnpArrays
+using DataFrames, TraitSimulation, StatsModels, SnpArrays
 
 # create data frame for testing
 srand(1)
