@@ -5,6 +5,8 @@ generalized linear mixed model (GLMM).
 module TraitSimulation
 
 using DataFrames,
+      DataArrays,
+      CSV,
       StatsModels,
       Distributions,
       SnpArrays

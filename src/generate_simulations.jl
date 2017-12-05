@@ -140,7 +140,7 @@ function missing!(df::DataFrame, pattern::MissingPattern)
 
     for i=1:ntraits
       missing_idx = randperm(npeople)[1:num_missing]
-      df[missing_idx,i] = NA
+      df[missing_idx,i] = missing
     end
 
   # if missing pattern is a bool vector, bit array, step range
@@ -148,17 +148,17 @@ function missing!(df::DataFrame, pattern::MissingPattern)
          typeof(pattern)==Vector{Int64} || typeof(pattern)==UnitRange{Int64} ||
          typeof(pattern) == StepRange{Int64,Int64}
     for i=1:ntraits
-      df[pattern,i] = NA
+      df[pattern,i] = missing
     end
 
   # if missing pattern is a matrix of bool or bit array
   elseif typeof(pattern) == Matrix{Bool} || typeof(pattern) == BitArray{2}
-    df[pattern] = NA
+    df[pattern] = missing
 
   # if missing pattern is a vector of vector of int 64 or vector of ranges
   else
     for i=1:ntraits
-      df[pattern[i],i] = NA
+      df[pattern[i],i] = missing
     end
   end
 
@@ -244,7 +244,7 @@ function simulate(model::SimulationModel, data::InputDataType;
   end
 
   if out != ""
-    writetable(out, y)
+    CSV.write(out, y; delim='\t')
   end
 
   return y
