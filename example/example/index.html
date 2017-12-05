@@ -310,6 +310,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#write-simulations-to-file" title="Write simulations to file" class="md-nav__link">
+    Write simulations to file
+  </a>
+  
+</li>
+      
       
       
     </ul>
@@ -469,6 +476,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#write-simulations-to-file" title="Write simulations to file" class="md-nav__link">
+    Write simulations to file
+  </a>
+  
+</li>
+      
       
       
     </ul>
@@ -508,7 +522,7 @@ y \sim N(\mu, 1.0)
 \mu = x_1+2x_2x_3.
 </script>
 </p>
-<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">SnpArrays</span><span class="p">,</span> <span class="n">TraitSimulation</span>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">SnpArrays</span><span class="p">,</span> <span class="n">TraitSimulation</span><span class="p">,</span> <span class="n">StatsModels</span>
 
 <span class="c"># Load genotype data in PLINK format</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">SnpArray</span><span class="p">(</span><span class="s">&quot;hapmap3&quot;</span><span class="p">)</span>
@@ -536,7 +550,7 @@ y \sim N(\mu, 1.0)
 \mu = x_1+2x_2x_3 + PC1 + PC2.
 </script>
 </p>
-<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">SnpArrays</span><span class="p">,</span> <span class="n">TraitSimulation</span>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">SnpArrays</span><span class="p">,</span> <span class="n">TraitSimulation</span><span class="p">,</span> <span class="n">StatsModels</span>
 
 <span class="c"># Load Genotype data in PLINK format</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">SnpArray</span><span class="p">(</span><span class="s">&quot;hapmap3&quot;</span><span class="p">)</span>
@@ -568,7 +582,7 @@ y \sim N(0, 0.8 K + 0.2I),
 </script>
 </p>
 <p>where, <script type="math/tex">K</script> is the GRM estimated from genotype data using the <code>grm</code> function in <code>SnpArrays</code>.</p>
-<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">SnpArrays</span><span class="p">,</span> <span class="n">TraitSimulation</span>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">SnpArrays</span><span class="p">,</span> <span class="n">TraitSimulation</span><span class="p">,</span> <span class="n">StatsModels</span>
 
 <span class="c"># Load Genotype data in PLINK format</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">SnpArray</span><span class="p">(</span><span class="s">&quot;hapmap3&quot;</span><span class="p">)</span>
@@ -602,7 +616,7 @@ y \sim N(\mu, 0.8 K + 0.2I),
 </script>
 </p>
 <p>where, <script type="math/tex">\mu = x_1 + 2x_2x_3</script> the fixed effect vector <script type="math/tex">K</script> the GRM estimated from genotype data using the <code>grm</code> function in <code>SnpArrays</code>.</p>
-<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">SnpArrays</span><span class="p">,</span> <span class="n">TraitSimulation</span>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">SnpArrays</span><span class="p">,</span> <span class="n">TraitSimulation</span><span class="p">,</span> <span class="n">StatsModels</span>
 
 <span class="c"># Load Genotype data in PLINK format</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">SnpArray</span><span class="p">(</span><span class="s">&quot;hapmap3&quot;</span><span class="p">)</span>
@@ -636,7 +650,7 @@ y \sim Pois(\lambda)
 \lambda = \exp(x_1+2x_2x_3).
 </script>
 </p>
-<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">SnpArrays</span><span class="p">,</span> <span class="n">TraitSimulation</span>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">SnpArrays</span><span class="p">,</span> <span class="n">TraitSimulation</span><span class="p">,</span> <span class="n">StatsModels</span>
 
 <span class="c"># Load genotype data in PLINK format</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">SnpArray</span><span class="p">(</span><span class="s">&quot;hapmap3&quot;</span><span class="p">)</span>
@@ -670,7 +684,7 @@ y \sim Pois(\lambda)
 \mu_3 = 0.3x_4, y_3 \sim N(\mu_3, 2.0)
 </script>
 </p>
-<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">SnpArrays</span><span class="p">,</span> <span class="n">TraitSimulation</span>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">SnpArrays</span><span class="p">,</span> <span class="n">TraitSimulation</span><span class="p">,</span> <span class="n">StatsModels</span>
 
 <span class="c"># Load genotype data in PLINK format</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">SnpArray</span><span class="p">(</span><span class="s">&quot;hapmap3&quot;</span><span class="p">)</span>
@@ -712,7 +726,7 @@ A \otimes K + B \otimes I
 </script>
 </p>
 <p>where <script type="math/tex">A</script> and <script type="math/tex">B</script> are the cross covariances.</p>
-<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">SnpArrays</span><span class="p">,</span> <span class="n">TraitSimulation</span>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">SnpArrays</span><span class="p">,</span> <span class="n">TraitSimulation</span><span class="p">,</span> <span class="n">StatsModels</span>
 
 <span class="c"># Load Genotype data in PLINK format</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">SnpArray</span><span class="p">(</span><span class="s">&quot;hapmap3&quot;</span><span class="p">)</span>
@@ -731,6 +745,20 @@ A \otimes K + B \otimes I
 
 <span class="c"># Generate the simulations</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span><span class="n">sim_model</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+</pre></div>
+
+
+<p><a id='Write-simulations-to-file-1'></a></p>
+<h2 id="write-simulations-to-file">Write simulations to file</h2>
+<p><code>TraitSimulation.jl</code> allows users to write simulated traits directly into a file by specifying the <code>out</code> parameter in the <code>simulate</code> funciton. If the <code>out</code> parameter is not specified, then simulated traits will be stored only in memory.</p>
+<p>The following code simulates a trait and stores the output in <code>output.txt</code> .</p>
+<div class="codehilite"><pre><span></span><span class="k">using</span> <span class="n">DataFrames</span><span class="p">,</span> <span class="n">Distributions</span><span class="p">,</span> <span class="n">SnpArrays</span><span class="p">,</span> <span class="n">TraitSimulation</span><span class="p">,</span> <span class="n">StatsModels</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">SnpArray</span><span class="p">(</span><span class="s">&quot;hapmap3&quot;</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">convert</span><span class="p">(</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">convert</span><span class="p">(</span><span class="kt">Matrix</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span> <span class="n">data</span><span class="p">,</span> <span class="n">impute</span><span class="o">=</span><span class="kc">true</span><span class="p">))</span>
+<span class="n">sim_model</span> <span class="o">=</span> <span class="n">FixedEffectModel</span><span class="p">(</span><span class="nd">@formula</span><span class="p">(</span><span class="n">T</span> <span class="o">~</span> <span class="n">x1</span><span class="o">+</span><span class="mi">2</span><span class="n">x2</span><span class="o">*</span><span class="n">x3</span><span class="p">),</span>
+                             <span class="n">IdentityLink</span><span class="p">(),</span> <span class="n">NormalResponse</span><span class="p">(</span><span class="mf">1.0</span><span class="p">))</span>
+<span class="n">simulate</span><span class="p">(</span><span class="n">sim_model</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="s">&quot;output.txt&quot;</span><span class="p">)</span>
 </pre></div>
                 
                   
