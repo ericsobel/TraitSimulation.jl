@@ -12,7 +12,6 @@ notifications:
 # uncomment the following lines to override the default test script
 script:
   - if [[ -a .git/shallow ]]; then git fetch --unshallow; fi
-  - julia -e 'Pkg.add("DataFrames"); Pkg.build("DataFrames");'
   - julia -e 'Pkg.clone("https://github.com/OpenMendel/SnpArrays.jl.git"); Pkg.build("SnpArrays");'
   - julia -e 'Pkg.clone(pwd()); Pkg.build("TraitSimulation"); Pkg.test("TraitSimulation"; coverage=true)'
 after_success:
