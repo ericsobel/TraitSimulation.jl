@@ -170,11 +170,11 @@ Simulate traits based on model specified in "model" using data
 stored in "data".
 """
 function simulate(model::SimulationModel, data::InputDataType;
-  pattern::MissingPattern=0.0, out::String="")
+  pattern::MissingPattern=0.0, out::String="", impute::Bool=false)
 
   # if data is SnpArray, convert to data frame first
   if typeof(data) == SnpArray{2}
-    data = convert(DataFrame, convert(Matrix{Float64}, data, impute=true))
+    data = convert(DataFrame, convert(Matrix{Float64}, data, impute=impute))
   end
 
   global input_data_from_user_qJvsFLOpUt = data
