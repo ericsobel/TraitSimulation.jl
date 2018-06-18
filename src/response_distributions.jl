@@ -61,11 +61,11 @@ type InverseGaussianResponse <: ResponseDistribution
   λ::Float64
 
   # to make sure λ is greater than 0
-  function InverseGaussianResponse(α::Float64)
+  function InverseGaussianResponse(λ::Float64)
     if(λ <= 0)
       error("λ must be greater than zero in a inverse Gaussian distribution!")
     else
-      new(α)
+      new(λ)
     end
   end
 

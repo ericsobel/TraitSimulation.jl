@@ -41,10 +41,15 @@ end
 """
 Simulate trait by sampling from the specified distribution
 """
-function calc_trait(μ::Vector{Float64}, resp_dist::ResponseDistribution)
+function calc_trait(μ::Vector{Float64}, resp_dist::ResponseDistribution,
+  nvarcomponents::Int64)
 
   if typeof(resp_dist) == NormalResponse
-    return rand(Normal(0, resp_dist.σ), size(μ, 1)) + μ
+    if (nvarcomponents == 0)
+      return rand(Normal(0, resp_dist.σ), size(μ, 1)) + μ
+    else
+      return μ
+    end
 
   elseif typeof(resp_dist) == TResponse
     return rand(TDist(resp_dist.ν), size(μ, 1)) + μ
@@ -85,14 +90,14 @@ function calc_randeff(vc::Vector{VarianceComponent},
   npeople::Int64, ntraits::Int64)
 
   # get number of components
-  ncomponents = length(vc)
+  nvarcomponents = length(vc)
 
   # normal distribution with mean 0 and variance 1
   dist = Normal(0.0, 1.0)
   randeff = zeros(Float64, npeople*ntraits)
 
   # construct the random effect iteratively
-  for i=1:ncomponents
+  for i=1:nvarcomponents
 
     # in case of float or vector, make them diagonal
     if typeof(vc[i].var_comp) == Float64 ||
@@ -212,6 +217,9 @@ function simulate(model::SimulationModel, data::InputDataType;
   if typeof(model) == RandomEffectModel || typeof(model) == MixedEffectModel
     randeff = calc_randeff(model.vc, npeople, ntraits)
     μ += reshape(randeff, npeople, ntraits)
+    nvarcomponents = length(model.vc)
+  else
+    nvarcomponents = 0
   end
 
   # apply inverse of link
@@ -225,8 +233,8 @@ function simulate(model::SimulationModel, data::InputDataType;
   y = Array{Real,2}(npeople, ntraits)
   for i=1:ntraits
     y[:,i] = typeof(model.resp_dist)==Vector{ResponseDistribution} ?
-             calc_trait(μ[:,i], model.resp_dist[i]) :
-             calc_trait(μ[:,i], model.resp_dist)
+             calc_trait(μ[:,i], model.resp_dist[i], nvarcomponents) :
+             calc_trait(μ[:,i], model.resp_dist, nvarcomponents)
   end
 
   # convert to data frame
