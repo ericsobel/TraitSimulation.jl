@@ -5,7 +5,7 @@ traits under a generalized linear model or generalized linear mixed model.
 
 | **Build Status** | **Documentation** |
 |-------------------|------------------|
-| [![Build Status](https://travis-ci.org/ericsobel/TraitSimulation.jl.svg?branch=master)](https://travis-ci.org/ericsobel/TraitSimulation.jl) | [![](https://img.shields.io/badge/docs-latest-blue.svg)](https://huwenboshi.github.io/TraitSimulation.jl) |
+| [![Build Status](https://travis-ci.org/ericsobel/TraitSimulation.jl.svg?branch=master)](https://travis-ci.org/ericsobel/TraitSimulation.jl) | [![](https://img.shields.io/badge/docs-latest-blue.svg)](https://ericsobel.github.io/TraitSimulation.jl) |
 
 ## Installation
 
