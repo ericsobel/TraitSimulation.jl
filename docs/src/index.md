@@ -8,7 +8,7 @@ TraitSimulation requires Julia 0.6. To install TraitSimulation please type
 the following code in a Julia REPL:
 
 ```
-Pkg.clone("https://github.com/huwenboshi/TraitSimulation.jl.git")
+Pkg.clone("https://github.com/ericsobel/TraitSimulation.jl.git")
 ```
 
 ## Uninstallation
@@ -49,4 +49,4 @@ by allowing for cross covariances.
 
 ## Contact
 
-[Huwenbo Shi](https://huwenboshi.github.io) (shihuwenbo [at] ucla [dot] edu)
+[Eric Sobel](https://ericsobel.github.io) (esobel [at] ucla [dot] edu)
