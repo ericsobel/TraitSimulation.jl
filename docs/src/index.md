@@ -1,6 +1,6 @@
 # TraitSimulation.jl
 
-A Julia module to perform trait simulation.
+A Julia module to perform trait simulation. This package was written by Huwenbo Shi(https://github.com/huwenboshi).
 
 ## Installation
 
