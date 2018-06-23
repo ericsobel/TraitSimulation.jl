@@ -204,8 +204,15 @@ function simulate(model::SimulationModel, data::InputDataType;
   if typeof(model) == FixedEffectModel || typeof(model) == MixedEffectModel
     for i=1:ntraits
       rhs = formulae[i].rhs
+      df_nameset = Set(names(data))
       try
-        expand_rhs!(rhs, Set(names(data)))
+        if typeof(rhs) == Symbol
+          if in(rhs, df_nameset)
+            rhs = parse(string(:input_data_from_user_qJvsFLOpUt, "[", ":", rhs, "]"))
+          end
+        elseif typeof(rhs) == Expr
+          expand_rhs!(rhs, df_nameset)
+        end
         μ[:,i] = eval(rhs)
       catch
         throw(ErrorException(string("Failed to evaluate: ", rhs)))
